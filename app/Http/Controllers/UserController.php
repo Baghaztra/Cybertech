@@ -112,10 +112,11 @@ class UserController extends Controller
                 'message' => 'Cannot remove your account.'
             ]);
         }
+        $username = $user->username;
         $user->delete();
         return response()->json([
             'status' => 200,
-            'message' => 'Successfully delete user.'
+            'message' => `Successfully delete user $username.`
         ]);
     }
 }
