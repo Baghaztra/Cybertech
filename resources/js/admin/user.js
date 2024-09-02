@@ -50,7 +50,66 @@ $(document).ready(function () {
                         });
                 });
         }
+    });
 
+    $(document).on("click", "#deleteBtn", function (e) {
+        swal({
+            title: "Are you sure?",
+            text: "kamu Yakin Ingin Menghapus Data Ini?",
+            type: "warning",
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: "No, cancel!",
+                    className: "btn btn-danger",
+                },
+                confirm: {
+                    text: "Yes, delete it!",
+                    className: "btn btn-success",
+                },
+            },
+        }).then((willDelete) => {
+            if (willDelete) {
+                swal("Poof! Your imaginary file has been deleted!", {
+                    icon: "success",
+                    buttons: {
+                        confirm: {
+                            className: "btn btn-success",
+                        },
+                    },
+                });
+            }
+        });
+    });
+
+    $(document).on("click", "#editBtn", function (e) {
+
+    });
+
+    $(document).on('click', '#btnCreate', function () {
+        $('#modalUser #titleUser').text('Add User')
+        $('#modalUser').modal('show');
+    });
+
+    $(document).on("click", "#btnSave", function () {
+        var data = new FormData();
+        data.append('txtUsername', $('#username').val());
+        data.append('txtEmail', $('#email').val());
+        data.append('txtPassword', $('#password').val());
+        $.ajax({
+            type: "post",
+            url: "/admin/user",
+            data: data,
+            processData: false,
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                alert(response)
+            },
+            error: function (err) {
+                console.log(err)
+            }
+        });
     });
 
 });

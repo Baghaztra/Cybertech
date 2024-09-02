@@ -3,3 +3,8 @@ export function getServerName() {
 
     return serverName;
 }
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': csrfToken
+    }
+});
