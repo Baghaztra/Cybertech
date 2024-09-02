@@ -9,14 +9,23 @@ $(document).ready(function () {
             { data: "id" },
             { data: "username" },
             { data: "email" },
-            { data: null, render: function (data) { `<button class="btn btn-sm btn-info" id="${data.id}">Edit</button>` } }
+            {
+                data: null, render: function (data) {
+                    return `<div style="gap: 10px;">
+                <button class="btn btn-sm btn-info" data-id="${data.id}" id="editBtn"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-sm btn-danger" data-id="${data.id}" id="deleteBtn"><i class="fas fa-trash"></i></button>
+                </div>` }
+            }
         ],
 
         pageLength: 5,
         initComplete: function () {
             this.api()
                 .columns()
-                .every(function () {
+                .every(function (index) {
+                    // Skip kolom "aksi", misal di indeks 3
+                    if (index === 3) return;
+
                     var column = this;
                     var select = $(
                         '<select class="form-select"><option value=""></option></select>'
@@ -40,7 +49,8 @@ $(document).ready(function () {
                             );
                         });
                 });
-        },
+        }
+
     });
 
 });
