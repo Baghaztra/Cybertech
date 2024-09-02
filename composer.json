@@ -9,7 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.7",
+        "laravel/framework": "^11.21",
         "laravel/tinker": "^2.9"
     },
     "require-dev": {
@@ -64,6 +64,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

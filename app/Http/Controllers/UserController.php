@@ -15,13 +15,19 @@ class UserController extends Controller
     {
         return view("admin.users.index");
     }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         //
+    }
+
+    public function getAll(){
+        return response()->json([
+'statusCode'=> 200,
+'data'=>User::all()
+        ]);
     }
 
     /**
