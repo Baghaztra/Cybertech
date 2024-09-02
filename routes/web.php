@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -12,3 +13,5 @@ Route::get('/test', function () {
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 });
+
+Route::resource('admin/user', UserController::class);
