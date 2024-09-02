@@ -23,10 +23,11 @@ class UserController extends Controller
         //
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         return response()->json([
-'statusCode'=> 200,
-'data'=>User::all()
+            'statusCode' => 200,
+            'data' => User::all()
         ]);
     }
 

@@ -1,2 +1,3 @@
-import './bootstrap';
-import './admin/user'
+import "./bootstrap";
+import "./admin/user";
+import "./admin/division";

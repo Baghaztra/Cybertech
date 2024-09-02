@@ -4,20 +4,20 @@
       <thead>
         <tr>
           <th>Nomor</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Password</th>
+          <th>Division</th>
+          <th>Description</th>
+          <th>Image</th>
         </tr>
       </thead>
       <tfoot>
         <tr>
           <th>Nomor</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Aksi</th>
+          <th>Division</th>
+          <th>Description</th>
+          <th>Image</th>
         </tr>
       </tfoot>
       <tbody></tbody>
     </table>
   </div>
-</div> @endsection
+</div> @endsection @section('scriptPages') @vite(['resources/js/admin/division.js']) @endsection

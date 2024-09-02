@@ -9,5 +9,22 @@ class Division extends Model
 {
     use HasFactory;
 
-    protected 
+    protected $fillable = [
+        'name',
+        'description',
+        'image',
+    ];
+
+    function media()
+    {
+        return $this->hasMany(Asset::class, 'entity_id')->where('type', 'division');
+    }
+
+    public function getAll()
+    {
+        return response()->json([
+            'statusCode' => 200,
+            'data' => Division::all()
+        ]);
+    }
 }
