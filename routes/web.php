@@ -13,6 +13,11 @@ Route::get('/test', function () {
 Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 });
+Route::get('/admin/division', function () {
+    return view('admin.division.index');
+});
 
 Route::resource('admin/user', UserController::class);
-Route::get('user/all',[UserController::class, 'getAll']);
+Route::get('user/all', [UserController::class, 'getAll']);
+Route::resource('admin/division', UserController::class);
+Route::get('user/all', [UserController::class, 'getAll']);
