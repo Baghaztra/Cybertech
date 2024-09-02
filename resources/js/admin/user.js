@@ -1,12 +1,17 @@
 import { getServerName, showNotif } from "../setUp";
 
 $(document).ready(function () {
-    $("#tblUsers").DataTable({
+   var table = $("#tblUsers").DataTable({
         ajax: {
             url: getServerName() + "/user/all"
         },
         columns: [
-            { data: "id" },
+            { 
+                data: null, 
+                render: function (data, type, row, meta) {
+                    return meta.row + 1;
+                }
+            },
             { data: "username" },
             { data: "email" },
             {
@@ -24,35 +29,34 @@ $(document).ready(function () {
         pageLength: 5,
         initComplete: function () {
             this.api()
-                .columns()
-                .every(function (index) {
-                    // Skip kolom "aksi", misal di indeks 3
-                    if (index === 3) return;
-
-                    var column = this;
-                    var select = $(
-                        '<select class="form-select"><option value=""></option></select>'
-                    )
-                        .appendTo($(column.footer()).empty())
-                        .on("change", function () {
-                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
-
-                            column
-                                .search(val ? "^" + val + "$" : "", true, false)
-                                .draw();
-                        });
-
+              .columns()
+              .every(function (index) {
+                if (index === 0 || index === 3) return;
+                var column = this;
+                var select = $(
+                  '<select class="form-select"><option value=""></option></select>'
+                )
+                  .appendTo($(column.footer()).empty())
+                  .on("change", function () {
+                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
+  
                     column
-                        .data()
-                        .unique()
-                        .sort()
-                        .each(function (d, j) {
-                            select.append(
-                                '<option value="' + d + '">' + d + "</option>"
-                            );
-                        });
-                });
-        }
+                      .search(val ? "^" + val + "$" : "", true, false)
+                      .draw();
+                  });
+  
+                column
+                  .data()
+                  .unique()
+                  .sort()
+                  .each(function (d, j) {
+                    select.append(
+                      '<option value="' + d + '">' + d + "</option>"
+                    );
+                  });
+              });
+          },
+              
     });
 
     $(document).on("click", "#deleteBtn", function (e) {
@@ -84,11 +88,13 @@ $(document).ready(function () {
                     dataType: "json",
                     success: function (response) {
                         if (response.status === 200) {
+                            console.log(response)
                             var content = {};
                             content.message = response.message;
                             content.icon = "fa fa-bell";
                             content.title = "Notifikasi";
-                            showNotif(content, 'success', 1500, 500)
+                            table.ajax.reload(null,false);
+                            showNotif(content, 'danger', 3000, 500)
                         }
                     }, error: function (err) {
                         console.log(err)
@@ -99,7 +105,7 @@ $(document).ready(function () {
     });
 
     $(document).on("click", "#editBtn", function () {
-        $('#modalUser button').attr('id', 'btnEditeForm');
+        $('#modalUser button.btnSave').off('click').attr('id', 'btnEditeForm');
         $('#modalUser #titleUser').text('Form Edit User');
         $.ajax({
             type: "GET",
@@ -110,6 +116,7 @@ $(document).ready(function () {
                     var errors = {};
                     setError(errors);
                     $('#modalUser input#username').val(response.data.username);
+                    $('#modalUser input#hdnID').val(response.data.id);
                     $('#modalUser input#email').val(response.data.email);
                     $('#modalUser input#password').attr('placeholder', 'Change password optional');
                     $('#modalUser #groupPassword label').text('Change password (Optional)');
@@ -129,7 +136,7 @@ $(document).ready(function () {
             clearInput();
             setError(errors);
         }
-        $('#modalUser button').attr('id', 'btnCreateForm');
+        $('#modalUser button.btnSave').off('click').attr('id', 'btnCreateForm');
         $('#modalUser').modal('show');
     });
 
@@ -159,11 +166,50 @@ $(document).ready(function () {
                 if (response.status === 200) {
                     $('#modalUser').modal('hide');
                     clearInput();
+                    var erors = {};
+                    setError(erors);
+                    table.ajax.reload(null,false);
                     var content = {};
                     content.message = response.message;
                     content.icon = "fa fa-bell";
                     content.title = "Notifikasi";
-                    showNotif(content, 'success', 1500, 500);
+                    showNotif(content, 'success', 3000, 500);
+                }
+            },
+            error: function (err) {
+                console.log(err)
+                if (err.status === 422) {
+                    const errors = err.responseJSON.errors;
+                    setError(errors);
+                }
+            }
+        });
+    });
+    $(document).on("click", "#btnEditeForm", function () {
+        var data = new FormData();
+        data.append('username', $('#username').val());
+        data.append('email', $('#email').val());
+        data.append('password', $('#password').val());
+        data.append('_method', 'PUT')
+        $.ajax({
+            type: "post",
+            url: getServerName() + "/admin/user/" + $('input#hdnID').val(),
+            data: data,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (response) {
+                if (response.status === 200) {
+                    $('#modalUser').modal('hide');
+                    clearInput();
+                    var erors = {};
+                    setError(erors);
+                    table.ajax.reload(null,false);
+                    var content = {};
+                    content.message = response.message;
+                    content.icon = "fa fa-bell";
+                    content.title = "Notifikasi";
+                    showNotif(content, 'success', 3000, 500);
                 }
             },
             error: function (err) {

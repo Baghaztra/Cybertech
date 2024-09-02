@@ -93,12 +93,12 @@ class UserController extends Controller
             $data['password'] = bcrypt($request->password);
         }
         $request->validate($rules);
-        $data['username'] = $request->name;
+        $data['username'] = $request->username;
         $data['email'] = $request->email;
         $user->update($data);
         return response()->json([
             'status' => 200,
-            'message' => `Successfully update user $user->username.`
+            'message' => "Successfully update user $user->username."
         ]);
     }
 
@@ -125,7 +125,7 @@ class UserController extends Controller
         $user->delete();
         return response()->json([
             'status' => 200,
-            'message' => `Successfully delete user $username.`
+            'message' => 'Successfully delete user '.$username.'.'
         ]);
     }
 }

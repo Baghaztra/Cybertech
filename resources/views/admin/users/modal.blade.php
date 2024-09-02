@@ -10,6 +10,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <input type="hidden" id="hdnID" style="display: none;">
                 <div class="form-group" id="groupUsername">
                     <label for="username">Username</label>
                     <input type="text" id="username" class="form-control" placeholder="masukkan username">
