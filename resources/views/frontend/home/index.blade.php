@@ -43,6 +43,20 @@
             <span class="visually-hidden">Next</span>
         </button>
         </div>
+        <div class="container">
+            <h1 class="text-center mt-5" style="color: #486284">Tentang CyberTech</h1>
+            <div class="container text-start" style="color: #8CA2C0;">
+                <div class="row align-items-start mt-3">
+                  <div class="col">
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quaerat tenetur ratione quasi voluptas omnis veritatis totam qui iusto quia. Nobis minima vitae possimus totam, aliquid eius? Accusantium aperiam quo sequi.
+                  </div>
+                  <div class="col">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium autem aperiam deleniti sint, veniam pariatur dolorum quidem labore, ipsam harum in illo fuga at eveniet sunt ab? At, nostrum placeat.
+                  </div>
+                </div>
+              </div>
+              <img src="/images/home.JPG" class="rounded-5 img-fluid mt-5" alt="...">
+        </div>
     </body>
     </html>
 @endsection
