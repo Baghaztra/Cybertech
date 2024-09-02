@@ -67,7 +67,7 @@
             </footer>
         </div>
 
-        <!-- Custom template | don't include it in your project! -->
+        {{-- <!-- Custom template | don't include it in your project! -->
         <div class="custom-template">
             <div class="title">Settings</div>
             <div class="custom-content">
@@ -128,7 +128,7 @@
                 <i class="icon-settings"></i>
             </div>
         </div>
-        <!-- End Custom template -->
+        <!-- End Custom template --> --}}
     </div>
 
     @include('admin.layouts.scripts')

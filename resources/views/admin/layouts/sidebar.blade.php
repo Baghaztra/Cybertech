@@ -25,7 +25,7 @@
          <div class="sidebar-content">
              <ul class="nav nav-secondary">
                  <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
-                     <a href="admin/dashboard">
+                     <a href="/admin/dashboard">
                          <i class="fas fa-home"></i>
                          <p>Dashboard</p>
                      </a>
@@ -74,8 +74,8 @@
                      </span>
                      <h4 class="text-section">Interface</h4>
                  </li> --}}
-                 <li class="nav-item {{ Request::is('admin/users') ? 'active' : '' }}">
-                     <a href="admin/users">
+                 <li class="nav-item {{ Request::is('admin/user') ? 'active' : '' }}">
+                     <a href={{ route('user.index') }}>
                          <i class="fas fa-users"></i>
                          <p>Users</p>
                      </a>
