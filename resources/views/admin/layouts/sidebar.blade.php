@@ -30,13 +30,13 @@
                          <p>Dashboard</p>
                      </a>
                  </li>
-                 <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                 <li class="nav-item {{ Request::is('admin/event') ? 'active' : '' }}">
                      <a href="admin/event">
                          <i class="fas fa-home"></i>
                          <p>Event</p>
                      </a>
                  </li>
-                 <li class="nav-item {{ Request::is('admin/dashboard') ? 'active' : '' }}">
+                 <li class="nav-item {{ Request::is('admin/post') ? 'active' : '' }}">
                      <a href="admin/post">
                          <i class="fas fa-newspaper"></i>
                          <p>Post</p>
