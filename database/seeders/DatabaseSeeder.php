@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Event;
+use App\Models\Member;
+use App\Models\MemberStatus;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,5 +25,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory(9)->create();
         Event::factory(20)->create();
+        MemberStatus::factory(5)->create();
+        Member::factory(50)->create();
     }
 }
