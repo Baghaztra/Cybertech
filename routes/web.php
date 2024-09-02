@@ -8,3 +8,7 @@ Route::get('/', function () {
 Route::get('/test', function () {
     echo "<a href='#'>test</a>";
 });
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+});
