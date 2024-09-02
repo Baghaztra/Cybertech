@@ -15,4 +15,8 @@ class Event extends Model
         'registration_url',
         'event_date',
     ];
+
+    function media(){
+        return $this->hasMany(Asset::class, 'entity_id')->where('type', 'event');
+    }
 }
