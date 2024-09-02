@@ -9,6 +9,6 @@ Route::get('/test', function () {
     echo "<a href='#'>test</a>";
 });
 
-Route::get('/admin', function () {
-    return view('admin.layouts.app');
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
 });
