@@ -23,10 +23,11 @@ class UserController extends Controller
         //
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         return response()->json([
-'statusCode'=> 200,
-'data'=>User::all()
+            'statusCode' => 200,
+            'data' => User::all()
         ]);
     }
 
@@ -42,7 +43,7 @@ class UserController extends Controller
         ]);
 
         User::create([
-            'username' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'email_verified_at' => now(),
             'password' => bcrypt($request->password)
@@ -112,12 +113,14 @@ class UserController extends Controller
                 'message' => 'Data not found.'
             ]);
         }
-        if (auth()->user()->id == $user->id) {
-            return response()->json([
-                'status' => 204,
-                'message' => 'Cannot remove your account.'
-            ]);
-        }
+
+        // kita belum ada unthentication
+        // if (auth()->user()->id == $user->id) {
+        //     return response()->json([
+        //         'status' => 204,
+        //         'message' => 'Cannot remove your account.'
+        //     ]);
+        // }
         $username = $user->username;
         $user->delete();
         return response()->json([
