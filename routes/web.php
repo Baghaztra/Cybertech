@@ -15,3 +15,4 @@ Route::get('/admin/dashboard', function () {
 });
 
 Route::resource('admin/user', UserController::class);
+Route::get('user/all',[UserController::class, 'getAll']);
