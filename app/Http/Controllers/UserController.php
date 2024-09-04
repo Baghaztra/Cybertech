@@ -23,10 +23,11 @@ class UserController extends Controller
         //
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         return response()->json([
-'statusCode'=> 200,
-'data'=>User::all()
+            'statusCode' => 200,
+            'data' => User::all()
         ]);
     }
 
@@ -42,7 +43,7 @@ class UserController extends Controller
         ]);
 
         User::create([
-            'username' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'email_verified_at' => now(),
             'password' => bcrypt($request->password)
@@ -92,12 +93,12 @@ class UserController extends Controller
             $data['password'] = bcrypt($request->password);
         }
         $request->validate($rules);
-        $data['username'] = $request->name;
+        $data['username'] = $request->username;
         $data['email'] = $request->email;
         $user->update($data);
         return response()->json([
             'status' => 200,
-            'message' => `Successfully update user $user->username.`
+            'message' => "Successfully update user $user->username."
         ]);
     }
 
@@ -112,17 +113,19 @@ class UserController extends Controller
                 'message' => 'Data not found.'
             ]);
         }
-        if (auth()->user()->id == $user->id) {
-            return response()->json([
-                'status' => 204,
-                'message' => 'Cannot remove your account.'
-            ]);
-        }
+
+        // kita belum ada unthentication
+        // if (auth()->user()->id == $user->id) {
+        //     return response()->json([
+        //         'status' => 204,
+        //         'message' => 'Cannot remove your account.'
+        //     ]);
+        // }
         $username = $user->username;
         $user->delete();
         return response()->json([
             'status' => 200,
-            'message' => `Successfully delete user $username.`
+            'message' => 'Successfully delete user '.$username.'.'
         ]);
     }
 }
