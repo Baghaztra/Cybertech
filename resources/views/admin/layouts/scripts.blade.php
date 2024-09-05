@@ -33,7 +33,7 @@
 
  <!-- Kaiadmin DEMO methods, don't include it in your project! -->
  <script src={{ asset('kaiadmin-lite-1.2.0/assets/js/setting-demo.js') }}></script>
- <script src={{ asset('kaiadmin-lite-1.2.0/assets/js/demo.js') }}></script>
+ {{-- <script src={{ asset('kaiadmin-lite-1.2.0/assets/js/demo.js') }}></script> --}}
 
  @vite(['resources/js/setUp.js'])
 
