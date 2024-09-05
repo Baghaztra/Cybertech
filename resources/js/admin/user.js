@@ -1,13 +1,13 @@
 import { getServerName, showNotif } from "../setUp";
 
 $(document).ready(function () {
-   var table = $("#tblUsers").DataTable({
+    var table = $("#tblUsers").DataTable({
         ajax: {
             url: getServerName() + "/user/all"
         },
         columns: [
-            { 
-                data: null, 
+            {
+                data: null,
                 render: function (data, type, row, meta) {
                     return meta.row + 1;
                 }
@@ -29,34 +29,34 @@ $(document).ready(function () {
         pageLength: 5,
         initComplete: function () {
             this.api()
-              .columns()
-              .every(function (index) {
-                if (index === 0 || index === 3) return;
-                var column = this;
-                var select = $(
-                  '<select class="form-select"><option value=""></option></select>'
-                )
-                  .appendTo($(column.footer()).empty())
-                  .on("change", function () {
-                    var val = $.fn.dataTable.util.escapeRegex($(this).val());
-  
+                .columns()
+                .every(function (index) {
+                    if (index === 0 || index === 3) return;
+                    var column = this;
+                    var select = $(
+                        '<select class="form-select"><option value=""></option></select>'
+                    )
+                        .appendTo($(column.footer()).empty())
+                        .on("change", function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                            column
+                                .search(val ? "^" + val + "$" : "", true, false)
+                                .draw();
+                        });
+
                     column
-                      .search(val ? "^" + val + "$" : "", true, false)
-                      .draw();
-                  });
-  
-                column
-                  .data()
-                  .unique()
-                  .sort()
-                  .each(function (d, j) {
-                    select.append(
-                      '<option value="' + d + '">' + d + "</option>"
-                    );
-                  });
-              });
-          },
-              
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append(
+                                '<option value="' + d + '">' + d + "</option>"
+                            );
+                        });
+                });
+        },
+
     });
 
     $(document).on("click", "#deleteBtn", function (e) {
@@ -93,7 +93,7 @@ $(document).ready(function () {
                             content.message = response.message;
                             content.icon = "fa fa-bell";
                             content.title = "Notifikasi";
-                            table.ajax.reload(null,false);
+                            table.ajax.reload(null, false);
                             showNotif(content, 'danger', 3000, 500)
                         }
                     }, error: function (err) {
@@ -115,7 +115,7 @@ $(document).ready(function () {
                 if (response.status === 200) {
                     var errors = {};
                     setError(errors);
-                    $('#modalUser input#username').val(response.data.username);
+                    $('#modalUser input#username').val(response.data.username); // $('') sama dengan kita menggunakan document.querySelector('')
                     $('#modalUser input#hdnID').val(response.data.id);
                     $('#modalUser input#email').val(response.data.email);
                     $('#modalUser input#password').attr('placeholder', 'Change password optional');
@@ -168,7 +168,7 @@ $(document).ready(function () {
                     clearInput();
                     var erors = {};
                     setError(erors);
-                    table.ajax.reload(null,false);
+                    table.ajax.reload(null, false);
                     var content = {};
                     content.message = response.message;
                     content.icon = "fa fa-bell";
@@ -204,7 +204,7 @@ $(document).ready(function () {
                     clearInput();
                     var erors = {};
                     setError(erors);
-                    table.ajax.reload(null,false);
+                    table.ajax.reload(null, false);
                     var content = {};
                     content.message = response.message;
                     content.icon = "fa fa-bell";
