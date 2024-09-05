@@ -14,5 +14,9 @@ Route::get('/admin/dashboard', function () {
     return view('admin.dashboard');
 });
 
+Route::get('admin/login', function(){
+return view('auth.login');
+});
+
 Route::resource('admin/user', UserController::class);
 Route::get('user/all',[UserController::class, 'getAll']);
