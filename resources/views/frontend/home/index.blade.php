@@ -117,6 +117,29 @@
             <span class="visually-hidden">Next</span>
         </button>
         </div>
+<<<<<<< HEAD
+     
+        <div class="container mt-5">
+            <h1 class="text-center" style="color: #486284">Tentang CyberTech</h1>
+            <div class="container text-start" style="color: #8CA2C0">
+                <div class="row align-items-start mt-3" >
+                  <div class="col">
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo molestiae, velit deserunt hic esse recusandae explicabo ipsum itaque porro ducimus saepe inventore repudiandae facere neque debitis laborum adipisci commodi eaque!a
+                  </div>
+                  <div class="col">
+                   Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi illo beatae nobis consequuntur autem aliquid ad in, perspiciatis magnam repellat voluptate neque et laudantium quasi quas inventore iure odit dolorum?
+                  </div>
+        
+                </div>
+              </div>
+
+              <img src="/images/DSC_0029.JPG" class="rounded-5 img-fluid mt-5" alt="..." >
+
+
+
+        </div>
+
+=======
         <div class="container">
             <h1 class="text-center mt-5" style="color: #486284">Tentang Cybertech</h1>
             <div class="row align-items-start mt-3">
@@ -200,6 +223,7 @@
                 </div>
             </div>
         </div>
+>>>>>>> origin/firman
     </body>
 
     </html>
