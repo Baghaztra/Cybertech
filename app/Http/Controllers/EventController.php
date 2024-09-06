@@ -15,6 +15,14 @@ class EventController extends Controller
         return view("admin.event.index");
     }
 
+    public function getAll()
+    {
+        return response()->json([
+            'statusCode' => 200,
+            'data' => Event::latest()->get()
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -28,6 +36,7 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'title' => 'required',
             'description' => 'required',

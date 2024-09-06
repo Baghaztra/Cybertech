@@ -36,4 +36,6 @@
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href={{ asset('kaiadmin-lite-1.2.0/assets/css/demo.css') }} />
+
+    
 </head>
