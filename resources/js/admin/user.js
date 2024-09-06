@@ -87,8 +87,7 @@ $(document).ready(function () {
                     contentType: false,
                     dataType: "json",
                     success: function (response) {
-                        if (response.status === 200) {
-                            console.log(response)
+                        if (response.status === 200 || response.status === 204) {
                             var content = {};
                             content.message = response.message;
                             content.icon = "fa fa-bell";

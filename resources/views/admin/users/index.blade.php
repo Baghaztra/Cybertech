@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'users')
 @section('content')
     <div class="d-flex justify-content-end mb-3">
         <button class="btn btn-info btn-rounded" id="btnCreate"><i class="fas fa-plus"></i></button>
