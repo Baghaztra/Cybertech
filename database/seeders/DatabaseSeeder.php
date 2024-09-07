@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Asset;
+use App\Models\Division;
 use App\Models\Event;
 use App\Models\Member;
 use App\Models\MemberStatus;
@@ -17,7 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        
+
         User::factory()->create([
             'username' => 'Test User',
             'email' => 'test@example.com',
@@ -37,6 +38,7 @@ class DatabaseSeeder extends Seeder
         }
         // buat asset random
         Asset::factory(5)->create();
+        Division::factory(4)->create();
 
 
         MemberStatus::factory(5)->create();

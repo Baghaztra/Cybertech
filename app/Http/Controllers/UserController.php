@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -114,13 +115,12 @@ class UserController extends Controller
             ]);
         }
 
-        // kita belum ada unthentication
-        // if (auth()->user()->id == $user->id) {
-        //     return response()->json([
-        //         'status' => 204,
-        //         'message' => 'Cannot remove your account.'
-        //     ]);
-        // }
+        if (Auth::user()->id == $user->id) {
+            return response()->json([
+                'status' => 204,
+                'message' => 'Cannot remove your account.'
+            ]);
+        }
         $username = $user->username;
         $user->delete();
         return response()->json([
