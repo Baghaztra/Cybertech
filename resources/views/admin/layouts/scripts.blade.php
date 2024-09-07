@@ -35,7 +35,7 @@
  <script src={{ asset('kaiadmin-lite-1.2.0/assets/js/setting-demo.js') }}></script>
  {{-- <script src={{ asset('kaiadmin-lite-1.2.0/assets/js/demo.js') }}></script> --}}
 
- @vite(['resources/js/setUp.js'])
+ @vite(['resources/js/app.js'])
 
  {{-- disini script per pages --}}
  @yield('scriptPages')

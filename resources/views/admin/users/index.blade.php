@@ -33,5 +33,5 @@
 @endsection
 
 @section('scriptPages')
-    @vite(['resources/js/admin/form.js'])
+    @vite(['resources/js/admin/user.js'])
 @endsection
