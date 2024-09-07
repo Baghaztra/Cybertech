@@ -3,6 +3,8 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\FormController;
+use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +23,9 @@ Route::get('/admin/division', function () {
     return view('admin.division.index');
 });
 
+Route::get('form/{formId}', [ResponseController::class, 'create'])
+    ->name('responses.create');
+
 Route::middleware('auth')->group(function(){
     Route::resource('admin/user', UserController::class);
     Route::get('user/all',[UserController::class, 'getAll']);
@@ -28,8 +33,8 @@ Route::middleware('auth')->group(function(){
         return view('admin.dashboard');
     });
     Route::post('admin/logout', [AuthenticationController::class, 'logout'])->name('logout');
+    Route::resource('admin/division', DivisionController::class);
+    Route::get('division/all', [DivisionController::class, 'getAll']);
+    Route::resource('admin/form',FormController::class);
+    Route::get('forms/all', [FormController::class, 'all']);
 });
-Route::resource('admin/user', UserController::class);
-Route::get('user/all', [UserController::class, 'getAll']);
-Route::resource('admin/division', DivisionController::class);
-Route::get('division/all', [DivisionController::class, 'getAll']);
