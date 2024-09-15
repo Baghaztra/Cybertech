@@ -1,23 +1,38 @@
 @extends('admin.layouts.app')
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <div class="d-flex justify-content-start mb-3">
         {{-- Tombol cancel --}}
     </div>
     <div class="card-body">
         {{-- Form creater disini --}}
-        <form action="/admin/post" method="post" enctype="multipart/form-data">
+        <form action="/admin/event" method="post" enctype="multipart/form-data">
+            @csrf
             <input type="hidden" id="hdnID" style="display: none;">
                 <div class="form-group" id="groupTitle">
                     <label for="eventTitle">Title</label>
-                    <input type="text" id="title" class="form-control" placeholder="Event title">
-                    <small id="errTitle" class="text-danger form-text"></small>
+                    <input type="text" id="title" name="title" class="form-control" placeholder="Event title">
+                    @error('title')
+                    <small id="errTitle" class="text-danger form-text">
+                        {{ $message }}
+                    </small>
+                    @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="gambar">Media</label>
-                    <input type="file" name="gambar[]" id="gambar" class="form-control @error('gambar') is-invalid @enderror" accept="image/*" multiple>
+                    <label class="form-label" for="images">Media</label>
+                    <input type="file" name="images[]" id="images" class="form-control @error('images') is-invalid @enderror" accept="image/*" multiple>
                     <div id="preview-container"></div>
                     <div id="preview-youtube"></div>
-                    <label class="form-label" for="gambar">
+                    <label class="form-label" for="images">
                         <div id="img-preview" class="img-thumbnail" style="width: 300px; height: 150px; display: flex; justify-content: center; align-items: center; cursor: pointer; background-color: aliceblue">
                             <i data-feather="plus" style="width: 100px; height: 100px;"></i>
                         </div>
@@ -27,25 +42,31 @@
                         <button class="btn btn-primary" type="button" id="addYouTubeVideo">Tambahkan</button>
                     </div>
                     <input type="hidden" name="youtube_links" id="youtube-links">
-                    @error('gambar')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
+                    @error('images')
+                    <small id="errImages" class="text-danger form-text">
+                        {{ $message }}
+                    </small>
                     @enderror
                     <script src="/js/InputMediaCreate.js"></script>
                 </div>
     
-                <div class="mb-3">
-                    <label class="form-label">Konten</label>
+                <div class="form-group" id="groupDescription">
+                    <label for="eventDescription">Description</label>
                     <div id="editor">
-                        {!! old('content') !!}
+                        {!! old('description') !!}
                     </div>
-                    <textarea id="content" name="content" style="display:none;"></textarea>
+                    @error('description')
+                    <small id="errDescription" class="text-danger form-text">
+                        {{ $message }}
+                    </small>
+                    @enderror
+                    <textarea id="description" name="description" style="display:none;"></textarea>
+                    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
                     <script>
                         ClassicEditor
                             .create(document.querySelector('#editor'))
                             .then(editor => {
-                                const isiBeritaTextarea = document.querySelector('#content');
+                                const isiBeritaTextarea = document.querySelector('#description');
                                 editor.model.document.on('change:data', () => {
                                     isiBeritaTextarea.value = editor.getData();
                                 });
@@ -59,21 +80,25 @@
                             });
                     </script>
                 </div>
-                <div class="form-group" id="groupDescription">
-                    <label for="eventDescription">Description</label>
-                    <input type="text" id="description" class="form-control" placeholder="Event description">
-                    <small id="errDescription" class="text-danger form-text"></small>
-                </div>
                 <div class="form-group" id="groupRegistrationURL">
                     <label for="registrationUrl">Registration URL (optional)</label>
-                    <input type="text" id="registrationUrl" class="form-control" placeholder="Registration URL">
-                    <small id="errRegistrationUrl" class="text-danger form-text"></small>
+                    <input type="text" name="registration_url" id="registrationUrl" class="form-control" placeholder="Registration URL">
+                    @error('registration_url')
+                    <small id="errRegistrationUrl" class="text-danger form-text">
+                        {{ $message }}
+                    </small>
+                    @enderror
                 </div>                
                 <div class="form-group" id="groupDate">
                     <label for="eventDate">Event Date</label>
-                    <input type="date" id="event_date" class="form-control">
-                    <small id="errDate" class="text-danger form-text"></small>
+                    <input type="date" id="event_date" name="event_date" class="form-control">
+                    @error('event_date')
+                    <small id="errDate" class="text-danger form-text">
+                        {{ $message }}
+                    </small>
+                    @enderror
                 </div>
+                <button type="submit" class="btn btn-sm btn-primary btnSave">Save</button>
         </form>
     </div>
 
@@ -81,5 +106,4 @@
 
 @section('scriptPages')
     @vite(['resources/js/admin/InputMediaCreate.js'])
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 @endsection

@@ -106,6 +106,6 @@ $(document).on('click', '#addYouTubeVideo', ()=>{
     addYouTubeVideo();
 });
 
-$(document).on('change', '#gambar', (e)=>{
+$(document).on('change', '#images', (e)=>{
     previweFiles(e)
 });

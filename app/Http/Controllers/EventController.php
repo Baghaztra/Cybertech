@@ -58,13 +58,13 @@ class EventController extends Controller
                 $file->move(public_path('media'), $fileName);
                 $asset = new Asset();
                 $asset->path = 'media/'.$fileName;
-                $asset->tipe = 'event';
+                $asset->type = 'event';
                 $asset->entity_id = $event->id;
                 $asset->save();
             }
         }
 
-        return redirect('admin/post')->with('success', 'Berhasil menambahkan event baru.');
+        return redirect('admin/event')->with('success', 'Berhasil menambahkan event baru.');
     }
 
     /**
@@ -118,7 +118,7 @@ class EventController extends Controller
             }
         }
 
-        return redirect('admin/post')->with('success', 'Berhasil mengubah event');
+        return redirect('admin/event')->with('success', 'Berhasil mengubah event');
     }
 
     /**
