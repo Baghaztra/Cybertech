@@ -7,59 +7,59 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return view('admin.division.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'required',
+        ]);
+
+        Event::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $request->image,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Successfully Add Division.'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
+    public function show(Division $division)
     {
-        //
+        return response()->json([
+            'status' => 200,
+            'data' => $division
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
+    public function update(Request $request, Division $division)
     {
-        //
-    }
+        $rules = [
+            'name' => 'required',
+            'description' => 'required|text|' . Rule::unique('divisions')->ignore($division)
+        ];
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
-    }
+        $data = [];
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Post $post)
-    {
-        //
+        if (!empty($request->image)) {
+            $rules['image'] = 'min:1';
+            $data['image'] = bcrypt($request->image);
+        }
+        $request->validate($rules);
+        $data['name'] = $request->name;
+        $data['description'] = $request->description;
+        $division->update($data);
+        return response()->json([
+            'status' => 200,
+            'message' => `Successfully update user $division->name.`
+        ]);
     }
 }

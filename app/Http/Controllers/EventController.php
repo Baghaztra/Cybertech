@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asset;
 use App\Models\Event;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.event.create');
     }
 
     /**
@@ -36,25 +37,34 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'registration_url' => 'nullable',
-            'event_date' => 'nullable',
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'event_date' => 'required|date',
+            'registration_url' => 'nullable|url'
         ]);
 
-        Event::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'registration_url' => $request->registration_url,
-            'event_date' => $request->event_date,
+        $event = Event::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'event_date' => $validated['event_date'],
+            'registration_url' => $validated['registration_url']
         ]);
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Successfully Add Event.'
-        ]);
+        if ($request->hasFile('images')) {
+            $i = 0;
+            foreach($request->file('images') as $file) {
+                $fileName = time() . $i++ . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('media'), $fileName);
+                $asset = new Asset();
+                $asset->path = 'media/'.$fileName;
+                $asset->tipe = 'event';
+                $asset->entity_id = $event->id;
+                $asset->save();
+            }
+        }
+
+        return redirect('admin/post')->with('success', 'Berhasil menambahkan event baru.');
     }
 
     /**
@@ -73,7 +83,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('admin.event.edit');
     }
 
     /**
@@ -81,24 +91,34 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'registration_url' => 'nullable',
-            'event_date' => 'nullable',
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'event_date' => 'required|date',
+            'registration_url' => 'nullable|url'
         ]);
 
         $event->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'registration_url' => $request->registration_url,
-            'event_date' => $request->event_date,
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'event_date' => $validated['event_date'],
+            'registration_url' => $validated['registration_url']
         ]);
 
-        return response()->json([
-            'status' => 200,
-            'message' => `Successfully update event" $event->title."`
-        ]);
+        if ($request->hasFile('images')) {
+            $i = 0;
+            foreach($request->file('images') as $file) {
+                $fileName = time() . $i++ . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('media'), $fileName);
+                $asset = new Asset();
+                $asset->path = 'media/'.$fileName;
+                $asset->tipe = 'event';
+                $asset->entity_id = $event->id;
+                $asset->save();
+            }
+        }
+
+        return redirect('admin/post')->with('success', 'Berhasil mengubah event');
     }
 
     /**

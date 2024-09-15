@@ -16,6 +16,12 @@
                     <input type="text" id="title" class="form-control" placeholder="Event title">
                     <small id="errTitle" class="text-danger form-text"></small>
                 </div>
+                <div class="form-group" id="groupImages">
+                    <label for="eventImages">Upload Images</label>
+                    <input type="file" id="eventImages" class="form-control" multiple>
+                    <div id="imagePreview" class="mt-2"></div>
+                    <small id="errImages" class="text-danger form-text"></small>
+                </div>
                 <div class="form-group" id="groupDescription">
                     <label for="eventDescription">Description</label>
                     <input type="text" id="description" class="form-control" placeholder="Event description">

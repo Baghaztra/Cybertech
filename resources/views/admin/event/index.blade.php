@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 @section('content')
     <div class="d-flex justify-content-end mb-3">
-        <button class="btn btn-info btn-rounded" id="btnCreate"><i class="fas fa-plus"></i></button>
+        <a href="/admin/event/create" class="btn btn-info btn-rounded" id="btnCreate"><i class="fas fa-plus"></i></a>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -32,5 +32,5 @@
 @endsection
 
 @section('scriptPages')
-    @vite(['resources/js/event/event.js'])
+    @vite(['resources/js/admin/event.js'])
 @endsection
