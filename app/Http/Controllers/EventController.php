@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return view("admin.event.index");
@@ -24,24 +22,19 @@ class EventController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.event.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'event_date' => 'required|date',
-            'registration_url' => 'nullable|url'
+            'registration_url' => 'nullable|url',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:3072'
         ]);
 
         $event = Event::create([
@@ -51,25 +44,22 @@ class EventController extends Controller
             'registration_url' => $validated['registration_url']
         ]);
 
+        // jalankan coment
+        // php artisan storage:link
         if ($request->hasFile('images')) {
-            $i = 0;
-            foreach($request->file('images') as $file) {
-                $fileName = time() . $i++ . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('media'), $fileName);
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('public/media'); // Menyimpan file di 'storage/app/public/media'
                 $asset = new Asset();
-                $asset->path = 'media/'.$fileName;
+                $asset->path = Storage::url($path); // Menggunakan URL yang benar dari penyimpanan
                 $asset->type = 'event';
                 $asset->entity_id = $event->id;
                 $asset->save();
             }
         }
-
+        
         return redirect('admin/event')->with('success', 'Berhasil menambahkan event baru.');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Event $event)
     {
         return response()->json([
@@ -78,65 +68,97 @@ class EventController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Event $event)
     {
-        return view('admin.event.edit');
+        return view('admin.event.edit', ['event'=>$event]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Event $event)
     {
+        // Validasi Input
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'event_date' => 'required|date',
-            'registration_url' => 'nullable|url'
+            'registration_url' => 'nullable|url',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:3072'
         ]);
 
+        // Update event
         $event->update([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'event_date' => $validated['event_date'],
-            'registration_url' => $validated['registration_url']
+            'registration_url' => $validated['registration_url'] ?? null,
         ]);
 
         if ($request->hasFile('images')) {
-            $i = 0;
-            foreach($request->file('images') as $file) {
-                $fileName = time() . $i++ . '.' . $file->getClientOriginalExtension();
-                $file->move(public_path('media'), $fileName);
+            // Hapus file media lama jika ada media baru
+            $existingAssets = Asset::where('entity_id', $event->id)->where('tipe', 'event')->get();
+            foreach ($existingAssets as $existingAsset) {
+                if (Storage::exists($existingAsset->path)) {
+                    Storage::delete($existingAsset->path);
+                }                
+                $existingAsset->delete();
+            }
+        
+            // Upload file baru
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('public/media'); // Simpan di 'storage/app/public/media'
                 $asset = new Asset();
-                $asset->path = 'media/'.$fileName;
+                $asset->path = Storage::url($path); // Menggunakan URL yang benar
                 $asset->tipe = 'event';
                 $asset->entity_id = $event->id;
                 $asset->save();
             }
-        }
+        }        
 
         return redirect('admin/event')->with('success', 'Berhasil mengubah event');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(Event $event)
     {
-        if (!$event) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data not found.'
-            ]);
-        }
-        $title = $event->title;
+        Asset::where('entity_id', $event->id)->where('tipe', 'event')->chunk(100, function ($assets) {
+            foreach ($assets as $asset) {
+                if (Storage::exists($asset->path)) {
+                    Storage::delete($asset->path);
+                }
+                $asset->delete();
+            }
+        });
+
         $event->delete();
+
         return response()->json([
             'status' => 200,
-            'message' => `Successfully delete event $title.`
+            'message' => "Successfully deleted event $event->title."
         ]);
     }
+
+    public function destroyMedia($id)
+    {
+        $asset = Asset::findOrFail($id);
+
+        if (Storage::exists($asset->path)) {
+            Storage::delete($asset->path);
+        } else {
+            return response()->json(['success' => false, 'message' => 'File not found'], 404);
+        }
+
+        $asset->delete();
+        return response()->json(['success' => true, 'message' => 'File successfully deleted']);
+    }
+
+    public function uploadMedia(Request $request)
+    {
+        if ($request->hasFile('images')) {
+            $path = $request->file('images')->store('public/media');
+            return response()->json([
+                'path' => Storage::url($path)
+            ]);
+        }
+        return response()->json(['error' => 'No file uploaded'], 400);
+    }
+
 }

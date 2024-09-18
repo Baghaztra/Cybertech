@@ -33,17 +33,26 @@ Route::middleware('auth')->group(function(){
     Route::get('admin/dashboard', function () {
         return view('admin.dashboard');
     });
+
+    // crud
     Route::resource('admin/post', PostController::class);
     Route::resource('admin/event', EventController::class);
     Route::resource('admin/user', UserController::class);
     Route::resource('admin/division', DivisionController::class);
     Route::resource('admin/form',FormController::class);
     
+    // Mengambil data json
     Route::get('post/all',[PostController::class, 'getAll']);
     Route::get('event/all',[EventController::class, 'getAll']);
     Route::get('user/all',[UserController::class, 'getAll']);
     Route::get('division/all', [DivisionController::class, 'getAll']);
     Route::get('forms/all', [FormController::class, 'all']);
 
+    // input gambar event
+    Route::post('/admin/event/upload', [EventController::class, 'uploadMedia'])->name('event.upload');
+    // hapus gambar
+    Route::delete('/deleteMedia/{id}', [EventController::class, 'destroyMedia']);
+
+    // logout
     Route::post('admin/logout', [AuthenticationController::class, 'logout'])->name('logout');
 });
