@@ -4,6 +4,7 @@
         ['label' => 'Events', 'route' => '/admin/event', 'icon' => 'fas fa-calendar-alt'],
         ['label' => 'Posts', 'route' => '/admin/post', 'icon' => 'fas fa-newspaper'],
         ['label' => 'Divisions', 'route' => '/admin/division', 'icon' => 'fas fa-building'],
+        ['label' => 'Highlight', 'route' => '/admin/highlight', 'icon' => 'fas fa-image'],
         ['label' => 'Users', 'route' => '/admin/user', 'icon' => 'fas fa-users'],
         [
             'label' => 'Form',

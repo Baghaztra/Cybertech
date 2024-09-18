@@ -5,8 +5,10 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\HighlightController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\UserController;
+use App\Models\Highlight;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -40,6 +42,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('admin/user', UserController::class);
     Route::resource('admin/division', DivisionController::class);
     Route::resource('admin/form',FormController::class);
+    Route::resource('admin/highlight',HighlightController::class);
     
     // Mengambil data json
     Route::get('post/all',[PostController::class, 'getAll']);
@@ -47,6 +50,7 @@ Route::middleware('auth')->group(function(){
     Route::get('user/all',[UserController::class, 'getAll']);
     Route::get('division/all', [DivisionController::class, 'getAll']);
     Route::get('forms/all', [FormController::class, 'all']);
+    Route::get('highlight/all', [HighlightController::class, 'getAll']);
 
     // input gambar event
     Route::post('/admin/event/upload', [EventController::class, 'uploadMedia'])->name('event.upload');

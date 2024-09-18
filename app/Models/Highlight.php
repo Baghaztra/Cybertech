@@ -12,7 +12,7 @@ class Highlight extends Model
     protected $fillable = [
         'title',
         'subtitle',
-        'desciption',
+        'description',
         'image_id',
         'url',
     ];

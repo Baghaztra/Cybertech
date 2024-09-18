@@ -7,104 +7,79 @@ use Illuminate\Http\Request;
 
 class HighlightController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view("admin.users.index");
+        return view("admin.highlight.index");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function getAll()
+    {
+        return response()->json([
+            'statusCode' => 200,
+            'data' => Highlight::latest()->get()
+        ]);
+    }
+
     public function create()
     {
-        //
+        return view("admin.highlight.create");
+    }    
+    
+    public function show(Highlight $highlight)
+    {
+        return response()->json([
+            'status' => 200,
+            'data' => $highlight
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function edit(Highlight $highlight)
+    {
+        return view('admin.highlight.edit', ['highlight'=>$highlight]);
+    }
+
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
+            'subtitle' => 'required',
             'description' => 'required',
-            'registration_url' => 'nullable',
-            'event_date' => 'nullable',
+            'image_id' => 'nullable',
+            'url' => 'required',
         ]);
 
-        Event::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'registration_url' => $request->registration_url,
-            'event_date' => $request->event_date,
-        ]);
+        $highlight = Highlight::create($validated);
+        
+        return redirect('admin/highlight')->with('status', 'Successfully added "' . $highlight->title . '".');
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'Successfully Add Event.'
-        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Event $event)
+    public function update(Request $request, Highlight $highlight)
     {
-        return response()->json([
-            'status' => 200,
-            'data' => $event
-        ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Event $event)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Event $event)
-    {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
+            'subtitle' => 'required',
             'description' => 'required',
-            'registration_url' => 'nullable',
-            'event_date' => 'nullable',
+            'image_id' => 'nullable',
+            'url' => 'required',
         ]);
 
-        $event->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'registration_url' => $request->registration_url,
-            'event_date' => $request->event_date,
-        ]);
+        $highlight->update($validated);
 
-        return response()->json([
-            'status' => 200,
-            'message' => `Successfully update event" $event->title."`
-        ]);
+        
+        return redirect('admin/highlight')->with('status', 'Successfully update "' . $highlight->title . '".');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Event $event)
+    public function destroy(Highlight $highlight)
     {
-        if (!$event) {
+        if (!$highlight) {
             return response()->json([
                 'status' => 404,
                 'message' => 'Data not found.'
             ]);
         }
-        $title = $event->title;
-        $event->delete();
+        $title = $highlight->title;
+        $highlight->delete();
         return response()->json([
             'status' => 200,
             'message' => `Successfully delete event $title.`
