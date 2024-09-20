@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Asset;
 use App\Models\Event;
+use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,10 +22,52 @@ class EventController extends Controller
             'data' => Event::latest()->get()
         ]);
     }
+    
+    public function show(Event $event)
+    {
+        return response()->json([
+            'status' => 200,
+            'data' => $event
+        ]);
+    }
 
     public function create()
     {
-        return view('admin.event.create');
+        $temporaryImages = TemporaryImage::all();
+        $files = $temporaryImages->map(function ($img) {
+            return [
+                'file' => $img->file,
+                'folder' => $img->folder,
+            ];
+        });
+        return view("admin.event.create", ['files'=>$files]);
+    }
+
+    public function edit(Event $event)
+    {
+        // menyimpan gambar untuk ditampilkan
+        $images = $event->images;
+        $files = $images->map(function ($image) {
+            return [
+                'file' => substr($image->path, strrpos($image->path, '/') + 1),
+                'folder' => $image->type,
+            ];
+        });
+        
+        // memasukkan gambar default event ke temporary untuk diedit
+        foreach ($images as $image) {
+            $temporaryImage = TemporaryImage::create([
+                'file' => substr($image->path, strrpos($image->path, '/') + 1),
+                'folder' => $image->type,
+            ]);
+
+            // copy file gamabr ke temporary, untuk preview
+            $sourcePath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
+            $destinationPath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
+            Storage::copy($sourcePath, $destinationPath);
+        }
+
+        return view('admin.event.edit', ['event'=>$event,'files'=>$files]);
     }
 
     public function store(Request $request)
@@ -34,7 +77,6 @@ class EventController extends Controller
             'description' => 'required|string|max:255',
             'event_date' => 'required|date',
             'registration_url' => 'nullable|url',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:3072'
         ]);
 
         $event = Event::create([
@@ -44,33 +86,26 @@ class EventController extends Controller
             'registration_url' => $validated['registration_url']
         ]);
 
-        // jalankan coment
-        // php artisan storage:link
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $file) {
-                $path = $file->store('public/media'); // Menyimpan file di 'storage/app/public/media'
-                $asset = new Asset();
-                $asset->path = Storage::url($path); // Menggunakan URL yang benar dari penyimpanan
-                $asset->type = 'event';
-                $asset->entity_id = $event->id;
-                $asset->save();
-            }
+        // Pindahkan gambar temporary
+        $temporaryImages = TemporaryImage::all();
+        foreach ($temporaryImages as $temporaryImage) {
+            $sourcePath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
+            $destinationPath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
+            Storage::move($sourcePath, $destinationPath);
+            
+            // simpan gambar sebagai data asset
+            Asset::create([
+                'path'=>$temporaryImage->folder.'/'.$temporaryImage->file,
+                'type'=>'event',
+                'entity_id' => $event->id,
+            ]);
+
+            // hapus temporary image
+            $temporaryImage->delete();
+            Storage::deleteDirectory('images/tmp/'. $temporaryImage->folder);
         }
         
         return redirect('admin/event')->with('success', 'Berhasil menambahkan event baru.');
-    }
-
-    public function show(Event $event)
-    {
-        return response()->json([
-            'status' => 200,
-            'data' => $event
-        ]);
-    }
-
-    public function edit(Event $event)
-    {
-        return view('admin.event.edit', ['event'=>$event]);
     }
 
     public function update(Request $request, Event $event)
@@ -81,7 +116,6 @@ class EventController extends Controller
             'description' => 'required|string|max:255',
             'event_date' => 'required|date',
             'registration_url' => 'nullable|url',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:3072'
         ]);
 
         // Update event
@@ -92,26 +126,31 @@ class EventController extends Controller
             'registration_url' => $validated['registration_url'] ?? null,
         ]);
 
-        if ($request->hasFile('images')) {
-            // Hapus file media lama jika ada media baru
-            $existingAssets = Asset::where('entity_id', $event->id)->where('tipe', 'event')->get();
-            foreach ($existingAssets as $existingAsset) {
-                if (Storage::exists($existingAsset->path)) {
-                    Storage::delete($existingAsset->path);
-                }                
-                $existingAsset->delete();
+        $oldImages = Asset::where('type', 'event')->where('entity_id', $event->id);
+        foreach ($oldImages as $oldImage) {
+            // Hapus gambar lama
+            if($oldImage){
+                Storage::deleteDirectory('media/'. $oldImage->path);
+                $oldImage->delete();
             }
-        
-            // Upload file baru
-            foreach ($request->file('images') as $file) {
-                $path = $file->store('public/media'); // Simpan di 'storage/app/public/media'
-                $asset = new Asset();
-                $asset->path = Storage::url($path); // Menggunakan URL yang benar
-                $asset->tipe = 'event';
-                $asset->entity_id = $event->id;
-                $asset->save();
-            }
-        }        
+            
+            // Pindahkan gambar temporary ke asset
+            $temporaryImage = TemporaryImage::first();
+            $sourcePath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
+            $destinationPath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
+            Storage::move($sourcePath, $destinationPath);
+            
+            // Tambah gambar baru ke asset
+            Asset::create([
+                'path'=>$temporaryImage->folder.'/'.$temporaryImage->file,
+                'type'=>'event',
+                'entity_id' => $event->id,
+            ]);
+
+            // Hapus temporary
+            Storage::deleteDirectory('images/tmp/'. $temporaryImage->folder);
+            $temporaryImage->delete();
+        }
 
         return redirect('admin/event')->with('success', 'Berhasil mengubah event');
     }
@@ -119,46 +158,30 @@ class EventController extends Controller
 
     public function destroy(Event $event)
     {
-        Asset::where('entity_id', $event->id)->where('tipe', 'event')->chunk(100, function ($assets) {
-            foreach ($assets as $asset) {
-                if (Storage::exists($asset->path)) {
-                    Storage::delete($asset->path);
-                }
-                $asset->delete();
-            }
-        });
-
-        $event->delete();
-
-        return response()->json([
-            'status' => 200,
-            'message' => "Successfully deleted event $event->title."
-        ]);
-    }
-
-    public function destroyMedia($id)
-    {
-        $asset = Asset::findOrFail($id);
-
-        if (Storage::exists($asset->path)) {
-            Storage::delete($asset->path);
-        } else {
-            return response()->json(['success' => false, 'message' => 'File not found'], 404);
-        }
-
-        $asset->delete();
-        return response()->json(['success' => true, 'message' => 'File successfully deleted']);
-    }
-
-    public function uploadMedia(Request $request)
-    {
-        if ($request->hasFile('images')) {
-            $path = $request->file('images')->store('public/media');
+        // jika data tidak ada
+        if (!$event) {
             return response()->json([
-                'path' => Storage::url($path)
+                'status' => 404,
+                'message' => 'Data not found.'
             ]);
         }
-        return response()->json(['error' => 'No file uploaded'], 400);
-    }
 
+        // Hapus gambar
+        $images = Asset::where('type', 'event')->where('entity_id', $event->id);
+        foreach ($images as $image) {
+            if($image){
+                Storage::deleteDirectory('media/'. $image->path);
+                $image->delete();
+            }
+        }
+
+        // Hapus data
+        $title = $event->title;
+        $event->delete();
+        
+        return response()->json([
+            'status' => 200,
+            'message' => `Successfully delete event $title.`
+        ]);
+    }
 }

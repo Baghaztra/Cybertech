@@ -16,7 +16,7 @@ class Event extends Model
         'event_date',
     ];
 
-    function media(){
+    function images(){
         return $this->hasMany(Asset::class, 'entity_id')->where('type', 'event');
     }
 }

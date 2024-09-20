@@ -1,11 +1,11 @@
 @extends('admin.layouts.app')
 @section('content')
     {{-- Input gambar --}}
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet">
-    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link
+        href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet"
+    />
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -35,13 +35,11 @@
                 @enderror
             </div>
 
-            <div class="form-group mb-3" id="groupImages">
-                <label class="form-label" for="images">Media</label>
-                <input type="file" name="images[]" id="images" accept="image/*" 
-                    class="filepond @error('images') is-invalid @enderror" 
-                    multiple data-max-file-size="3MB" data-max-files="3">
-                @error('images')
-                    <small id="errImages" class="text-danger form-text">
+            <div class="form-group mb-3" id="groupImage">
+                <label for="media">Image</label>
+                <input type="file" name="media" id="media" class="filepond" accept="image/">
+                @error('media')
+                    <small id="errMedia" class="text-danger form-text">
                         {{ $message }}
                     </small>
                 @enderror
@@ -87,6 +85,8 @@
 
 @section('scriptPages')
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script>
         // Text editor
         ClassicEditor
@@ -107,18 +107,26 @@
 
         // Input gambar
         // Register plugin FilePond
-        FilePond.registerPlugin(
-            FilePondPluginFileEncode,
-            FilePondPluginFileValidateType,
-            FilePondPluginFileValidateSize
-        );
-        FilePond.create(document.querySelector('input[name="images[]"]'), {
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        const inputElement = document.querySelector('input[type="file"]');
+        const pond = FilePond.create(inputElement);
+    
+        @if(isset($files))
+            @foreach($files as $file)
+                pond.addFile('{{ url("storage/media/tmp/{$file['folder']}/{$file['file']}") }}');
+            @endforeach
+        @endif
+
+        FilePond.setOptions({
+            server: {
+                process: '/admin/uploadMedia/event',
+                revert: '/admin/deleteMedia/event',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
+            maxFiles: 5,
             allowMultiple: true,
-            acceptedFileTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'],
-            maxFileSize: '3MB',
-            storeAsFile: true
         });
-
-
     </script>
 @endsection

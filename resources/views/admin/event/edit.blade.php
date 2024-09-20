@@ -1,12 +1,11 @@
 @extends('admin.layouts.app')
 @section('content')
     {{-- Input gambar --}}
-    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet">
-    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.min.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-    
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link
+        href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet"
+    />
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 
     @if ($errors->any())
@@ -38,13 +37,11 @@
                 @enderror
             </div>
 
-            <div class="form-group mb-3" id="groupImages">
-                <label class="form-label" for="images">Media</label>
-                <input type="file" name="images[]" id="images" accept="image/*" 
-                    class="filepond @error('images') is-invalid @enderror" 
-                    multiple data-max-file-size="3MB" data-max-files="3">
-                @error('images')
-                    <small id="errImages" class="text-danger form-text">
+            <div class="form-group mb-3" id="groupImage">
+                <label for="media">Image</label>
+                <input type="file" name="media" id="media" class="filepond" accept="image/">
+                @error('media')
+                    <small id="errMedia" class="text-danger form-text">
                         {{ $message }}
                     </small>
                 @enderror
@@ -90,6 +87,8 @@
 @endsection
 
 @section('scriptPages')
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
     <script>
         // Texteditor
         ClassicEditor
@@ -111,64 +110,51 @@
             
         // Input file
         // Setup FilePond
-        FilePond.registerPlugin(
-            FilePondPluginFileEncode,
-            FilePondPluginFileValidateType,
-            FilePondPluginFileValidateSize
-        );
-        const pond = FilePond.create(document.querySelector('input[name="images[]"]'), {
-            allowMultiple: true,
-            acceptedFileTypes: ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/svg+xml'],
-            maxFileSize: '3MB',
-            storeAsFile: true
-        });
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        const inputElement = document.querySelector('input[type="file"]');
+        const pond = FilePond.create(inputElement);
+    
+        @if(isset($files))
+            @foreach($files as $file)
+                pond.addFile('{{ url("storage/media/tmp/{$file['folder']}/{$file['file']}") }}');
+            @endforeach
+        @endif
 
-        // Atur media yang sudah ada
-       const existingFiles = [
-            @foreach($event->media as $media)
-            {
-                source: '{{ asset($media->path) }}', // URL untuk file yang sudah ada
-                options: {
-                    type: 'local',
-                    file: {
-                        name: '{{ basename($media->path) }}', // Nama file yang benar
-                        size: 300000, // Sesuaikan ukuran file, pastikan ukurannya benar
-                        type: 'image/jpeg' // Sesuaikan dengan tipe file
-                    }
+        FilePond.setOptions({
+            server: {
+                process: '/admin/uploadMedia/event',
+                revert: '/admin/deleteMedia/event',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             },
-            @endforeach
-        ];
-
-        // Tambahkan media yang sudah ada ke FilePond
-        existingFiles.forEach(file => {
-            pond.addFile(file.source, {
-                file: file.options.file,
-                metadata: file.options.metadata || {} // Tambahkan metadata jika diperlukan
-            }).catch(error => {
-                console.log('Error adding file:', error);
-            });
+            maxFiles: 1,
+            allowMultiple: false,
         });
 
-        // Konfigurasi tambahan FilePond
-        FilePond.setOptions({
-            allowMultiple: true,
-            maxFiles: 3,
-            server: {
-                process: {
-                    url: '{{ route('event.upload') }}',
-                    method: 'POST',
+        // Tombol cancel
+        document.getElementById('cancel-btn').addEventListener('click', function (e) {
+            e.preventDefault(); // Mencegah link default berjalan
+
+            if (confirm('Perubahan yang anda lakukan akan hilang')) {
+                // Lakukan request DELETE menggunakan fetch
+                fetch('/admin/emptyTemporary', {
+                    method: 'DELETE',
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    withCredentials: false,
-                    data: {
-                        // Nama parameter yang akan digunakan di server
-                        file: (file) => file
                     }
-                },
-                revert: null,
-                // Tambahkan konfigurasi lain jika diperlukan
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Redirect ke halaman setelah sukses
+                        window.location.href = '/admin/highlight';
+                    } else {
+                        alert('Gagal menghapus data sementara.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             }
         });
 
