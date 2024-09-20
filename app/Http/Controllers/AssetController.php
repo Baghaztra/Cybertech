@@ -44,4 +44,17 @@ class AssetController extends Controller
 
         return response()->noContent();
     }
+    
+    public function emptyTemporary()
+    {
+        $temporatyImages = TemporaryImage::all();
+        foreach ($temporatyImages as $temporatyImage) {
+            if($temporatyImage){
+                Storage::deleteDirectory('media/tmp/'. $temporatyImage->folder);
+                $temporatyImage->delete();
+            }
+        }
+
+        return response()->noContent();
+    }
 }

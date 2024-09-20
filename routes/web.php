@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function(){
     
     Route::post('/admin/uploadMedia/{type}', [AssetController::class, 'uploadMedia']);
     Route::delete('/admin/deleteMedia/{type}', [AssetController::class, 'destroyMedia']);
+    Route::delete('/admin/emptyTemporary', [AssetController::class, 'emptyTemporary']);
     
     // logout
     Route::post('admin/logout', [AuthenticationController::class, 'logout'])->name('logout');

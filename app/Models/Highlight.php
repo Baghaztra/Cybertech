@@ -16,4 +16,9 @@ class Highlight extends Model
         'image_id',
         'url',
     ];
+
+    public function image()
+    {
+        return $this->belongsTo(Asset::class, 'image_id')->where('type', 'highlight');
+    }
 }
