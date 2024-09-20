@@ -1,4 +1,4 @@
-import { getServerName, showNotif } from "../setUp";
+import { getServerName } from "../setUp";
 import { create, update, deleteItem } from "../crud";
 
 $(document).ready(function () {

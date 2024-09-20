@@ -28,7 +28,7 @@
                 @enderror
             </div>
 
-            <div class="form-group mb-3" id="groupTitle">
+            <div class="form-group mb-3" id="groupSubitle">
                 <label for="subtitle">Subtitle</label>
                 <input type="text" id="subtitle" name="subtitle" class="form-control" placeholder="Event Subtitle" value="{{ old('subtitle', $highlight->subtitle) }}">
                 @error('subtitle')
@@ -38,7 +38,7 @@
                 @enderror
             </div>
             
-            <div class="form-group mb-3" id="groupTitle">
+            <div class="form-group mb-3" id="groupDescription">
                 <label for="description">Description</label>
                 <textarea name="description" id="description" class="form-control" rows="5">{{ old('description', $highlight->description) }}</textarea>
                 @error('description')

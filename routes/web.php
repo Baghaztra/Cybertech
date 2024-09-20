@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AssetController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthenticationController;
@@ -52,11 +53,14 @@ Route::middleware('auth')->group(function(){
     Route::get('forms/all', [FormController::class, 'all']);
     Route::get('highlight/all', [HighlightController::class, 'getAll']);
 
-    // input gambar event
-    Route::post('/admin/event/upload', [EventController::class, 'uploadMedia'])->name('event.upload');
-    // hapus gambar
-    Route::delete('/deleteMedia/{id}', [EventController::class, 'destroyMedia']);
-
+    // temporary image endpoint
+    Route::post('/bla', function () {
+        return response()->json(['message' => 'halo']);
+    });
+    
+    Route::post('/admin/uploadMedia/{type}', [AssetController::class, 'uploadMedia']);
+    Route::delete('/admin/deleteMedia/{type}', [AssetController::class, 'destroyMedia']);
+    
     // logout
     Route::post('admin/logout', [AuthenticationController::class, 'logout'])->name('logout');
 });

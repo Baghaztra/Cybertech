@@ -1,5 +1,8 @@
 // crud.js
 
+import { showNotif } from "./setUp";
+
+
 export function create(title, fields, serverName, endpoint, table, modalId) {
     let formData = new FormData();
 

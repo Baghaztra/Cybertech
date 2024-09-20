@@ -1,5 +1,12 @@
 @extends('admin.layouts.app')
 @section('content')
+
+    <link href="https://unpkg.com/filepond@^4/dist/filepond.css" rel="stylesheet" />
+    <link
+        href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet"
+    />
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -27,7 +34,7 @@
                 @enderror
             </div>
 
-            <div class="form-group mb-3" id="groupTitle">
+            <div class="form-group mb-3" id="groupSubtitle">
                 <label for="subtitle">Subtitle</label>
                 <input type="text" id="subtitle" name="subtitle" class="form-control" placeholder="Event Subtitle" value="{{ old('subtitle') }}">
                 @error('subtitle')
@@ -37,7 +44,17 @@
                 @enderror
             </div>
             
-            <div class="form-group mb-3" id="groupTitle">
+            <div class="form-group mb-3" id="groupImage">
+                <label for="media">Image</label>
+                <input type="file" name="media" id="media" class="filepond" accept="image/">
+                @error('media')
+                    <small id="errMedia" class="text-danger form-text">
+                        {{ $message }}
+                    </small>
+                @enderror
+            </div>
+            
+            <div class="form-group mb-3" id="groupDescription">
                 <label for="description">Description</label>
                 <textarea name="description" id="description" class="form-control" rows="5">{{ old('description') }}</textarea>
                 @error('description')
@@ -65,5 +82,29 @@
 @endsection
 
 @section('scriptPages')
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+    <script src="https://unpkg.com/filepond@^4/dist/filepond.js"></script>
+    <script>
+        FilePond.registerPlugin(FilePondPluginImagePreview);
+        const inputElement = document.querySelector('input[type="file"]');
+        const pond = FilePond.create(inputElement);
     
+        @if(isset($files))
+            @foreach($files as $file)
+                pond.addFile('{{ url("storage/media/tmp/{$file['folder']}/{$file['file']}") }}');
+            @endforeach
+        @endif
+
+        FilePond.setOptions({
+            server: {
+                process: '/admin/uploadMedia/highlight',
+                revert: '/admin/deleteMedia/highlight',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
+            maxFiles: 1,
+            allowMultiple: false,
+        });
+    </script>   
 @endsection

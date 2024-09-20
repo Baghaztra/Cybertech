@@ -3,74 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class AssetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function uploadMedia(Request $request, $type)
     {
-        //
-    }
+        if ($request->hasFile('media')) {
+            $image = $request->file('media');
+            $fileName = $image->getClientOriginalName();
+            $folder = $type;
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+            $existingImage = TemporaryImage::where('folder', $folder)->where('file', $fileName)->first();
+            if (!$existingImage) {
+                $image->storeAs('media/tmp/'.$folder.'/'.$fileName);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Asset $asset)
-    {
-        //
-    }
+                TemporaryImage::create([
+                    'folder' => $folder,
+                    'file' => $fileName,
+                ]);
+            }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Asset $asset)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Asset $asset)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Asset $asset)
-    {
-        if (!$asset) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data not found.'
-            ]);
+            return $folder;
         }
         
-        $asset->delete();
-        return response()->json([
-            'status' => 200,
-            'message' => `Successfully delete the image.`
-        ]);
+        return response()->json([ 'statusCode' => 200,]);
+    }
+
+    public function destroyMedia()
+    {
+        $temporatyImage = TemporaryImage::where('folder', request()->getContent())->first();
+        if($temporatyImage){
+            Storage::deleteDirectory('media/tmp/'. $temporatyImage->folder);
+            $temporatyImage->delete();
+        }
+
+        return response()->noContent();
     }
 }
