@@ -36,6 +36,43 @@ $(document).ready(function () {
         pageLength: 5,
     });
 
+    // Create highlight
+    $(document).on('click', '#btnCreate', function (event) {
+        event.preventDefault(); // Mencegah navigasi default
+    
+        // Memanggil endpoint untuk mengosongkan temporary images
+        $.ajax({
+            type: 'DELETE',
+            url: '/admin/emptyTemporary',
+            success: function () {
+                // Jika berhasil, redirect ke halaman create highlight
+                window.location.href = '/admin/highlight/create';
+            },
+            error: function () {
+                alert('Gagal mengosongkan temporary images');
+            }
+        });
+    });
+
+    // Edit highlight
+    $(document).on('click', '#editBtn', function (event) {
+        event.preventDefault(); // Mencegah navigasi default
+        const highlightId = $(this).data('id'); // Ambil ID event dari atribut data
+    
+        // Memanggil endpoint untuk mengosongkan temporary images
+        $.ajax({
+            type: 'DELETE',
+            url: '/admin/emptyTemporary',
+            success: function () {
+                // Jika berhasil, redirect ke halaman edit highlight
+                window.location.href = '/admin/highlight/' + highlightId + '/edit';
+            },
+            error: function () {
+                alert('Gagal mengosongkan temporary images');
+            }
+        });
+    });    
+
     // Delete
     $(document).on("click", "#deleteBtn", function () {
         var highlightId = $(this).data('id');

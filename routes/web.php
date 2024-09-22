@@ -42,22 +42,18 @@ Route::middleware('auth')->group(function(){
     Route::resource('admin/event', EventController::class);
     Route::resource('admin/user', UserController::class);
     Route::resource('admin/division', DivisionController::class);
-    Route::resource('admin/form',FormController::class);
-    Route::resource('admin/highlight',HighlightController::class);
+    Route::resource('admin/form', FormController::class);
+    Route::resource('admin/highlight', HighlightController::class);
     
     // Mengambil data json
-    Route::get('post/all',[PostController::class, 'getAll']);
-    Route::get('event/all',[EventController::class, 'getAll']);
-    Route::get('user/all',[UserController::class, 'getAll']);
+    Route::get('post/all', [PostController::class, 'getAll']);
+    Route::get('event/all', [EventController::class, 'getAll']);
+    Route::get('user/all', [UserController::class, 'getAll']);
     Route::get('division/all', [DivisionController::class, 'getAll']);
     Route::get('forms/all', [FormController::class, 'all']);
     Route::get('highlight/all', [HighlightController::class, 'getAll']);
-
-    // temporary image endpoint
-    Route::post('/bla', function () {
-        return response()->json(['message' => 'halo']);
-    });
     
+    // Temporary image
     Route::post('/admin/uploadMedia/{type}', [AssetController::class, 'uploadMedia']);
     Route::delete('/admin/deleteMedia/{type}', [AssetController::class, 'destroyMedia']);
     Route::delete('/admin/emptyTemporary', [AssetController::class, 'emptyTemporary']);

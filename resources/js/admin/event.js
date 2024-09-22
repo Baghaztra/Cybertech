@@ -33,6 +33,43 @@ $(document).ready(function () {
         pageLength: 5,
     });
 
+    // Create event
+    $(document).on('click', '#btnCreate', function (event) {
+        event.preventDefault(); // Mencegah navigasi default
+    
+        // Memanggil endpoint untuk mengosongkan temporary images
+        $.ajax({
+            type: 'DELETE',
+            url: '/admin/emptyTemporary',
+            success: function () {
+                // Jika berhasil, redirect ke halaman create event
+                window.location.href = '/admin/event/create';
+            },
+            error: function () {
+                alert('Gagal mengosongkan temporary images');
+            }
+        });
+    });
+
+    // Edit event
+    $(document).on('click', '#editBtn', function (event) {
+        event.preventDefault(); // Mencegah navigasi default
+        const eventId = $(this).data('id'); // Ambil ID event dari atribut data
+    
+        // Memanggil endpoint untuk mengosongkan temporary images
+        $.ajax({
+            type: 'DELETE',
+            url: '/admin/emptyTemporary',
+            success: function () {
+                // Jika berhasil, redirect ke halaman edit event
+                window.location.href = '/admin/event/' + eventId + '/edit';
+            },
+            error: function () {
+                alert('Gagal mengosongkan temporary images');
+            }
+        });
+    });    
+
     // Delete event
     $(document).on("click", "#deleteBtn", function () {
         var eventId = $(this).data('id');
