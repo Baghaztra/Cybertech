@@ -20,7 +20,7 @@
 
     <div class="justify-content-start mb-3">
         <h3>Edit Event "{{ $event->title }}"</h3>
-        <a href="/admin/event" class="btn btn-sm btn-danger">Cancel</a>
+        <a href="/admin/event" class="btn btn-sm btn-danger" id="btn-back">Cancel</a>
     </div>
     <div class="card-body">
         <form action="/admin/event/{{ $event->id }}" method="post" enctype="multipart/form-data">
@@ -29,7 +29,7 @@
             <div class="form-group" id="groupTitle">
                 <label for="eventTitle">Title</label>
                 <input type="text" id="title" name="title" class="form-control" placeholder="Event title"
-                    value="{{ $event->title }}">
+                    value="{{ old('title',$event->title) }}">
                 @error('title')
                     <small id="errTitle" class="text-danger form-text">
                         {{ $message }}
@@ -63,7 +63,7 @@
             <div class="form-group" id="groupRegistrationURL">
                 <label for="registrationUrl">Registration URL (optional)</label>
                 <input type="text" name="registration_url" id="registrationUrl" class="form-control"
-                    placeholder="Registration URL" value="{{ $event->registration_url }}">
+                    placeholder="Registration URL" value="{{ old('registration_url', $event->registration_url) }}">
                 @error('registration_url')
                     <small id="errRegistrationUrl" class="text-danger form-text">
                         {{ $message }}
@@ -73,14 +73,14 @@
             <div class="form-group" id="groupDate">
                 <label for="eventDate">Event Date</label>
                 <input type="date" id="event_date" name="event_date" class="form-control"
-                    value="{{ $event->event_date }}">
+                    value="{{ old('event_date', $event->event_date) }}">
                 @error('event_date')
                     <small id="errDate" class="text-danger form-text">
                         {{ $message }}
                     </small>
                 @enderror
             </div>
-            <button type="submit" onclick="confirmDeleteMedia()" class="btn btn-sm btn-primary btnSave">Save</button>
+            <button type="submit" class="btn btn-sm btn-primary btnSave">Save</button>
         </form>
     </div>
 
@@ -116,7 +116,23 @@
     
         @if(isset($files))
             @foreach($files as $file)
-                pond.addFile('{{ url("storage/media/tmp/{$file['folder']}/{$file['file']}") }}');
+                // Mengambil file dari URL
+                fetch('{{ url("storage/media/tmp/{$file['folder']}/{$file['file']}") }}')
+                    .then(response => response.blob())
+                    .then(blob => {
+                        // Buat objek File dari blob
+                        const file = new File([blob], '{{ $file["file"] }}', {
+                            type: blob.type,
+                            lastModified: Date.now()
+                        });
+                        // Tambahkan file ke FilePond
+                        pond.addFile(file).catch(error => {
+                            console.error('Gagal menambahkan file:', error);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Gagal mengambil file:', error);
+                    });
             @endforeach
         @endif
 
@@ -128,16 +144,14 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             },
-            maxFiles: 1,
-            allowMultiple: false,
+            maxFiles: 5,
+            allowMultiple: true,
         });
+        
+        document.getElementById('btn-back').addEventListener('click', function(e) {
+            e.preventDefault(); // Mencegah navigasi langsung
 
-        // Tombol cancel
-        document.getElementById('cancel-btn').addEventListener('click', function (e) {
-            e.preventDefault(); // Mencegah link default berjalan
-
-            if (confirm('Perubahan yang anda lakukan akan hilang')) {
-                // Lakukan request DELETE menggunakan fetch
+            if (confirm('Perubahan tidak akan tersimpan')) {
                 fetch('/admin/emptyTemporary', {
                     method: 'DELETE',
                     headers: {
@@ -146,10 +160,9 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        // Redirect ke halaman setelah sukses
-                        window.location.href = '/admin/highlight';
+                        window.location.href = '/admin/event';
                     } else {
-                        alert('Gagal menghapus data sementara.');
+                        alert('Gagal menghapus temporary data.');
                     }
                 })
                 .catch(error => {
@@ -157,6 +170,5 @@
                 });
             }
         });
-
     </script>
 @endsection

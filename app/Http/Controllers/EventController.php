@@ -25,9 +25,14 @@ class EventController extends Controller
     
     public function show(Event $event)
     {
+        $imageUrls = [];
+        foreach ($event->images as $image) {
+            $imageUrls[] = Storage::url('media/' . $image->path);
+        }
         return response()->json([
             'status' => 200,
-            'data' => $event
+            'data' => $event,
+            'imageUrls' => $imageUrls
         ]);
     }
 
@@ -76,6 +81,7 @@ class EventController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'event_date' => 'required|date',
+            'media' => 'required',
             'registration_url' => 'nullable|url',
         ]);
 
@@ -91,7 +97,7 @@ class EventController extends Controller
         foreach ($temporaryImages as $temporaryImage) {
             $sourcePath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
             $destinationPath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
-            Storage::move($sourcePath, $destinationPath);
+            Storage::copy($sourcePath, $destinationPath);
             
             // simpan gambar sebagai data asset
             Asset::create([
@@ -102,7 +108,7 @@ class EventController extends Controller
 
             // hapus temporary image
             $temporaryImage->delete();
-            Storage::deleteDirectory('images/tmp/'. $temporaryImage->folder);
+            Storage::deleteDirectory('media/tmp/'. $temporaryImage->folder);
         }
         
         return redirect('admin/event')->with('success', 'Berhasil menambahkan event baru.');
@@ -115,6 +121,7 @@ class EventController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'event_date' => 'required|date',
+            'media' => 'required',
             'registration_url' => 'nullable|url',
         ]);
 
@@ -126,29 +133,31 @@ class EventController extends Controller
             'registration_url' => $validated['registration_url'] ?? null,
         ]);
 
-        $oldImages = Asset::where('type', 'event')->where('entity_id', $event->id);
+        $oldImages = Asset::where('type', 'event')->where('entity_id', $event->id)->get();
         foreach ($oldImages as $oldImage) {
             // Hapus gambar lama
             if($oldImage){
                 Storage::deleteDirectory('media/'. $oldImage->path);
                 $oldImage->delete();
             }
-            
-            // Pindahkan gambar temporary ke asset
-            $temporaryImage = TemporaryImage::first();
+        }
+
+        // Pindahkan gambar temporary ke asset
+        $temporaryImages = TemporaryImage::all(); // Ambil semua gambar sementara
+        foreach ($temporaryImages as $temporaryImage) {
             $sourcePath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
             $destinationPath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
-            Storage::move($sourcePath, $destinationPath);
+            Storage::copy($sourcePath, $destinationPath);
             
             // Tambah gambar baru ke asset
             Asset::create([
-                'path'=>$temporaryImage->folder.'/'.$temporaryImage->file,
-                'type'=>'event',
+                'path' => $temporaryImage->folder . '/' . $temporaryImage->file,
+                'type' => 'event',
                 'entity_id' => $event->id,
             ]);
 
             // Hapus temporary
-            Storage::deleteDirectory('images/tmp/'. $temporaryImage->folder);
+            Storage::deleteDirectory('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
             $temporaryImage->delete();
         }
 

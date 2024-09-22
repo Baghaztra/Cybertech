@@ -53,11 +53,10 @@ class HighlightController extends Controller
             'file' => substr($image->path, strrpos($image->path, '/') + 1),
             'folder' => $image->type,
         ];
-        TemporaryImage::create([
+        $temporaryImage = TemporaryImage::create([
             'file' => substr($image->path, strrpos($image->path, '/') + 1),
             'folder' => $image->type,
         ]);
-        $temporaryImage = TemporaryImage::first();
         $sourcePath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
         $destinationPath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
         Storage::copy($sourcePath, $destinationPath);

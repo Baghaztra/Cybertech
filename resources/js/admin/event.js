@@ -18,10 +18,13 @@ $(document).ready(function () {
             {
                 data: null,
                 render: function (data) {
-                    return `<div style="gap: 5px;" class="row">
-                <button class="btn btn-sm col-sm-4 btn-info" data-id="${data.id}" id="detailBtn"><i class="fas fa-info"></i></button>
-                <a href="/admin/event/${data.id}/edit" class="btn btn-sm col-sm-4 btn-warning" id="editBtn"><i class="fas fa-edit"></i></a>
-                <button class="btn btn-sm col-sm-4 btn-danger" data-id="${data.id}" id="deleteBtn"><i class="fas fa-trash"></i></button>`;
+                    return `
+                        <div style="gap: 5px;" class="row">
+                            <button class="btn btn-sm col-sm-3 btn-info" data-id="${data.id}" id="detailBtn"><i class="fas fa-info"></i></button>
+                            <a href="/admin/event/${data.id}/edit" class="btn btn-sm col-sm-3 btn-warning" id="editBtn"><i class="fas fa-edit"></i></a>
+                            <button class="btn btn-sm col-sm-3 btn-danger" data-id="${data.id}" data-title="${data.title}" id="deleteBtn"><i class="fas fa-trash"></i></button>
+                        </div>
+                    `;
                 },
                 orderable: false
             }
@@ -56,101 +59,36 @@ $(document).ready(function () {
         });
     });
 
-    // // Edit event
-    // $(document).on("click", "#editBtn", function () {
-    //     var eventId = $(this).data('id');
-    //     $('#modal #modalTitle').text('Edit Event');
-    //     $.ajax({
-    //         type: "GET",
-    //         url: getServerName() + "/admin/event/" + eventId,
-    //         success: function (response) {
-    //             if (response.status === 200) {
-    //                 $('#modal input#title').val(response.data.title);
-    //                 $('#modal input#description').val(response.data.description);
-    //                 $('#modal input#event_date').val(response.data.event_date);
-    //                 $('#modal input#registration_url').val(response.data.registration_url);
-    //             }
-    //         },
-    //         error: (ere)=>{
-    //             console.log(ere);
-                
-    //         }
-    //     });
-    //     $('#modal').modal('show');
-    //     $('#modal button.btnSave').off('click').on('click', function () {
-    //         var fields = [
-    //             { name: 'title', value: $('#title').val() },
-    //             { name: 'description', value: $('#description').val() },
-    //             { name: 'event_date', value: $('#event_date').val() },
-    //             { name: 'registration_url', value: $('#registrationUrl').val() }
-    //         ];
-    //         update("Edit Event", fields, getServerName(), "/admin/event/" + eventId, table, 'modal');
-    //     });
-    // });
+    // Detail
+    $(document).on('click', '#detailBtn', function () {
+        $.ajax({
+            type: "GET",
+            url: getServerName() + "/admin/event/" + $(this).data('id'),
+            dataType: "json",
+            success: function (response) {
+                console.log(response.data);
+                console.log(response.imageUrls);
+                if (response.status === 200) {
+                    $('#modal #title').html(response.data.title);
+                    $('#modal #event_date').html(response.data.event_date);
+                    $('#modal #description').html(response.data.description);
+                    const images = response.imageUrls;
+                    images.forEach(url => {
+                        const imgElement = `<img src="${url}" alt="gambar" style="width: 10rem; height: auto;" class="col-6">`;
+                        $('#modal #images').append(imgElement);
+                    });
+                    
 
-    // // Preview image before upload
-    // $(document).on("change", "#eventImages", function () {
-    //     var preview = $("#imagePreview");
-    //     preview.empty(); // Clear previous previews
-    //     var files = $(this)[0].files;
+                    if (response.data.registration_url != null) {
+                        $('.modal-footer').show();
+                        $('#modal a#url').attr('href', response.data.registration_url);
+                    }else{
+                        $('.modal-footer').hide();
+                    }
+                }
 
-    //     if (files.length > 0) {
-    //         $.each(files, function (i, file) {
-    //             var reader = new FileReader();
-    //             reader.onload = function (e) {
-    //                 preview.append('<img src="' + e.target.result + '" class="img-thumbnail" width="150" height="150" style="margin-right: 10px;"/>');
-    //             };
-    //             reader.readAsDataURL(file);
-    //         });
-    //     }
-    // });
-
-    // // Create event with images
-    // $(document).on("click", "#btnCreate", function () {
-    //     $('#modal #modalTitle').text('Add New Event');
-    //     $('#modal').modal('show');
-
-    //     $('#modal button.btnSave').off('click').on('click', function () {
-    //         var formData = new FormData();
-
-    //         // Get event fields
-    //         formData.append('title', $('#title').val());
-    //         formData.append('description', $('#description').val());
-    //         formData.append('event_date', $('#event_date').val());
-    //         formData.append('registration_url', $('#registrationUrl').val());
-
-    //         // Get image files
-    //         var files = $('#eventImages')[0].files;
-    //         if (files.length > 0) {
-    //             $.each(files, function (i, file) {
-    //                 formData.append('images[]', file); // "images[]" to handle multiple files
-    //             });
-    //         }
-
-    //         // Call the create function
-    //         createWithImages("Create Event", formData, getServerName(), "/admin/event", table, 'modal');
-    //     });
-    // });
-
-    // function createWithImages(title, formData, server, url, table, modal) {
-    //     $.ajax({
-    //         url: server + url,
-    //         type: "POST",
-    //         data: formData,
-    //         processData: false,
-    //         contentType: false,
-    //         success: function (response) {
-    //             if (response.success) {
-    //                 // Handle success (e.g., refresh table or show notification)
-    //                 $('#' + modal).modal('hide');
-    //             } else {
-    //                 // Handle errors
-    //             }
-    //         },
-    //         error: function (xhr) {
-    //             // Handle error
-    //         }
-    //     });
-    // }
-
+            }
+        });
+        $('#modal').modal('show');
+    });
 });

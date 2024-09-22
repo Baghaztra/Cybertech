@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('registration_url');
+            $table->string('registration_url')->nullable();
             $table->date('event_date');
             $table->timestamps();
         });

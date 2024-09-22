@@ -4,45 +4,24 @@
     <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalTitle">
-                    Modal Title5
+                <h5 class="modal-title" id="title">
+                    Modal title
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="hdnID" style="display: none;">
-                <div class="form-group" id="groupTitle">
-                    <label for="eventTitle">Title</label>
-                    <input type="text" id="title" class="form-control" placeholder="Event title">
-                    <small id="errTitle" class="text-danger form-text"></small>
-                </div>
-                <div class="form-group" id="groupImages">
-                    <label for="eventImages">Upload Images</label>
-                    <input type="file" id="eventImages" class="form-control" multiple>
-                    <div id="imagePreview" class="mt-2"></div>
-                    <small id="errImages" class="text-danger form-text"></small>
-                </div>
-                <div class="form-group" id="groupDescription">
-                    <label for="eventDescription">Description</label>
-                    <input type="text" id="description" class="form-control" placeholder="Event description">
-                    <small id="errDescription" class="text-danger form-text"></small>
-                </div>
-                <div class="form-group" id="groupRegistrationURL">
-                    <label for="registrationUrl">Registration URL (optional)</label>
-                    <input type="text" id="registrationUrl" class="form-control" placeholder="Registration URL">
-                    <small id="errRegistrationUrl" class="text-danger form-text"></small>
-                </div>                
-                <div class="form-group" id="groupDate">
-                    <label for="eventDate">Event Date</label>
-                    <input type="date" id="event_date" class="form-control">
-                    <small id="errDate" class="text-danger form-text"></small>
+                <h6 class="text-secondary" id="event_date">date</h6>
+                <div id="images" class="row"></div>
+                <div id="description">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Tempora, amet qui. Modi repudiandae maxime
+                    cupiditate temporibus odit veritatis voluptate, natus doloremque dolores nemo accusantium, commodi
+                    sequi in sint alias tenetur.
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="button" class="btn btn-sm btn-primary btnSave">Save</button>
+            <div class="modal-footer" style="display: none">
+                <a type="button" id="url" class="btn btn-sm btn-secondary" target="blank">
+                    Go to this site
+                </a>
             </div>
         </div>
     </div>
