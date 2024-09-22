@@ -19,7 +19,7 @@
 
     <div class="justify-content-start mb-3">
         <h3>Edit "{{ $highlight->title }}"</h3>
-        <a href="/admin/highlight" class="btn btn-sm btn-danger" id="cancel-btn">Cancel</a>
+        <a href="/admin/highlight" class="btn btn-sm btn-danger" id="btn-back">Cancel</a>
     </div>
     <div class="card-body">
         <form action="/admin/highlight/{{ $highlight->id }}" method="post" enctype="multipart/form-data">
@@ -104,12 +104,11 @@
             allowMultiple: false,
         });
 
-        // Tombol cancel
-        document.getElementById('cancel-btn').addEventListener('click', function (e) {
-            e.preventDefault(); // Mencegah link default berjalan
+        
+        document.getElementById('btn-back').addEventListener('click', function(e) {
+            e.preventDefault(); // Mencegah navigasi langsung
 
-            if (confirm('Perubahan yang anda lakukan akan hilang')) {
-                // Lakukan request DELETE menggunakan fetch
+            if (confirm('Perubahan tidak akan tersimpan')) {
                 fetch('/admin/emptyTemporary', {
                     method: 'DELETE',
                     headers: {

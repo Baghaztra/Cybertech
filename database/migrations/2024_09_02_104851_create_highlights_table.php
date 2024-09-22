@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('subtitle');
             $table->string('description');
             $table->foreignId('image_id')->nullable();
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->timestamps();
         });
     }

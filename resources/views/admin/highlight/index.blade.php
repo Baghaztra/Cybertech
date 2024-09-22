@@ -10,10 +10,10 @@
                     <tr>
                         <th>No</th>
                         <th>Title</th>
-                        <th>Subtitle</th>
+                        {{-- <th>Subtitle</th>
                         <th>Desciption</th>
                         <th>Image_id</th>
-                        <th>Url</th>
+                        <th>Url</th> --}}
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -22,16 +22,18 @@
                     <tr>
                         <th>No</th>
                         <th>Title</th>
-                        <th>Subtitle</th>
+                        {{-- <th>Subtitle</th>
                         <th>Desciption</th>
                         <th>Image_id</th>
-                        <th>Url</th>
+                        <th>Url</th> --}}
                         <th>Action</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
     </div>
+
+    @include('admin.highlight.modal')
 
 @endsection
 

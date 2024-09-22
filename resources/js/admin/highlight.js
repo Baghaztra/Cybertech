@@ -14,17 +14,18 @@ $(document).ready(function () {
                 }
             },
             { data: "title" },
-            { data: "subtitle" },
-            { data: "description" },
-            { data: "image_id" },
-            { data: "url" },
+            // { data: "subtitle" },
+            // { data: "description" },
+            // { data: "image_id" },
+            // { data: "url" },
             {
                 data: null,
                 render: function (data) {
                     return `
                     <div style="gap: 5px;" class="row">
-                        <a href="/admin/highlight/${data.id}/edit" class="btn btn-sm col-sm-4 btn-warning" id="editBtn"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-sm col-sm-4 btn-danger" data-id="${data.id}" data-title="${data.title}" id="deleteBtn"><i class="fas fa-trash"></i></button>
+                        <button class="btn btn-sm col-sm-3 btn-info" data-id="${data.id}" id="detailBtn"><i class="fas fa-info"></i></button>
+                        <a href="/admin/highlight/${data.id}/edit" class="btn btn-sm col-sm-3 btn-warning" id="editBtn"><i class="fas fa-edit"></i></a>
+                        <button class="btn btn-sm col-sm-3 btn-danger" data-id="${data.id}" data-title="${data.title}" id="deleteBtn"><i class="fas fa-trash"></i></button>
                     </div>
                     `;
                 },
@@ -60,5 +61,32 @@ $(document).ready(function () {
                 deleteItem("Delete Event", getServerName(), endpoint, table);
             }
         });
+    });
+
+    // Detail
+    $(document).on('click', '#detailBtn', function () {
+        $.ajax({
+            type: "GET",
+            url: getServerName() + "/admin/highlight/" + $(this).data('id'),
+            dataType: "json",
+            success: function (response) {
+                console.log(response.data);
+                // console.log(response.imageUrl);
+                if (response.status === 200) {
+                    $('#modal #title').text(response.data.title);
+                    $('#modal #subtitle').text(response.data.subtitle);
+                    $('#modal #description').text(response.data.description);
+                    $('#modal img#image').attr('src', response.imageUrl);
+                    if (response.data.url != null) {
+                        $('.modal-footer').show();
+                        $('#modal a#url').attr('href', response.data.url);
+                    }else{
+                        $('.modal-footer').hide();
+                    }
+                }
+
+            }
+        });
+        $('#modal').modal('show');
     });
 });

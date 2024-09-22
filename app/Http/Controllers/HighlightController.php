@@ -26,9 +26,11 @@ class HighlightController extends Controller
     
     public function show(Highlight $highlight)
     {
+        $imageUrl = Storage::url('media/' . $highlight->image->path);
         return response()->json([
             'status' => 200,
-            'data' => $highlight
+            'data' => $highlight,
+            'imageUrl' => $imageUrl
         ]);
     }
 
@@ -69,6 +71,7 @@ class HighlightController extends Controller
             'title' => 'required',
             'subtitle' => 'required',
             'description' => 'required',
+            'media' => 'required',
             'url' => 'nullable',
         ]);
 
@@ -93,7 +96,7 @@ class HighlightController extends Controller
         ]);
 
         // hapus temporary image
-        Storage::deleteDirectory('images/tmp/'. $temporaryImage->folder);
+        Storage::deleteDirectory('media/tmp/'. $temporaryImage->folder);
         $temporaryImage->delete();
        
         // simpan id gambar ke anu
@@ -109,6 +112,7 @@ class HighlightController extends Controller
             'title' => 'required',
             'subtitle' => 'required',
             'description' => 'required',
+            'media' => 'required',
             'url' => 'nullable',
         ]);
 
@@ -173,7 +177,7 @@ class HighlightController extends Controller
         
         return response()->json([
             'status' => 200,
-            'message' => `Successfully delete event $title.`
+            'message' => `Successfully delete highlight $title.`
         ]);
     }
 }

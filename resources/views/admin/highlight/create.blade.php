@@ -19,7 +19,7 @@
 
     <div class="justify-content-start mb-3">
         <h3>Create New Highlight</h3>
-        <a href="/admin/highlight" class="btn btn-sm btn-danger">Cancel</a>
+        <a href="/admin/highlight" id="btn-back" class="btn btn-sm btn-danger">Cancel</a>
     </div>
     <div class="card-body">
         <form action="/admin/highlight" method="post" enctype="multipart/form-data">
@@ -106,5 +106,28 @@
             maxFiles: 1,
             allowMultiple: false,
         });
-    </script>   
+
+        document.getElementById('btn-back').addEventListener('click', function(e) {
+            e.preventDefault(); // Mencegah navigasi langsung
+
+            if (confirm('Perubahan tidak akan tersimpan')) {
+                fetch('/admin/emptyTemporary', {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/admin/highlight';
+                    } else {
+                        alert('Gagal menghapus temporary data.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+    </script>
 @endsection

@@ -72,6 +72,8 @@ export function deleteItem(title, serverName, endpoint, table) {
         data: { _method: "DELETE" },
         success: function (response) {
             if (response.status === 200) {
+                console.log(response);
+                
                 table.ajax.reload(null, false);
                 showNotif({
                     message: response.message,
