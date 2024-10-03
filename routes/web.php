@@ -6,23 +6,24 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\FrontendHomeController;
 use App\Http\Controllers\HighlightController;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\UserController;
 use App\Models\Highlight;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('frontend.home.index');
-});
-Route::get('/test', function () {
-    echo "<a href='#'>test</a>";
-});
+Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
+Route::get('/event', [FrontendHomeController::class, 'events'])->name('event');
+Route::get('/event/{id}', [FrontendHomeController::class, 'event'])->name('detail-event');
+Route::get('/galeri', [FrontendHomeController::class, 'galeri'])->name('galeri');
+Route::get('/about', [FrontendHomeController::class, 'about'])->name('about');
 
 Route::middleware('guest')->group(function(){
     Route::get('admin/login', [AuthenticationController::class, 'loginForm'])->name('login');
     Route::post('admin/login', [AuthenticationController::class, 'loginProses']);
 });
+
 Route::get('/admin/division', function () {
     return view('admin.division.index');
 });

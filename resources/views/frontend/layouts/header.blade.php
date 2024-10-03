@@ -13,16 +13,16 @@
                               <div class="collapse navbar-collapse" id="navbarCollapse">
                                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                                   <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                    <a class="nav-link active" aria-current="page" href="/">Home</a>
                                   </li>
                                   <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Event</a>
+                                    <a class="nav-link active" aria-current="page" href="/event">Event</a>
                                   </li>
                                   <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">Galeri</a>
+                                    <a class="nav-link active" aria-current="page" href="/galeri">Galeri</a>
                                   </li>
                                   <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="#">About</a>
+                                    <a class="nav-link active" aria-current="page" href="/about">About</a>
                                   </li>
                                 </ul>
                                 
