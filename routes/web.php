@@ -25,6 +25,8 @@ Route::get('/admin/division', function () {
 
 Route::get('form/{formId}', [ResponseController::class, 'create'])
     ->name('responses.create');
+Route::post('form/{formId}', [ResponseController::class, 'store'])
+    ->name('responses.store');
 
 Route::middleware('auth')->group(function(){
     Route::resource('admin/user', UserController::class);

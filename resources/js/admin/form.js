@@ -1,4 +1,4 @@
-import { getServerName } from "../setUp";
+import { getServerName, showNotif } from "../setUp";
 
 $(document).ready(function () {
     var table = $("#tblUsers").DataTable({
@@ -36,6 +36,13 @@ $(document).ready(function () {
         $('#modalForm').modal('show');
     });
 
+    function setError(errors = {}) {
+        console.log(Object.keys(errors).length);
+
+        errors.title ? ($('#formTitle').addClass('has-error'), $('#errTitle').text(errors.title)) : ($('#formTitle').removeClass('has-error'), $('#errTitle').text(''))
+        errors.description ? $('#formDescription').addClass('has-error') : $('#formDescription').removeClass('has-error')
+    }
+
     $(document).on('click', '#btnCreateForm', () => {
         let data = $('#create-form').serialize();
         $.ajax({
@@ -46,12 +53,23 @@ $(document).ready(function () {
             success: function (response) {
                 console.log(response)
                 // Reset the form
+                $('#modalForm').modal('hide');
                 $('#create-form')[0].reset();
                 $('#questions-wrapper').empty();
                 $('#error-messages').empty();
+                table.ajax.reload(null, false);
+                var content = {};
+                content.message = response.message;
+                content.icon = "fa fa-bell";
+                content.title = "Notifikasi";
+                showNotif(content, 'success', 3000, 500);
             },
             error: (err) => {
                 console.log(err)
+                if (err.status === 422) {
+                    const errors = err.responseJSON.errors;
+                    setError(errors);
+                }
             }
         });
     });

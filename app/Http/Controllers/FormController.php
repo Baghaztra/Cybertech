@@ -6,6 +6,8 @@ use App\Http\Requests\StoreFormRequest;
 use App\Http\Requests\UpdateFormRequest;
 use App\Models\Form;
 
+use function PHPUnit\Framework\isEmpty;
+
 class FormController extends Controller
 {
     /**
@@ -39,8 +41,7 @@ class FormController extends Controller
             'description' => 'nullable|string',
             'questions' => 'required|array',
             'questions.*.question_text' => 'required|string',
-            'questions.*.question_type' => 'required|string',
-            'questions.*.options' => 'sometimes|array', // Opsi jika multiple choice/checkbox
+            'questions.*.question_type' => 'required|string'
         ]);
 
         // Simpan form
@@ -57,14 +58,14 @@ class FormController extends Controller
             ]);
 
             // Simpan opsi jika ada
-            if (isset($questionData['options'])) {
+            if (count($questionData['options'])!=1) {
                 foreach ($questionData['options'] as $optionText) {
                     $question->options()->create(['option_text' => $optionText]);
                 }
             }
         }
 
-        return response()->json(['message' => 'Form created successfully!'], 201);
+        return response()->json(data: ['statusCode' => 200, 'message'=>"success create form ". $form->title."!"], status: 201);
     }
 
     /**
