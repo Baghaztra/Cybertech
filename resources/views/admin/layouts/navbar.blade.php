@@ -227,11 +227,12 @@
                 <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                     aria-expanded="false">
                     <div class="avatar-sm">
-                        <img src="assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle" />
+                        <img src="https://ui-avatars.com/api/?name={{ Auth::user()->username }}&background=4e73df&color=ffffff&size=100"
+                            alt="..." class="avatar-img rounded-circle" />
                     </div>
                     <span class="profile-username">
                         <span class="op-7">Hi,</span>
-                        <span class="fw-bold">Hizrian</span>
+                        <span class="fw-bold">{{ Auth::user()->username }}</span>
                     </span>
                 </a>
                 <ul class="dropdown-menu dropdown-user animated fadeIn">
@@ -239,12 +240,12 @@
                         <li>
                             <div class="user-box">
                                 <div class="avatar-lg">
-                                    <img src="assets/img/profile.jpg" alt="image profile"
-                                        class="avatar-img rounded" />
+                                    <img src="https://ui-avatars.com/api/?name={{ Auth::user()->username }}&background=4e73df&color=ffffff&size=100"
+                                        alt="..." class="avatar-img rounded-circle" />
                                 </div>
                                 <div class="u-text">
-                                    <h4>Hizrian</h4>
-                                    <p class="text-muted">hello@example.com</p>
+                                    <h4>{{ Auth::user()->username }}</h4>
+                                    <p class="text-muted">{{ Auth::user()->email }}</p>
                                     <a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
                                 </div>
                             </div>
@@ -257,7 +258,9 @@
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">Account Setting</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Logout</a>
+                            <form action="{{ route('logout') }}" onsubmit="return confirm('Yakin ingin logout?')"
+                                method="post">@csrf <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
                         </li>
                     </div>
                 </ul>

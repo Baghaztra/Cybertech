@@ -33,11 +33,13 @@
 
  <!-- Kaiadmin DEMO methods, don't include it in your project! -->
  <script src={{ asset('kaiadmin-lite-1.2.0/assets/js/setting-demo.js') }}></script>
- <script src={{ asset('kaiadmin-lite-1.2.0/assets/js/demo.js') }}></script>
+ {{-- <script src={{ asset('kaiadmin-lite-1.2.0/assets/js/demo.js') }}></script> --}}
 
+ @vite(['resources/js/app.js'])
 
  {{-- disini script per pages --}}
  @yield('scriptPages')
+
 
  <script>
      $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {

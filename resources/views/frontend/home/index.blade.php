@@ -10,23 +10,23 @@
         <title>Document</title>
     </head>
     <style>
-                /* body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f4ff;
-            color: #4a4a4a;
-            margin: 0;
-            padding: 0;
-        } */
+        /* body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f4ff;
+                color: #4a4a4a;
+                margin: 0;
+                padding: 0;
+            } */
 
         /* .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #d8e3ff;
-            border-radius: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 40px;
-        } */
+                width: 80%;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #d8e3ff;
+                border-radius: 15px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                margin-top: 40px;
+            } */
 
         h1 {
             text-align: center;
@@ -78,6 +78,7 @@
             margin-top: 10px;
         }
     </style>
+
     <body>
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -116,6 +117,26 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
+        </div>
+        <div class="container mt-5">
+            <h1 class="text-center" style="color: #486284">Tentang CyberTech</h1>
+            <div class="container text-start" style="color: #8CA2C0">
+                <div class="row align-items-start mt-3">
+                    <div class="col">
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo molestiae, velit deserunt hic esse
+                        recusandae explicabo ipsum itaque porro ducimus saepe inventore repudiandae facere neque debitis
+                        laborum adipisci commodi eaque!a
+                    </div>
+                    <div class="col">
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Commodi illo beatae nobis consequuntur
+                        autem aliquid ad in, perspiciatis magnam repellat voluptate neque et laudantium quasi quas inventore
+                        iure odit dolorum?
+                    </div>
+
+                </div>
+            </div>
+
+            <img src="/images/DSC_0029.JPG" class="rounded-5 img-fluid mt-5" alt="...">
         </div>
         <div class="container">
             <h1 class="text-center mt-5" style="color: #486284">Tentang Cybertech</h1>
