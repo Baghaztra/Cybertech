@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+.body{
+  background-color: #c9c9c9;
+}
+
+.header-section {
+  background-image: url(/images/DSC_0029.JPG);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-family: 'Inter';
+  height: 100vh;
+}
+
+/* Pastikan jumbotron memiliki posisi relative */
+.header-section .jumbotron {
+  position: relative;
+  overflow: hidden; /* Menyembunyikan bagian overlay yang keluar dari jumbotron */
+}
+
+
+
+/* Pastikan konten berada di atas overlay */
+.header-section .jumbotron .container-fluid {
+  position: relative;
+  z-index: 2; /* Konten di atas overlay */
+}
+
+
+/* memberi overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.37) ;/* Warna hitam dengan transparansi 50% */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.politeknik {
+  background-color: rgba(0, 0, 0, 0.456);
+  display: inline-block;
+  width: 30rem;
+  align-content:center ;
+  border-radius: 29px;
+  height: 3rem;
+}
+
+.sponsor {
+  z-index: 4;
+  color: white;
+}
+
+.card{
+  padding : 0;
+  
+}
+.card-wrapper{
+  
+}
+
+.kotak1{
+  height: 80px;
+  width: 80px;
+  background-color: rgb(108, 159, 212);
+  position: absolute;
+  border-radius: 4px;
+  bottom: -480px;
+  left: -50px;
+}
+
+
+.kotak2{
+  height: 80px;
+  width: 80px;
+  background-color: rgb(108, 159, 212);
+  position: absolute;
+  border-radius: 4px;
+  bottom: -680px;
+  right: -50px;
+}
