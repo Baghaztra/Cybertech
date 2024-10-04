@@ -1,6 +1,6 @@
 <!-- navbar -->
-                <header data-bs-theme="primary">
-                    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+                <header data-bs-theme="">
+                    <nav class="navbar navbar-expand-md navbar-dark fixed-top ">
                       <div class="container-fluid">
                         <div class="navbar-kiri">
                             <img src="/images/cyberlogo.png" alt="Bootstrap" width="30" height="24">
