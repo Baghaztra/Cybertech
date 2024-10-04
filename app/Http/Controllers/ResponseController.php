@@ -6,6 +6,7 @@ use App\Http\Requests\StoreResponseRequest;
 use App\Http\Requests\UpdateResponseRequest;
 use App\Models\Form;
 use App\Models\Response;
+use Illuminate\Support\Str;
 
 class ResponseController extends Controller
 {
@@ -24,9 +25,9 @@ class ResponseController extends Controller
     {
         // Ambil form berdasarkan formId
         $form = Form::with('questions')->findOrFail($formId);
-
+        $responseToken = Str::uuid();
         // Tampilkan view untuk mengisi form
-        return view('cusioner.responses.create', compact('form'));
+        return view('cusioner.responses.create', compact('form', 'responseToken'));
     }
 
     /**
@@ -34,7 +35,7 @@ class ResponseController extends Controller
      */
     public function store(StoreResponseRequest $request)
     {
-        //
+        return $request;
     }
 
     /**

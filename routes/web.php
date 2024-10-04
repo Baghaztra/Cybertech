@@ -30,8 +30,8 @@ Route::get('/admin/division', function () {
 
 
 
-Route::get('form/{formId}', [ResponseController::class, 'create'])
-->name('responses.create');
+Route::get('form/{formId}', [ResponseController::class, 'create'])->name('responses.create');
+Route::post('form/{formId}', [ResponseController::class, 'store'])->name('responses.store');
 
 Route::middleware('auth')->group(function(){
     Route::get('admin/dashboard', function () {
@@ -52,6 +52,7 @@ Route::middleware('auth')->group(function(){
     Route::get('user/all', [UserController::class, 'getAll']);
     Route::get('division/all', [DivisionController::class, 'getAll']);
     Route::get('forms/all', [FormController::class, 'all']);
+
     Route::get('highlight/all', [HighlightController::class, 'getAll']);
     
     // Temporary image

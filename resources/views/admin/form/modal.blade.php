@@ -11,12 +11,14 @@
             </div>
             <div class="modal-body">
                 <form id="create-form">
-                    <div class="form-group">
+                    <div class="error-area"></div>
+                    <div class="form-group" id="formTitle">
                         <label for="title">Form Title</label>
                         <input type="text" name="title" id="title" class="form-control" required>
+                        <small class="text-danger form-text" id="errTitle"></small>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" id="formDescription">
                         <label for="description">Form Description</label>
                         <textarea name="description" id="description" class="form-control"></textarea>
                     </div>
@@ -71,18 +73,18 @@
         newQuestion.classList.add('question-group');
         newQuestion.innerHTML = `
                     <div style="position: relative;" class="mb-3">
-                        <label for="question_text_${questionCount + 1}">Question ${questionCount + 1}</label>
+                        <label for="questions[${questionCount}][question_text]">Question ${questionCount + 1}</label>
                         <input type="text" name="questions[${questionCount}][question_text]" id="question_text_${questionCount + 1}" class="form-control" required>
 
-                        <label for="question_type_${questionCount + 1}">Question Type</label>
-                        <select name="questions[${questionCount}][question_type]" id="question_type_${questionCount + 1}" class="form-control question-type" required>
+                        <label for="questions[${questionCount}][question_type]">Question Type</label>
+                        <select name="questions[${questionCount}][question_type]" id="questions[${questionCount}][question_type]" class="form-control question-type" required>
                             <option value="text">Text</option>
                             <option value="multiple_choice">Multiple Choice</option>
                             <option value="checkbox">Checkbox</option>
                         </select>
 
                         <div class="options-wrapper" style="display:none;">
-                            <label for="options_${questionCount + 1}">Options</label>
+                            <label for="questions[${questionCount}][options][]">Options</label>
                             <div class="option-group">
                                 <input type="text" name="questions[${questionCount}][options][]" class="form-control mb-2" placeholder="Option 1">
                             </div>
