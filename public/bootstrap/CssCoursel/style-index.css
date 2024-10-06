@@ -64,23 +64,6 @@
   
 }
 
-.kotak1{
-  height: 80px;
-  width: 80px;
-  background-color: rgb(108, 159, 212);
-  position: absolute;
-  border-radius: 4px;
-  bottom: -480px;
-  left: -50px;
-}
 
 
-.kotak2{
-  height: 80px;
-  width: 80px;
-  background-color: rgb(108, 159, 212);
-  position: absolute;
-  border-radius: 4px;
-  bottom: -680px;
-  right: -50px;
-}
+
