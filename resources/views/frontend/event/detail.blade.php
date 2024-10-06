@@ -48,10 +48,6 @@
     
  </section>
  
- {{-- <div class="kotak1">
-
- </div> --}}
-
 <!-- main -->
 <section class="main-section mt-4">
     <div class="container">
@@ -88,10 +84,6 @@
       </div>
     </div>
   </section>
-
-  {{-- <div class="kotak2">
-    
-  </div> --}}
 
   <section class="pt-2 pb-5">
     <div class="container">
