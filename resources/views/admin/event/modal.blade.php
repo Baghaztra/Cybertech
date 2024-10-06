@@ -20,7 +20,7 @@
             </div>
             <div class="modal-footer">
                 <a type="button" id="btnManageImages" class="btn btn-sm btn-secondary">
-                    Set Jumbotron
+                    Image Manager
                 </a>
                 <a type="button" id="url" class="btn btn-sm btn-secondary" target="blank">
                     Registration
@@ -36,7 +36,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="title2">
-                    Click to set the jumbotron
+                    Image Manager
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

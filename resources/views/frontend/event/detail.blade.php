@@ -2,40 +2,37 @@
 
 @section('content')
  <!-- jumbotron -->
- <section class="header-section">
-    <div class="overlay"></div>
+ <section style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ $event->jumbotron ? asset('storage/media/' . $event->jumbotron->path) : '/images/DSC_0029.JPG' }});
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;
+                font-family: 'Inter';
+                height: 100vh;">
+    {{-- <div class="overlay"></div> --}}
     <div class="container-fluid p-5 mb-4 jumbotron text-center text-white">
         <div class="container py-5">
-          <h4 class="fw-bold mb-4" style="color: #a78f75">
-            November 4 - 5, 2023
+          <h4 class="fw-bold mb-4">
+            {{ Carbon\Carbon::parse($event->event_date)->format('l / F d, Y') }}
           </h4>
-          <h1 class="display-5 fw-bold mb-2">HACKATHON</h1>
-          <h1 class="display-5 fw-bold mb-2">NATIONAL 2024</h1>
+          <h1 class="display-5 fw-bold mb-2">{{ $event->title }}</h1>
           <p class="col-md-8 fs-4 mx-auto politeknik">
             <i class="bx bx-map"></i> POLITEKNIK NEGERI PADANG
           </p>
           <div class="d-flex flex-column flex-md-row justify-content-center">
-            <button
+            <a
               class="btn btn-primary me-md-3 mb-2 mb-md-0"
               style="border-radius: 50px"
-              type="button"
+              href="{{ $event->registration_url }}"
             >
-              Example button
-            </button>
-            <button
-              class="btn btn-outline-light"
-              style="border-radius: 50px"
-              type="button"
-            >
-              Example button
-            </button>
+              Register!
+            </a>
           </div>
         </div>
       </div>
       <!-- jumbotron -->
     
       <!-- sponsor section -->
-      <div class="container sponsor mb-5">
+      {{-- <div class="container sponsor mb-5">
         <div class="row text-center">
           <h5>Sponsored By</h5>
         </div>
@@ -47,13 +44,13 @@
           <div class="col-6 col-md-3">Microsoft</div>
           <div class="col-6 col-md-3">Amazon</div>
         </div>
-      </div>
+      </div> --}}
     
  </section>
  
- <div class="kotak1">
+ {{-- <div class="kotak1">
 
- </div>
+ </div> --}}
 
 <!-- main -->
 <section class="main-section mt-4">
@@ -63,54 +60,44 @@
         <!-- gx-5 untuk jarak horizontal lebih besar antar kolom -->
         <div class="col-12 col-md-5 me-4">
           <!-- Menggunakan col-12 untuk ukuran layar kecil -->
-          <h2>Ready to go next level?</h2>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-            voluptates quis iusto amet perferendis blanditiis dolores aut
-            saepe quas eaque eum laboriosam, inventore voluptate mollitia eos
-            cumque accusantium enim adipisci tempora neque nihil quo! Adipisci
-            dolores amet odit molestias asperiores.
-          </p>
-          <div class="d-flex flex-column flex-md-row">
-            <!-- Flexbox untuk tombol -->
-            <button
-              class="btn btn-primary me-md-3 mb-2 mb-md-0"
-              style="border-radius: 50px"
-              type="button"
-            >
-              Example button
-            </button>
-            <button
-              class="btn btn-outline-dark"
-              style="border-radius: 50px"
-              type="button"
-            >
-              Example button
-            </button>
+          {{-- <h2>Ready to go next level?</h2> --}}
+          <div>
+            {!! $event->description !!}
           </div>
         </div>
-        <div class="col-12 col-md-5 ms-4">
+        <div class="col-12 col-md-5 my-3 ">
           <!-- Menggunakan col-12 untuk ukuran layar kecil -->
           <img
-            src="/images/DSC_0029.JPG"
-            alt="HACKATHON"
-            width="100%"
-            height="80%"
+          src="{{ $event->poster ? asset('storage/media/' . $event->poster->path) : '/images/DSC_0029.JPG'  }}"
+          alt="entahlah"
+          width="100%"
+          height="fit-content"
           />
         </div>
+      </div>
+      <div class="d-flex flex-column flex-md-row my-3">
+        <!-- Flexbox untuk tombol -->
+        <a
+          class="btn btn-primary me-md-3 mb-2 mb-md-0"
+          style="border-radius: 50px"
+          href="{{ $event->registration_url }}"
+        >
+          Register!
+        </a>
+        
       </div>
     </div>
   </section>
 
-  <div class="kotak2">
+  {{-- <div class="kotak2">
     
-  </div>
+  </div> --}}
 
   <section class="pt-2 pb-5">
     <div class="container">
       <div class="row">
         <div class="col-6">
-          <h3 class="mb-3">Galery Event CyberTech</h3>
+          <h3 class="mb-3">Galery Event {{ $event->title }}</h3>
         </div>
         <div class="col-6 text-end">
           <a
@@ -133,106 +120,23 @@
         <div class="col-12">
           <div id="carouselExampleIndicators2" class="carousel slide">
             <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="row">
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img
-                        class="img-fluid"
-                        alt="100%x280"
-                        src="/images/DSC_0029.JPG"
-                      />
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">
-                          With supporting text below as a natural lead-in.
-                        </p>
+              @foreach ($event->defaultImg->chunk(3) as $key => $chunk)
+                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                  <div class="row">
+                    @foreach ($chunk as $img)
+                      <div class="col-md-4 mb-3">
+                        <div class="card">
+                          <img
+                            class="img-fluid"
+                            alt="100%x280"
+                            src="{{ asset('storage/media/' . $img->path) }}"
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img
-                        class="img-fluid"
-                        alt="100%x280"
-                        src="/images/DSC_0029.JPG"
-                      />
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">
-                          With supporting text below as a natural lead-in.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img
-                        class="img-fluid"
-                        alt="100%x280"
-                        src="/images/DSC_0029.JPG"
-                      />
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">
-                          With supporting text below as a natural lead-in.
-                        </p>
-                      </div>
-                    </div>
+                    @endforeach
                   </div>
                 </div>
-              </div>
-
-              <!-- Additional carousel items -->
-              <div class="carousel-item">
-                <div class="row">
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img
-                        class="img-fluid"
-                        alt="100%x280"
-                        src="/images/DSC_0029.JPG"
-                      />
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">
-                          With supporting text below as a natural lead-in.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img
-                        class="img-fluid"
-                        alt="100%x280"
-                        src="/images/DSC_0029.JPG"
-                      />
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">
-                          With supporting text below as a natural lead-in.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4 mb-3">
-                    <div class="card">
-                      <img
-                        class="img-fluid"
-                        alt="100%x280"
-                        src="/images/DSC_0029.JPG"
-                      />
-                      <div class="card-body">
-                        <h4 class="card-title">Special title treatment</h4>
-                        <p class="card-text">
-                          With supporting text below as a natural lead-in.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              @endforeach
             </div>
           </div>
         </div>
@@ -240,7 +144,7 @@
     </div>
   </section>
 
-  <div class="contact-person">
+  {{-- <div class="contact-person">
     <div class="container my-5">
       <div class="row d-flex justify-content-center ">
        
@@ -275,28 +179,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-
-
-{{-- 
-<div style="height: 100px"></div>
-<div class="card mb-3">
-    @if($event->images->isNotEmpty())
-        <img class="card-img-top" src="{{ asset('storage/media/' . $event->images->first()->path) }}" alt="{{ $event->title }}" style="height: 100px; width: fit-content" />
-    @else
-        <img class="card-img-top" src="{{ asset('default-image.jpg') }}" alt="Default Image" style="height: 100px; width: fit-content" />
-    @endif
-
-    <div class="card-body">
-        <h4 class="card-title">{{ $event->title }}</h4>
-        <div class="card-text">{!! $event->description !!}</div>
-        <p class="card-text"><small class="text-muted">{{ $event->event_date }}</small></p>
-        @if($event->registration_url)
-            <a href="{{ $event->registration_url }}" class="btn btn-primary">Register</a>
-        @endif
-        <a href="/event/{{ $event->id }}" class="btn btn-secondary">Details</a>
-    </div>
-</div>
- --}}
+  </div> --}}
 @endsection

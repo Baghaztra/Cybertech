@@ -45,10 +45,11 @@
 .politeknik {
   background-color: rgba(0, 0, 0, 0.456);
   display: inline-block;
-  width: 30rem;
+  width: fit-content;
   align-content:center ;
   border-radius: 29px;
-  height: 3rem;
+  min-height: fit-content;
+  padding: 1rem;
 }
 
 .sponsor {

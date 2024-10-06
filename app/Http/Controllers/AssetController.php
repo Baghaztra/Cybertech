@@ -65,12 +65,31 @@ class AssetController extends Controller
         if (!$image) {
             return response()->json(['error' => 'Image not found'], 404);
         }
-        $event = Event::find($image->entity_id);
-        foreach ($event->images as $img) {
+        
+        // Hapus jumbotron lama
+        $img = Event::find($image->entity_id)->jumbotron;
+        $img->status = 'default';
+        $img->save();
+
+        $image->status = 'jumbotron';
+        $image->save();
+        return response()->json($image);
+    }
+    public function setAsPoster($id)
+    {
+        $image = Asset::find($id);
+        if (!$image) {
+            return response()->json(['error' => 'Image not found'], 404);
+        }
+
+        // Hapus poster lama
+        $img = Event::find($image->entity_id)->poster;
+        if ($img) {
             $img->status = 'default';
             $img->save();
         }
-        $image->status = 'jumbotron';
+
+        $image->status = 'poster';
         $image->save();
         return response()->json($image);
     }

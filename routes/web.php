@@ -54,7 +54,8 @@ Route::middleware('auth')->group(function(){
     Route::get('forms/all', [FormController::class, 'all']);
     Route::get('highlight/all', [HighlightController::class, 'getAll']);
     
-    Route::patch('setjumbotron/{id}', [AssetController::class, 'setAsJumbotron']);
+    Route::patch('setAs/jumbotron/{id}', [AssetController::class, 'setAsJumbotron']);
+    Route::patch('setAs/poster/{id}', [AssetController::class, 'setAsPoster']);
     
     // Temporary image
     Route::post('/admin/uploadMedia/{type}', [AssetController::class, 'uploadMedia']);

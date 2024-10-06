@@ -133,53 +133,81 @@ $(document).ready(function () {
     $(document).on('click', '#btnManageImages', function () {
         $('#modal').modal('hide');
         $('#modal2').modal('show');
-
+      
         $.ajax({
-            type: 'GET',
-            url: '/events/all', // assuming this is the endpoint for your Laravel API
-            dataType: 'json',
-            success: function(data) {
-              var table = '<table class="table table-hover">';
-              table += '<thead><tr><th>Images</th></tr></thead>';
-              table += '<tbody>';
-              $.each(data.data[0].images, function(index, value) {
-                table += '<tr data-image-id="' + value.id + '">';
-                table += '<td><img src="' + getServerName() + "/storage/media/" + value.path + '" width="100" height="100"></td>';
-                table += '</tr>';
-              });
-              table += '</tbody>';
-              table += '</table>';
-              $('#tblImages').html(table);
-        
-              $('#tblImages tbody tr').on('click', function() {
-                var imageId = $(this).data('image-id');
-                $.each(data.data[0].images, function(index, value) {
-                  if (value.id === imageId) {
-                    value.role = 'jumbotron';
-                  } else {
-                    value.role = 'default';
-                  }
-                });
-                console.log(imageId+" Setted as jumbotron");
-                
-                // You can also send an AJAX request to update the roles in the database
-                $.ajax({
-                  type: 'PATCH',
-                  url: '/setjumbotron/' + imageId
-                });
-              });
-            },
-            error: function(xhr, status, error) {
-              console.log('Error:', error);
-              console.log('XHR:', xhr);
-              console.log('Status:', status);
-            }
-          });
-    });
+          type: 'GET',
+          url: '/events/all',
+          dataType: 'json',
+          success: function(data) {
+            var table = '<table class="table table-hover">';
+            table += '<thead><tr><th>Images</th><th>Actions</th></tr></thead>';
+            table += '<tbody>';
+            $.each(data.data[0].images, function(index, value) {
+              table += '<tr data-image-id="' + value.id + '">';
+              table += '<td><img src="' + getServerName() + "/storage/media/" + value.path + '" width="100" height="100"></td>';
+              table += '<td>';
+              console.log(value);
+              
+              if (value.status == 'jumbotron' || value.status == 'poster') {
+                table += 'This is ' + value.status;
+              }else{
+                table += '<button class="btn btn-secondary" id="btnSetAsPoster" data-id="' + value.id + '">Set as Poster</button>';
+                table += '<button class="btn btn-secondary" id="btnSetAsJumbotron" data-id="' + value.id + '">Set as Jumbotron</button>';
+              }
+              table += '</td>';
+              table += '</tr>';
+            });
+            table += '</tbody>';
+            table += '</table>';
+            $('#tblImages').html(table);
+          },
+          error: function(xhr, status, error) {
+            console.log('Error:', error);
+            console.log('XHR:', xhr);
+            console.log('Status:', status);
+          }
+        });
+      });
 
     $(document).on('click', '#btnCancelImageRole', function () {
         $('#modal2').modal('hide');
         $('#modal').modal('show');
+    });
+    
+    $(document).on('click', '#btnSetAsJumbotron', function () {
+        var dataId = $(this).attr('data-id');
+        $.ajax({
+            type: 'PATCH',
+            url: '/setAs/jumbotron/' + dataId,
+            success: function() {
+                console.log(dataId+' set as Jumbotron');
+                $('#modal2').modal('hide').modal('show');
+            },
+            error: function(xhr, status, error) {
+              console.log('Id:', dataId);
+              console.log('Error:', error);
+              console.log('XHR:', xhr);
+              console.log('Status:', status);
+            }
+        });
+    });
+
+    $(document).on('click', '#btnSetAsPoster', function () {
+        var dataId = $(this).attr('data-id');
+        $.ajax({
+            type: 'PATCH',
+            url: '/setAs/poster/' + dataId,
+            success: function() {
+                console.log(dataId+' set as Poster');
+                $('#modal2').modal('hide').modal('show');
+            },
+            error: function(xhr, status, error) {
+              console.log('Id:', dataId);
+              console.log('Error:', error);
+              console.log('XHR:', xhr);
+              console.log('Status:', status);
+            }
+        });
     });
 
 

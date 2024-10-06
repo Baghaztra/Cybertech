@@ -22,7 +22,10 @@ class Event extends Model
     function jumbotron(){
         return $this->hasOne(Asset::class, 'entity_id')->where('type', 'event')->where('status', 'jumbotron');
     }
+    function poster(){
+        return $this->hasOne(Asset::class, 'entity_id')->where('type', 'event')->where('status', 'poster');
+    }
     function defaultImg(){
-        return $this->hasOne(Asset::class, 'entity_id')->where('type', 'event')->where('status', 'default');
+        return $this->hasMany(Asset::class, 'entity_id')->where('type', 'event')->where('status', 'default');
     }
 }
