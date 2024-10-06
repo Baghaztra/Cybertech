@@ -4,7 +4,7 @@ import { create, update, deleteItem } from "../crud";
 $(document).ready(function () {
     var table = $("#tbl").DataTable({
         ajax: {
-            url: getServerName() + "/highlight/all"
+            url: getServerName() + "/highlights/all"
         },
         columns: [
             { 

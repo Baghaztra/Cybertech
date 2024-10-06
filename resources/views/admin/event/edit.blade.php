@@ -144,7 +144,7 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             },
-            maxFiles: 5,
+            maxFiles: 20,
             allowMultiple: true,
         });
         

@@ -4,7 +4,7 @@
                       <div class="container-fluid">
                         <div class="navbar-kiri">
                             <img src="/images/cyberlogo.png" alt="Bootstrap" width="30" height="24">
-                            <a class="navbar-brand" href="#">CyberTech</a>
+                            <a class="navbar-brand" href="/admin/dashboard">CyberTech</a>
                         </div>
                         <div class="navbar-kanan">
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">

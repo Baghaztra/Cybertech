@@ -19,7 +19,7 @@ class EventController extends Controller
     {
         return response()->json([
             'statusCode' => 200,
-            'data' => Event::latest()->get()
+            'data' => Event::with('images')->latest()->get()
         ]);
     }
     
@@ -78,11 +78,11 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'title' => 'required',
+            'description' => 'required',
             'event_date' => 'required|date',
             'media' => 'required',
-            'registration_url' => 'nullable|url',
+            'registration_url' => 'nullable',
         ]);
 
         $event = Event::create([
@@ -108,7 +108,7 @@ class EventController extends Controller
 
             // hapus temporary image
             $temporaryImage->delete();
-            Storage::deleteDirectory('media/tmp/'. $temporaryImage->folder);
+            Storage::deleteDirectory('media/tmp/'. $temporaryImage->folder . '/' . $temporaryImage->file);
         }
         
         return redirect('admin/event')->with('success', 'Berhasil menambahkan event baru.');
@@ -118,11 +118,11 @@ class EventController extends Controller
     {
         // Validasi Input
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'title' => 'required',
+            'description' => 'required',
             'event_date' => 'required|date',
             'media' => 'required',
-            'registration_url' => 'nullable|url',
+            'registration_url' => 'nullable',
         ]);
 
         // Update event

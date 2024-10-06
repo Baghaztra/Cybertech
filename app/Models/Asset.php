@@ -13,6 +13,7 @@ class Asset extends Model
         'path',
         'type',
         'entity_id',
+        'status',
     ];
 
     // monggo ditambahkan, sesuai apa saja yang pake gambar

@@ -18,9 +18,34 @@
                     sequi in sint alias tenetur.
                 </div>
             </div>
-            <div class="modal-footer" style="display: none">
+            <div class="modal-footer">
+                <a type="button" id="btnManageImages" class="btn btn-sm btn-secondary">
+                    Set Jumbotron
+                </a>
                 <a type="button" id="url" class="btn btn-sm btn-secondary" target="blank">
-                    Go to this site
+                    Registration
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal2" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
+    aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title2">
+                    Click to set the jumbotron
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="tblImages">
+                
+            </div>
+            <div class="modal-footer" style="display: none">
+                <a type="button" id="btnCancelImageRole" class="btn btn-sm btn-secondary">
+                    Back
                 </a>
             </div>
         </div>

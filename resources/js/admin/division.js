@@ -3,7 +3,7 @@ import { getServerName } from "../setUp";
 $(document).ready(function () {
     $("#tblDivisions").DataTable({
         ajax: {
-            url: getServerName() + "/division/all",
+            url: getServerName() + "/divisions/all",
         },
         columns: [
             { data: "id" },

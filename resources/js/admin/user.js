@@ -3,7 +3,7 @@ import { getServerName, showNotif } from "../setUp";
 $(document).ready(function () {
     var table = $("#tblUsers").DataTable({
         ajax: {
-            url: getServerName() + "/user/all"
+            url: getServerName() + "/users/all"
         },
         columns: [
             {

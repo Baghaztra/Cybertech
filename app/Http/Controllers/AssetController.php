@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\Event;
 use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -56,5 +57,21 @@ class AssetController extends Controller
         }
 
         return response()->noContent();
+    }
+
+    public function setAsJumbotron($id)
+    {
+        $image = Asset::find($id);
+        if (!$image) {
+            return response()->json(['error' => 'Image not found'], 404);
+        }
+        $event = Event::find($image->entity_id);
+        foreach ($event->images as $img) {
+            $img->status = 'default';
+            $img->save();
+        }
+        $image->status = 'jumbotron';
+        $image->save();
+        return response()->json($image);
     }
 }

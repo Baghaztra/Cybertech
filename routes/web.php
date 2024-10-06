@@ -47,13 +47,14 @@ Route::middleware('auth')->group(function(){
     Route::resource('admin/highlight', HighlightController::class);
     
     // Mengambil data json
-    Route::get('post/all', [PostController::class, 'getAll']);
-    Route::get('event/all', [EventController::class, 'getAll']);
-    Route::get('user/all', [UserController::class, 'getAll']);
-    Route::get('division/all', [DivisionController::class, 'getAll']);
+    Route::get('posts/all', [PostController::class, 'getAll']);
+    Route::get('events/all', [EventController::class, 'getAll']);
+    Route::get('users/all', [UserController::class, 'getAll']);
+    Route::get('divisions/all', [DivisionController::class, 'getAll']);
     Route::get('forms/all', [FormController::class, 'all']);
-
     Route::get('highlight/all', [HighlightController::class, 'getAll']);
+    
+    Route::patch('setjumbotron/{id}', [AssetController::class, 'setAsJumbotron']);
     
     // Temporary image
     Route::post('/admin/uploadMedia/{type}', [AssetController::class, 'uploadMedia']);

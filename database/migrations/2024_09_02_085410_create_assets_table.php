@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('path');
             $table->string('type');
             $table->foreignId('entity_id')->nullable;
+            $table->string('status')->default('default');
             $table->timestamps();
         });
     }
