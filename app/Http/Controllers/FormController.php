@@ -38,6 +38,7 @@ class FormController extends Controller
         // Validasi data
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'event_id' => 'required',
             'description' => 'nullable|string',
             'questions' => 'required|array',
             'questions.*.question_text' => 'required|string',
@@ -48,6 +49,7 @@ class FormController extends Controller
         $form = Form::create([
             'title' => $request->title,
             'description' => $request->description,
+            'event_id' => $request->event_id,
         ]);
 
         // Simpan pertanyaan

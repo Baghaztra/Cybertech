@@ -11,7 +11,7 @@ class Form extends Model
 
     protected $keyType = 'string';
     public $incrementing = false; // Karena kita pakai UUID, incrementnya kita matikan
-    protected $fillable = ['id', 'title', 'description'];
+    protected $fillable = ['id', 'title', 'description', 'event_id'];
     protected static function boot()
     {
         parent::boot();
@@ -25,5 +25,9 @@ class Form extends Model
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+ 
+    public function event(){
+        return $this->hasOne(Event::class);
     }
 }

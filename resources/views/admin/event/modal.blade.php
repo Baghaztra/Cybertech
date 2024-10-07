@@ -22,8 +22,11 @@
                 <a type="button" id="btnManageImages" class="btn btn-sm btn-secondary">
                     Image Manager
                 </a>
+                <a type="button" id="form" class="btn btn-sm btn-secondary" target="blank">
+                    Registration Default
+                </a>
                 <a type="button" id="url" class="btn btn-sm btn-secondary" target="blank">
-                    Registration
+                    Registration Alternative
                 </a>
             </div>
         </div>

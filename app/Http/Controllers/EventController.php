@@ -19,20 +19,15 @@ class EventController extends Controller
     {
         return response()->json([
             'statusCode' => 200,
-            'data' => Event::with('images')->latest()->get()
+            'data' => Event::with('images', 'form')->latest()->get()
         ]);
     }
     
     public function show(Event $event)
     {
-        $imageUrls = [];
-        foreach ($event->images as $image) {
-            $imageUrls[] = Storage::url('media/' . $image->path);
-        }
         return response()->json([
             'status' => 200,
-            'data' => $event,
-            'imageUrls' => $imageUrls
+            'data' => $event->load('images', 'form')
         ]);
     }
 

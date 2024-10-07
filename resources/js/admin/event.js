@@ -104,12 +104,11 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response) {
                 console.log(response.data);
-                console.log(response.imageUrls);
                 if (response.status === 200) {
                     $('#modal #title').html(response.data.title);
                     $('#modal #event_date').html(response.data.event_date);
                     $('#modal #description').html(response.data.description);
-                    const images = response.imageUrls;
+                    const images = response.data.images;
                     $('#modal #images').html("");
                     images.forEach(url => {
                         const imgElement = `<img src="${url}" alt="gambar" style="width: 10rem; height: auto;" class="col-6">`;
@@ -119,12 +118,23 @@ $(document).ready(function () {
 
                     if (response.data.registration_url != null) {
                         $('#modal a#url').attr('href', response.data.registration_url);
+                        $('#modal a#url').show();
                     }else{
-                        $('#modal a#url').attr('href', '/admin/form');
+                        $('#modal a#url').hide();
+                    }
+                    if (response.data.form != null) {
+                        $('#modal a#form').attr('href', `${getServerName() + "/form/" + response.data.form.id}`);
+                        $('#modal a#form').show();
+                    }else{
+                        $('#modal a#form').hide();
                     }
                 }
-
-            }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', error);
+                console.log('XHR:', xhr);
+                console.log('Status:', status);
+              }
         });
         $('#modal').modal('show');
     });

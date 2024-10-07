@@ -52,7 +52,7 @@ Route::middleware('auth')->group(function(){
     Route::get('users/all', [UserController::class, 'getAll']);
     Route::get('divisions/all', [DivisionController::class, 'getAll']);
     Route::get('forms/all', [FormController::class, 'all']);
-    Route::get('highlight/all', [HighlightController::class, 'getAll']);
+    Route::get('highlights/all', [HighlightController::class, 'getAll']);
     
     Route::patch('setAs/jumbotron/{id}', [AssetController::class, 'setAsJumbotron']);
     Route::patch('setAs/poster/{id}', [AssetController::class, 'setAsPoster']);

@@ -1,5 +1,4 @@
 <!-- navbar -->
-{{-- <<<<<<< HEAD
                 <header data-bs-theme="" >
                   <nav class="navbar navbar-expand-md navbar-dark fixed-top " style="background-color: rgba(0, 0, 0, 0.153)">
                       <div class="container-fluid">
@@ -29,8 +28,10 @@
                                 
                               </div>
                         </div>
-          --}}
-                  <nav class="navbar navbar-expand-md navbar-dark fixed-top " style="background-color: rgba(0, 0, 0, 0.153)">
+                      </div>
+                  </nav>
+                </header>
+                  {{-- <nav class="navbar navbar-expand-md navbar-dark fixed-top " style="background-color: rgba(0, 0, 0, 0.153)">
                     <div class="container-fluid px-4">
                       <a class="navbar-brand me-3" href="#">
                         <img
@@ -70,6 +71,6 @@
                         </ul>
                       </div>
                     </div>
-                  </nav>
+                  </nav> --}}
                 
 <!-- navbar -->

@@ -22,6 +22,16 @@
                         <label for="description">Form Description</label>
                         <textarea name="description" id="description" class="form-control"></textarea>
                     </div>
+                    
+                    <div class="form-group" id="event-search">
+                        <label for="event_id">Event</label>
+                        <input type="text" id="event-search-input" class="form-control" placeholder="Search for an event...">
+                        <select name="event_id" id="event_id" class="form-control">
+                            <option disabled selected>Choose an event...</option>
+                            <!-- Options will be populated dynamically -->
+                        </select>
+                    </div>
+
                     <div id="questions-wrapper" class="form-group">
                         <h3>Questions</h3>
                         <div class="question-group mb-3" style="position: relative">

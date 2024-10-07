@@ -28,4 +28,7 @@ class Event extends Model
     function defaultImg(){
         return $this->hasMany(Asset::class, 'entity_id')->where('type', 'event')->where('status', 'default');
     }
+    function form(){
+        return $this->hasOne(Form::class, 'event_id');
+    }
 }
