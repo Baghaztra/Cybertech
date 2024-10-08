@@ -13,12 +13,12 @@ class FrontendHomeController extends Controller
     }
     
     public function events(){
-        $events = Event::with('images')->latest()->get();
+        $events = Event::with('images', 'form')->latest()->get();
         return view('frontend.event.index', ['events'=>$events]);
     }
 
     public function event($id) {
-        $event = Event::with('images')->findOrFail($id);
+        $event = Event::with('images', 'form')->findOrFail($id);
         
         return view('frontend.event.detail', ['event' => $event]);
     }

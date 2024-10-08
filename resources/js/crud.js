@@ -83,7 +83,7 @@ export function deleteItem(title, serverName, endpoint, table) {
             }
         },
         error: function (err) {
-            console.log(err);
+            console.log("Error", err);
         }
     });
 }

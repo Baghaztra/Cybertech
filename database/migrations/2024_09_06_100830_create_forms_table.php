@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->foreignId('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->foreignId('event_id');
             $table->timestamps();
         });
     }

@@ -1,4 +1,5 @@
 import { getServerName, showNotif } from "../setUp";
+import { deleteItem } from "../crud";
 
 $(document).ready(function () {
     var table = $("#tblUsers").DataTable({
@@ -70,6 +71,31 @@ $(document).ready(function () {
                     const errors = err.responseJSON.errors;
                     setError(errors);
                 }
+            }
+        });
+    });
+
+    $(document).on("click", "#deleteBtn", function () {
+        var formId = $(this).data('id');
+        var endpoint = "/admin/form/" + formId;
+        swal({
+            title: "Are you sure?",
+            text: `Delete form with ID ${formId}?`,
+            type: "warning",
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: "No, cancel!",
+                    className: "btn btn-danger",
+                },
+                confirm: {
+                    text: "Yes, delete it!",
+                    className: "btn btn-success",
+                },
+            },
+        }).then((willDelete) => {
+            if (willDelete) {
+                deleteItem("Delete Event", getServerName(), endpoint, table);
             }
         });
     });

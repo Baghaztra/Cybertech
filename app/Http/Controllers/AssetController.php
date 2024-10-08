@@ -68,8 +68,10 @@ class AssetController extends Controller
         
         // Hapus jumbotron lama
         $img = Event::find($image->entity_id)->jumbotron;
-        $img->status = 'default';
-        $img->save();
+        if ($img) {
+            $img->status = 'default';
+            $img->save();
+        }
 
         $image->status = 'jumbotron';
         $image->save();

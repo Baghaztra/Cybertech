@@ -19,13 +19,23 @@
             <i class="bx bx-map"></i> POLITEKNIK NEGERI PADANG
           </p>
           <div class="d-flex flex-column flex-md-row justify-content-center">
-            <a
-              class="btn btn-primary me-md-3 mb-2 mb-md-0"
+            @if($event->form)
+        <a
+          class="btn btn-primary me-md-3 mb-2 mb-md-0"
               style="border-radius: 50px"
-              href="{{ $event->registration_url }}"
-            >
-              Register!
-            </a>
+          href="{{ "/form/" . $event->form->id }}"
+        >
+          Register!
+        </a>
+        @elseif($event->registration_url)
+        <a
+          class="btn btn-primary me-md-3 mb-2 mb-md-0"
+              style="border-radius: 50px"
+          href="{{ $event->registration_url }}"
+        >
+          Register!
+        </a>
+        @endif
           </div>
         </div>
       </div>
@@ -73,6 +83,15 @@
       </div>
       <div class="d-flex flex-column flex-md-row my-3">
         <!-- Flexbox untuk tombol -->
+        @if($event->form)
+        <a
+          class="btn btn-primary me-md-3 mb-2 mb-md-0"
+          style="border-radius: 50px"
+          href="{{ "/form/" . $event->form->id }}"
+        >
+          Register!
+        </a>
+        @elseif($event->registration_url)
         <a
           class="btn btn-primary me-md-3 mb-2 mb-md-0"
           style="border-radius: 50px"
@@ -80,6 +99,7 @@
         >
           Register!
         </a>
+        @endif
         
       </div>
     </div>
