@@ -1,48 +1,44 @@
 @extends('frontend.layouts.main')
 
 @section('content')
- <!-- jumbotron -->
- <section style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ $event->jumbotron ? asset('storage/media/' . $event->jumbotron->path) : '/images/DSC_0029.JPG' }});
+    <!-- jumbotron -->
+    <section
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ $event->jumbotron ? asset('storage/media/' . $event->jumbotron->path) : '/images/DSC_0029.JPG' }});
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
                 font-family: 'Inter';
                 height: 100vh;">
-    {{-- <div class="overlay"></div> --}}
-    <div class="container-fluid p-5 mb-4 jumbotron text-center text-white">
-        <div class="container py-5">
-          <h4 class="fw-bold mb-4">
-            {{ Carbon\Carbon::parse($event->event_date)->format('l / F d, Y') }}
-          </h4>
-          <h1 class="display-5 fw-bold mb-2">{{ $event->title }}</h1>
-          <p class="col-md-8 fs-4 mx-auto politeknik">
-            <i class="bx bx-map"></i> POLITEKNIK NEGERI PADANG
-          </p>
-          <div class="d-flex flex-column flex-md-row justify-content-center">
-            @if($event->form)
-        <a
-          class="btn btn-primary me-md-3 mb-2 mb-md-0"
-              style="border-radius: 50px"
-          href="{{ "/form/" . $event->form->id }}"
-        >
-          Register!
-        </a>
-        @elseif($event->registration_url)
-        <a
-          class="btn btn-primary me-md-3 mb-2 mb-md-0"
-              style="border-radius: 50px"
-          href="{{ $event->registration_url }}"
-        >
-          Register!
-        </a>
-        @endif
-          </div>
+        {{-- <div class="overlay"></div> --}}
+        <div class="container-fluid p-5 jumbotron text-center text-white h-100">
+            <div class="container py-5  d-flex justify-content-center align-items-center h-100"
+                style="flex-direction: column">
+                <h4 class="fw-bold mb-4">
+                    {{ Carbon\Carbon::parse($event->event_date)->format('l / d F, Y') }}
+                </h4>
+                <h1 class="display-5 fw-bold mb-2">{{ $event->title }}</h1>
+                <p class="col-md-8 fs-4 mx-auto politeknik">
+                    <i class="bx bx-map"></i> POLITEKNIK NEGERI PADANG
+                </p>
+                <div class="d-flex flex-column flex-md-row justify-content-center">
+                    @if ($event->form)
+                        <a class="btn btn-primary p-3 me-md-3 mb-2 mb-md-0" style="border-radius: 50px"
+                            href="{{ '/form/' . $event->form->id }}">
+                            Register!
+                        </a>
+                    @elseif($event->registration_url)
+                        <a class="btn btn-primary p-3 me-md-3 mb-2 mb-md-0" style="border-radius: 50px"
+                            href="{{ $event->registration_url }}">
+                            Register!
+                        </a>
+                    @endif
+                </div>
+            </div>
         </div>
-      </div>
-      <!-- jumbotron -->
-    
-      <!-- sponsor section -->
-      {{-- <div class="container sponsor mb-5">
+        <!-- jumbotron -->
+
+        <!-- sponsor section -->
+        {{-- <div class="container sponsor mb-5">
         <div class="row text-center">
           <h5>Sponsored By</h5>
         </div>
@@ -55,108 +51,90 @@
           <div class="col-6 col-md-3">Amazon</div>
         </div>
       </div> --}}
-    
- </section>
- 
-<!-- main -->
-<section class="main-section mt-4">
-    <div class="container">
-      <!-- Menggunakan container agar tidak terlalu mepet ke tepi -->
-      <div class="row d-flex justify-content-between gx-5">
-        <!-- gx-5 untuk jarak horizontal lebih besar antar kolom -->
-        <div class="col-12 col-md-5 me-4">
-          <!-- Menggunakan col-12 untuk ukuran layar kecil -->
-          {{-- <h2>Ready to go next level?</h2> --}}
-          <div>
-            {!! $event->description !!}
-          </div>
-        </div>
-        <div class="col-12 col-md-5 my-3 ">
-          <!-- Menggunakan col-12 untuk ukuran layar kecil -->
-          <img
-          src="{{ $event->poster ? asset('storage/media/' . $event->poster->path) : '/images/DSC_0029.JPG'  }}"
-          alt="entahlah"
-          width="100%"
-          height="fit-content"
-          />
-        </div>
-      </div>
-      <div class="d-flex flex-column flex-md-row my-3">
-        <!-- Flexbox untuk tombol -->
-        @if($event->form)
-        <a
-          class="btn btn-primary me-md-3 mb-2 mb-md-0"
-          style="border-radius: 50px"
-          href="{{ "/form/" . $event->form->id }}"
-        >
-          Register!
-        </a>
-        @elseif($event->registration_url)
-        <a
-          class="btn btn-primary me-md-3 mb-2 mb-md-0"
-          style="border-radius: 50px"
-          href="{{ $event->registration_url }}"
-        >
-          Register!
-        </a>
-        @endif
-        
-      </div>
-    </div>
-  </section>
 
-  <section class="pt-2 pb-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-6">
-          <h3 class="mb-3">Galery Event {{ $event->title }}</h3>
-        </div>
-        <div class="col-6 text-end">
-          <a
-            class="btn btn-primary mb-3 me-1"
-            href="#carouselExampleIndicators2"
-            role="button"
-            data-bs-slide="prev"
-          >
-            <i class="fa fa-arrow-left"></i>
-          </a>
-          <a
-            class="btn btn-primary mb-3"
-            href="#carouselExampleIndicators2"
-            role="button"
-            data-bs-slide="next"
-          >
-            <i class="fa fa-arrow-right"></i>
-          </a>
-        </div>
-        <div class="col-12">
-          <div id="carouselExampleIndicators2" class="carousel slide">
-            <div class="carousel-inner">
-              @foreach ($event->defaultImg->chunk(3) as $key => $chunk)
-                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                  <div class="row">
-                    @foreach ($chunk as $img)
-                      <div class="col-md-4 mb-3">
-                        <div class="card">
-                          <img
-                            class="img-fluid"
-                            alt="100%x280"
-                            src="{{ asset('storage/media/' . $img->path) }}"
-                          />
-                        </div>
-                      </div>
-                    @endforeach
-                  </div>
+    </section>
+
+    <!-- main -->
+    <section class="main-section mt-4">
+        <div class="container">
+            <!-- Menggunakan container agar tidak terlalu mepet ke tepi -->
+            <div class="row d-flex justify-content-center">
+                <!-- gx-5 untuk jarak horizontal lebih besar antar kolom -->
+                <!-- saya hapus ya, Ki, biar mepetin aja #bagas -->
+                <div class="col-12 col-md-6">
+                    <!-- Menggunakan col-12 untuk ukuran layar kecil -->
+                    {{-- <h2>Ready to go next level?</h2> --}}
+                    <div>
+                        {!! $event->description !!}
+                    </div>
                 </div>
-              @endforeach
+                <div class="col-12 col-md-6">
+                    <!-- Menggunakan col-12 untuk ukuran layar kecil -->
+                    <img src="{{ $event->poster ? asset('storage/media/' . $event->poster->path) : '/images/DSC_0029.JPG' }}"
+                        alt="entahlah" width="100%" height="fit-content" />
+                </div>
             </div>
-          </div>
-        </div>
-      </div>  
-    </div>
-  </section>
+            <div class="d-flex flex-column flex-md-row my-3">
+                <!-- Flexbox untuk tombol -->
+                @if ($event->form)
+                    <a class="btn btn-primary me-md-3 mb-2 mb-md-0" style="border-radius: 50px"
+                        href="{{ '/form/' . $event->form->id }}">
+                        Register!
+                    </a>
+                @elseif($event->registration_url)
+                    <a class="btn btn-primary me-md-3 mb-2 mb-md-0" style="border-radius: 50px"
+                        href="{{ $event->registration_url }}">
+                        Register!
+                    </a>
+                @endif
 
-  {{-- <div class="contact-person">
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-2 pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+                    <h3 class="mb-3">Galery</h3>
+                </div>
+                @if (count($event->defaultImg)>3)
+                    <div class="col-6 text-end">
+                        <a class="btn btn-primary mb-3 me-1" href="#carouselExampleIndicators2" role="button"
+                            data-bs-slide="prev">
+                            <i class="fa fa-arrow-left"></i>
+                        </a>
+                        <a class="btn btn-primary mb-3" href="#carouselExampleIndicators2" role="button"
+                            data-bs-slide="next">
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                @endif
+                <div class="col-12">
+                    <div id="carouselExampleIndicators2" class="carousel slide">
+                        <div class="carousel-inner">
+                            @foreach ($event->defaultImg->chunk(3) as $key => $chunk)
+                                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                    <div class="row">
+                                        @foreach ($chunk as $img)
+                                            <div class="col-md-4 mb-3">
+                                                <div class="card">
+                                                    <img class="img-fluid" alt="100%x280"
+                                                        src="{{ asset('storage/media/' . $img->path) }}" />
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- <div class="contact-person">
     <div class="container my-5">
       <div class="row d-flex justify-content-center ">
        

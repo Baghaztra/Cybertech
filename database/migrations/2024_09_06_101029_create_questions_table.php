@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('form_id')->references('id')->on('forms')->onDelete('cascade');
             $table->text("question_text");
             $table->string("question_type");
+            $table->boolean("required");
             $table->timestamps();
         });
     }

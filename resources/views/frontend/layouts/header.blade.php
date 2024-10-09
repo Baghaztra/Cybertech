@@ -1,6 +1,28 @@
 <!-- navbar -->
                 <header data-bs-theme="" >
-                  <nav class="navbar navbar-expand-md navbar-dark fixed-top " style="background-color: rgba(0, 0, 0, 0.153)">
+                  <nav class="navbar navbar-expand-md navbar-dark fixed-top" id="navbar">
+                    <script>
+                      window.addEventListener("scroll", function() {
+                          const navbar = document.getElementById("navbar");
+                          const scrollPosition = window.scrollY || document.documentElement.scrollTop;
+                          const viewportHeight = window.innerHeight;
+                      
+                          if (scrollPosition > viewportHeight) {
+                              // Ubah navbar menjadi light ketika di-scroll lebih dari 100vh
+                              // navbar.classList.remove("navbar-dark");
+                              // navbar.classList.add("navbar-light");
+                              navbar.style.backgroundColor = 'rgba(31, 27, 56, 0.816)';
+                              navbar.style.backdropFilter = 'blur(12px)';
+                          } else {
+                              // Ubah navbar menjadi dark kembali saat di atas 100vh
+                              // navbar.classList.remove("navbar-light");
+                              // navbar.classList.add("navbar-dark");
+                              navbar.style.backgroundColor = 'transparent';
+                              navbar.style.backdropFilter = 'none';
+                          }
+                      });
+                      </script>
+                      
                       <div class="container-fluid">
                         <div class="navbar-kiri">
                             <img src="/images/cyberlogo.png" alt="Bootstrap" width="30" height="24">

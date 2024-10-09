@@ -52,11 +52,14 @@ class FormController extends Controller
             'event_id' => $request->event_id,
         ]);
 
-        // Simpan pertanyaan
+        // // Simpan pertanyaan
         foreach ($request->questions as $questionData) {
+            // return response()->json(data: ['statusCode' => 200, 'data'=> $questionData], status: 200);
+
             $question = $form->questions()->create([
                 'question_text' => $questionData['question_text'],
                 'question_type' => $questionData['question_type'],
+                'required' => isset($questionData['is_required'])  ? true : false,
             ]);
 
             // Simpan opsi jika ada
@@ -67,7 +70,8 @@ class FormController extends Controller
             }
         }
 
-        return response()->json(data: ['statusCode' => 200, 'message'=>"success create form ". $form->title."!"], status: 201);
+        // return response()->json(data: ['statusCode' => 200, 'message'=>"success create form ". $form->title."!"], status: 201);
+        return response()->json(data: ['statusCode' => 200, 'data'=> $request->questions], status: 200);
     }
 
     /**
@@ -102,6 +106,21 @@ class FormController extends Controller
      */
     public function destroy(Form $form)
     {
-        //
+        // jika data tidak ada
+        if (!$form) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data not found.'
+            ]);
+        }
+
+        // Hapus data
+        $title = $form->title;
+        $form->delete();
+        
+        return response()->json([
+            'status' => 200,
+            'message' => 'Successfully delete form' .$title
+        ]);
     }
 }

@@ -47,6 +47,11 @@
                                 <option value="checkbox">Checkbox</option>
                             </select>
 
+                            <div class="required-wrapper">
+                                <input type="checkbox" name="questions[0][is_required]" id="required_1">
+                                <label for="required_1">Required</label>
+                            </div>
+
                             <div class="options-wrapper" style="display:none;">
                                 <label for="options_1">Options</label>
                                 <div class="option-group">
@@ -92,6 +97,11 @@
                             <option value="multiple_choice">Multiple Choice</option>
                             <option value="checkbox">Checkbox</option>
                         </select>
+
+                        <div class="required-wrapper">
+                            <input type="checkbox" name="questions[${questionCount}][is_required]" id="required_${questionCount + 1}">
+                            <label for="required_${questionCount + 1}">Required</label>
+                        </div>
 
                         <div class="options-wrapper" style="display:none;">
                             <label for="questions[${questionCount}][options][]">Options</label>

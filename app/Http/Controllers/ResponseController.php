@@ -24,7 +24,7 @@ class ResponseController extends Controller
     public function create($formId)
     {
         // Ambil form berdasarkan formId
-        $form = Form::with('questions')->findOrFail($formId);
+        $form = Form::with('questions')->with('event')->findOrFail($formId);
         $responseToken = Str::uuid();
         // Tampilkan view untuk mengisi form
         return view('cusioner.responses.create', compact('form', 'responseToken'));

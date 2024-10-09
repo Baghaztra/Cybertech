@@ -28,6 +28,6 @@ class Form extends Model
     }
  
     public function event(){
-        return $this->hasOne(Event::class);
+        return $this->hasOne(Event::class, 'id', 'event_id');
     }
 }
