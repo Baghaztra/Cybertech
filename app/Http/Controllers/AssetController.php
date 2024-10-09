@@ -7,7 +7,7 @@ use App\Models\Event;
 use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AssetController extends Controller
 {
@@ -16,7 +16,9 @@ class AssetController extends Controller
     {
         if ($request->hasFile('media')) {
             $image = $request->file('media');
-            $fileName = $image->getClientOriginalName();
+            // $fileName = $image->getClientOriginalName();
+            $randomString = Str::random(10);
+            $fileName = now()->timestamp . $randomString .'.'. $image->getClientOriginalExtension();
             $folder = $type;
 
             $existingImage = TemporaryImage::where('folder', $folder)->where('file', $fileName)->first();

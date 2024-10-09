@@ -102,8 +102,8 @@ class EventController extends Controller
             ]);
 
             // hapus temporary image
+            Storage::delete('media/tmp/'. $temporaryImage->folder . '/' . $temporaryImage->file);
             $temporaryImage->delete();
-            Storage::deleteDirectory('media/tmp/'. $temporaryImage->folder . '/' . $temporaryImage->file);
         }
         
         return redirect('admin/event')->with('success', 'Berhasil menambahkan event baru.');
@@ -132,7 +132,7 @@ class EventController extends Controller
         foreach ($oldImages as $oldImage) {
             // Hapus gambar lama
             if($oldImage){
-                Storage::deleteDirectory('media/'. $oldImage->path);
+                Storage::delete('media/'. $oldImage->path);
                 $oldImage->delete();
             }
         }
@@ -152,7 +152,7 @@ class EventController extends Controller
             ]);
 
             // Hapus temporary
-            Storage::deleteDirectory('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+            Storage::delete('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
             $temporaryImage->delete();
         }
 
@@ -174,7 +174,7 @@ class EventController extends Controller
         $images = Asset::where('type', 'event')->where('entity_id', $event->id);
         foreach ($images as $image) {
             if($image){
-                Storage::deleteDirectory('media/'. $image->path);
+                Storage::delete('media/'. $image->path);
                 $image->delete();
             }
         }
