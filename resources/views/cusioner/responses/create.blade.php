@@ -9,13 +9,12 @@
             overflow: auto;
         }
     </style>
-    @dd($form->questions)
-    <div class="row d-flex align-items-center p-4 my-4 rounded shadow bg-white"
+    <div class="row d-flex justify-content-center p-4 my-4 rounded shadow bg-white"
         style="width: 90vw">
         {{-- Poster --}}
-        <div class="col-md-6 d-flex justify-content-start">
-            <div class="card bg-primary justify-content-center" style="width: 100%; height: auto">
-                <img src="{{asset('storage/media/' . $form->event->poster->path) }}" class="card-img-top p-2" alt="form-pendaftaran" />
+        <div class="col-md-6 d-flex justify-content-center">
+            <div class="card bg-primary " style="width: 100%; height: fit-content">
+                <img src="{{asset('storage/media/' . $form->event->poster->path) }}" class="card-img-top p-2" alt="form-pendaftaran" style="width: 100%; height: auto; max-height: 180vh"/>
             </div>
         </div>
         {{-- Formulir --}}
@@ -32,6 +31,7 @@
             <form method="POST" class="row"style="place-content: center">
                 @csrf
                 <input type="hidden" name="response_token" value="{{ $responseToken }}">
+                <input type="hidden" name="form_id" value="{{ $form->id }}">
                 @foreach ($form->questions as $question)
                     <div class="card shadow-sm mb-2 m-1">
                         <div class="card-body">
@@ -41,7 +41,7 @@
                                 @if (in_array($question->question_type, ['text', 'file']))
                                     <!-- Input untuk pertanyaan tipe text -->
                                     <input type="{{ $question->question_type }}" name="question_[{{ $question->id }}]"
-                                        class="form-control" required>
+                                        class="form-control" {{ $question->required == 1 ? 'required':'' }}>
                                 @elseif ($question->question_type == 'multiple_choice')
                                     <!-- Radio button untuk multiple choice -->
                                     @foreach ($question->options as $option)
@@ -49,7 +49,7 @@
                                             <input class="form-check-input" type="radio"
                                                 id="{{ $question->id . $option->option_text }}"
                                                 name="answers[{{ $question->id }}]" value="{{ $option->option_text }}"
-                                                required>
+                                                {{ $question->required == 1 ? 'required':'' }}>
                                             <label for="{{ $question->id . $option->option_text }}"
                                                 class="form-check-label">{{ $option->option_text }}</label>
                                         </div>

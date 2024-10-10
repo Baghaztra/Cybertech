@@ -83,7 +83,7 @@
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="/images/image-carausel.jpg" class="d-block w-100" alt="...">
+                    <img src="/images/DSC_0029.JPG" class="d-block w-100" alt="...">
                     <div class="overlay"></div>
                     <div class="carousel-caption  d-flex align-items-center justify-content-center h-100">
                         <div class="row d-flex justify-content-center gx-6">

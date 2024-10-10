@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('responses', function (Blueprint $table) {
             $table->id();
-            $table->uuid('form_id');
+            $table->uuid('form_id'); // pastikan ini sesuai dengan tipe id pada tabel forms
             $table->foreign('form_id')->references('id')->on('forms')->onDelete('cascade');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->bigInteger('question_id')->unsigned(); // tambahkan unsigned jika kolom id di tabel questions unsigned
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
+            $table->string('answer')->nullable();
+            $table->string('response_code');
             $table->timestamps();
         });
+        
     }
 
     /**
