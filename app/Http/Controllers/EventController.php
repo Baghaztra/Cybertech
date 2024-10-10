@@ -171,21 +171,22 @@ class EventController extends Controller
         }
 
         // Hapus gambar
-        $images = Asset::where('type', 'event')->where('entity_id', $event->id);
+        $images = $event->images;
+        $title = $images;
         foreach ($images as $image) {
             if($image){
+                $title = $image->path;
                 Storage::delete('media/'. $image->path);
                 $image->delete();
             }
         }
 
         // Hapus data
-        $title = $event->title;
         $event->delete();
         
         return response()->json([
             'status' => 200,
-            'message' => `Successfully delete event $title.`
+            'message' => $title
         ]);
     }
 }

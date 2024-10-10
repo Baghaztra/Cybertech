@@ -16,9 +16,9 @@ class AssetController extends Controller
     {
         if ($request->hasFile('media')) {
             $image = $request->file('media');
-            // $fileName = $image->getClientOriginalName();
-            $randomString = Str::random(10);
-            $fileName = now()->timestamp . $randomString .'.'. $image->getClientOriginalExtension();
+            $fileName = $image->getClientOriginalName();
+            // $randomString = Str::random(10);
+            // $fileName = now()->timestamp . $randomString .'.'. $image->getClientOriginalExtension();
             $folder = $type;
 
             $existingImage = TemporaryImage::where('folder', $folder)->where('file', $fileName)->first();
