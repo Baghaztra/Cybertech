@@ -32,6 +32,7 @@ Route::get('/admin/division', function () {
 
 Route::get('form/{formId}', [ResponseController::class, 'create'])->name('responses.create');
 Route::post('form/{formId}', [ResponseController::class, 'store'])->name('responses.store');
+Route::get('form/completed/{event_id}', [ResponseController::class, 'cuisionerComplete'])->name('responses.completed');
 
 Route::middleware('auth')->group(function(){
     Route::get('admin/dashboard', function () {

@@ -54,6 +54,12 @@ class ResponseController extends Controller
             $i++;
         }
         $event_id = Form::findOrFail($form_id)->event->id;
+        $event_id = Form::findOrFail($form_id)->event->id;
+        return redirect()->route('responses.completed', ['event_id' => $event_id]);
+    }
+
+    public function cuisionerComplete($event_id)
+    {
         return view('cusioner.complete', compact('event_id'));
     }
 

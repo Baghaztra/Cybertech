@@ -7,7 +7,17 @@
     <center class="mt-5">
         <h1>Jawaban anda sudah diterima</h1>
     </center>
-    <marquee>Makasih bang</marquee>
+    <marquee id="marquee-text">Makasih bang</marquee>
     <a href="/event/{{ $event_id }}">Kembali</a>
 </div>
+<script>
+    // biar jedag jedug
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+    const marqueeText = document.getElementById('marquee-text');
+    function changeColor() {
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        marqueeText.style.color = randomColor;
+    }
+    setInterval(changeColor, 500);
+</script>
 @endsection
