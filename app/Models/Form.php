@@ -10,7 +10,7 @@ class Form extends Model
     use HasFactory;
 
     protected $keyType = 'string';
-    public $incrementing = false; // Karena kita pakai UUID, incrementnya kita matikan
+    public $incrementing = false;
     protected $fillable = ['id', 'title', 'description', 'event_id'];
     protected static function boot()
     {
@@ -22,14 +22,14 @@ class Form extends Model
         });
     }
 
-    public function questions()
-    {
+    public function questions(){
         return $this->hasMany(Question::class);
     }
  
     public function event(){
         return $this->hasOne(Event::class, 'id', 'event_id');
     }
+
     public function responses(){
         return $this->hasMany(Response::class);
     }

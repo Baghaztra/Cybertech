@@ -30,7 +30,7 @@
             <!-- Form untuk user mengisi jawaban -->
             <form method="POST" class="row"style="place-content: center">
                 @csrf
-                <input type="hidden" name="response_token" value="{{ $responseToken }}">
+                {{-- <input type="hidden" name="response_token" value="{{ $responseToken }}"> --}}
                 <input type="hidden" name="form_id" value="{{ $form->id }}">
                 @foreach ($form->questions as $question)
                     <div class="card shadow-sm mb-2 m-1">

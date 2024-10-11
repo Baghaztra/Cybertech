@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('admin/division', DivisionController::class);
     Route::resource('admin/form', FormController::class);
     Route::resource('admin/highlight', HighlightController::class);
-    Route::get('admin/responden', [ResponseController::class, 'index']);
+    // Route::get('admin/responden', [ResponseController::class, 'index']);
     Route::get('admin/responden/{form_id}', [ResponseController::class, 'seeResponses']);
     
     // Mengambil data json

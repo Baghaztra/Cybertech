@@ -6,15 +6,16 @@
         ['label' => 'Divisions', 'route' => '/admin/division', 'icon' => 'fas fa-building'],
         ['label' => 'Highlight', 'route' => '/admin/highlight', 'icon' => 'fas fa-image'],
         ['label' => 'Users', 'route' => '/admin/user', 'icon' => 'fas fa-users'],
-        [
-            'label' => 'Form',
-            'route' => '#',
-            'icon' => 'fas fa-building',
-            'children' => [
-                ['label' => 'Create Form', 'route' => '/admin/form', 'icon' => 'fas fa-building'],
-                ['label' => 'Responden', 'route' => '/admin/responden', 'icon' => 'fas fa-building'],
-            ],
-        ],
+        ['label' => 'Form', 'route' => '/admin/form', 'icon' => 'fas fa-building'],
+        // [
+        //     'label' => 'Form',
+        //     'route' => '#',
+        //     'icon' => 'fas fa-building',
+        //     'children' => [
+        //         ['label' => 'Create Form', 'route' => '/admin/form', 'icon' => 'fas fa-building'],
+        //         ['label' => 'Responden', 'route' => '/admin/responden', 'icon' => 'fas fa-building'],
+        //     ],
+        // ],
     ];
 
     // mengurutkan menu disamping tuhaa, berdasarkan label

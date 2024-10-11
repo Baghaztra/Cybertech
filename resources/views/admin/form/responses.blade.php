@@ -1,3 +1,4 @@
+{{-- ga kepake --}}
 @extends('admin.layouts.app')
 @section('title', 'responses')
 @section('content')

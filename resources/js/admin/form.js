@@ -20,6 +20,7 @@ $(document).ready(function () {
                 render: function (data) {
                     return `<div style="gap: 10px;">
                 <a href="${getServerName() + "/form/" + data.id}" class="btn btn-sm btn-info" target="_blank"><i class="fas fa-link"></i></a>
+                <a href="${getServerName() + "/admin/responden/" + data.id}" class="btn btn-sm btn-success"><i class="fas fa-info"></i></a>
                 <button class="btn btn-sm btn-danger" data-id="${data.id}" id="deleteBtn"><i class="fas fa-trash"></i></button>
                 </div>`
                 },

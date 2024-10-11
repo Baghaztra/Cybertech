@@ -13,7 +13,7 @@
         </nav>
 
         <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
-            <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
+            {{-- <li class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                     aria-expanded="false" aria-haspopup="true">
                     <i class="fa fa-search"></i>
@@ -43,7 +43,7 @@
                             <div class="notif-center">
                                 <a href="#">
                                     <div class="notif-img">
-                                        <img src="assets/img/jm_denis.jpg" alt="Img Profile" />
+                                        <img src="assets/cyberlogo.png" alt="Img Profile" />
                                     </div>
                                     <div class="notif-content">
                                         <span class="subject">Jimmy Denis</span>
@@ -53,7 +53,7 @@
                                 </a>
                                 <a href="#">
                                     <div class="notif-img">
-                                        <img src="assets/img/chadengle.jpg" alt="Img Profile" />
+                                        <img src="assets/cyberlogo.png" alt="Img Profile" />
                                     </div>
                                     <div class="notif-content">
                                         <span class="subject">Chad</span>
@@ -63,7 +63,7 @@
                                 </a>
                                 <a href="#">
                                     <div class="notif-img">
-                                        <img src="assets/img/mlane.jpg" alt="Img Profile" />
+                                        <img src="assets/cyberlogo.png" alt="Img Profile" />
                                     </div>
                                     <div class="notif-content">
                                         <span class="subject">Jhon Doe</span>
@@ -75,7 +75,7 @@
                                 </a>
                                 <a href="#">
                                     <div class="notif-img">
-                                        <img src="assets/img/talha.jpg" alt="Img Profile" />
+                                        <img src="assets/cyberlogo.png" alt="Img Profile" />
                                     </div>
                                     <div class="notif-content">
                                         <span class="subject">Talha</span>
@@ -123,17 +123,6 @@
                                     <div class="notif-content">
                                         <span class="block">
                                             Rahmad commented on Admin
-                                        </span>
-                                        <span class="time">12 minutes ago</span>
-                                    </div>
-                                </a>
-                                <a href="#">
-                                    <div class="notif-img">
-                                        <img src="assets/img/profile2.jpg" alt="Img Profile" />
-                                    </div>
-                                    <div class="notif-content">
-                                        <span class="block">
-                                            Reza send messages to you
                                         </span>
                                         <span class="time">12 minutes ago</span>
                                     </div>
@@ -221,8 +210,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
-
+            </li> --}}
             <li class="nav-item topbar-user dropdown hidden-caret">
                 <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#"
                     aria-expanded="false">

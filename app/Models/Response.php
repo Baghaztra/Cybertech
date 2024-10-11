@@ -11,9 +11,6 @@ class Response extends Model
     
     protected $fillable = [
         'form_id',
-        'question_id',
-        'answer',
-        'response_code',
     ];
 
     public function form()
@@ -21,8 +18,8 @@ class Response extends Model
         return $this->belongsTo(Form::class);
     }
 
-    public function question()
+    public function answers()
     {
-        return $this->belongsTo(Question::class);
+        return $this->hasMany(Answer::class, 'response_id', 'id');
     }
 }

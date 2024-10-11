@@ -21,7 +21,7 @@ class FormController extends Controller
     public function all(){
         return response()->json([
             'statusCode' => 200,
-            'data' => Form::with(['questions', 'questions.answer', 'responses', 'responses.question'])->get()->groupBy("3a08b740-adc3-4a1a-873f-6914effd27a5")
+            'data' => Form::with(['questions', 'responses'])->get()
         ]);
     }
 

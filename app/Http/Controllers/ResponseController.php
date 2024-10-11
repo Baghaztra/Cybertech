@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreResponseRequest;
 use App\Http\Requests\UpdateResponseRequest;
+use App\Models\Answer;
 use App\Models\Form;
 use App\Models\Response;
 use Illuminate\Support\Str;
@@ -34,14 +35,19 @@ class ResponseController extends Controller
 
     public function getOne($form_id)
     {
-        $responses = Response::with('question')->where('form_id', $form_id)
-                        ->latest()->get()->groupBy('question_id');
+        // Ambil responses beserta answers dan questions
+        $responses = Response::with(['answers.question']) // Memuat answers dan relasi ke questions
+                            ->where('form_id', $form_id)
+                            ->latest()
+                            ->get()
+                            ->groupBy('question_id'); // Mengelompokkan responses berdasarkan question_id
 
         return response()->json([
             'statusCode' => 200,
             'data' => $responses
         ]);
     }
+
 
     
 
@@ -57,26 +63,24 @@ class ResponseController extends Controller
 
     public function store(StoreResponseRequest $request)
     {
-        // kode untuk mengelompokkan record
-        // $response_code = now()->timestamp .'_'. Str::random(10);
-        $response_code = $request->response_token;
-        $form_id = $request->form_id;
-        $questions = Form::findOrFail($form_id)->questions;
+        $questions = Form::findOrFail($request->form_id)->questions;
         $answers = [];
+
+        $response = Response::create([
+            'form_id' => $request->form_id
+        ]);
         $i = 0;
-        // return $request->question_;
-        foreach ($request->question_ as $response) {
-            $answer = Response::create([
-                'form_id' => $form_id,
+        
+        foreach ($request->question_ as $answer) {
+            $answer = Answer::create([
+                'response_id' => $response->id,
                 'question_id' => $questions[$i]->id,
-                'answer' => $response,
-                'response_code' => $response_code,
+                'value' => $answer,
             ]);
             $answers[] = $answer;
             $i++;
         }
-        $event_id = Form::findOrFail($form_id)->event->id;
-        $event_id = Form::findOrFail($form_id)->event->id;
+        $event_id = Form::findOrFail($request->form_id)->event->id;
         return redirect()->route('responses.completed', ['event_id' => $event_id]);
     }
 
