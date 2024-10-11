@@ -41,7 +41,7 @@ class AssetController extends Controller
     {
         $temporatyImage = TemporaryImage::where('folder', request()->getContent())->first();
         if($temporatyImage){
-            Storage::deleteDirectory('media/tmp/'. $temporatyImage->folder);
+            Storage::delete('media/tmp/'. $temporatyImage->folder.'/'.$temporatyImage->file);
             $temporatyImage->delete();
         }
 

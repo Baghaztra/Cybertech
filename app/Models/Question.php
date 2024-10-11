@@ -22,6 +22,6 @@ class Question extends Model
     }
 
     public function answer(){
-        return $this->hasOne(Answer::class);
+        return $this->hasMany(Answer::class);
     }
 }

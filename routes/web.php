@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function(){
     Route::resource('admin/division', DivisionController::class);
     Route::resource('admin/form', FormController::class);
     Route::resource('admin/highlight', HighlightController::class);
+    Route::get('admin/responden', [ResponseController::class, 'index']);
+    Route::get('admin/responden/{form_id}', [ResponseController::class, 'seeResponses']);
     
     // Mengambil data json
     Route::get('posts/all', [PostController::class, 'getAll']);
@@ -54,7 +56,10 @@ Route::middleware('auth')->group(function(){
     Route::get('divisions/all', [DivisionController::class, 'getAll']);
     Route::get('forms/all', [FormController::class, 'all']);
     Route::get('highlights/all', [HighlightController::class, 'getAll']);
+    Route::get('responses/all', [ResponseController::class, 'getAll']);
+    Route::get('responses/{form_id}', [ResponseController::class, 'getOne']);
     
+    // atur gambar
     Route::patch('setAs/jumbotron/{id}', [AssetController::class, 'setAsJumbotron']);
     Route::patch('setAs/poster/{id}', [AssetController::class, 'setAsPoster']);
     

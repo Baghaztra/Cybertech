@@ -20,28 +20,28 @@ class DatabaseSeeder extends Seeder
     {
 
         User::factory()->create([
-            'username' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('1')
+            'username' => 'Cybermin',
+            'email' => 'cybertechpnpofficial@gmail.com',
+            'password' => bcrypt('Admin#1234')
         ]);
 
-        User::factory(9)->create();
+        // User::factory(9)->create();
 
-        Event::factory(20)->create();
+        Event::factory(10)->create();
         // asset buat masing masing event
-        foreach (Event::all() as $event) {
-            Asset::factory()->create([
-                'path' => fake()->imageUrl(),
-                'type' => 'event',
-                'entity_id' => $event->id,
-            ]);
-        }
+        // foreach (Event::all() as $event) {
+        //     Asset::factory()->create([
+        //         'path' => fake()->imageUrl(),
+        //         'type' => 'event',
+        //         'entity_id' => $event->id,
+        //     ]);
+        // }
         // buat asset random
-        Asset::factory(5)->create();
-        Division::factory(4)->create();
+        // Asset::factory(5)->create();
+        // Division::factory(4)->create();
 
 
-        MemberStatus::factory(5)->create();
-        Member::factory(50)->create();
+        // MemberStatus::factory(5)->create();
+        // Member::factory(50)->create();
     }
 }

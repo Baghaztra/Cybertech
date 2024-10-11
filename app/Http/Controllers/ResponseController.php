@@ -10,29 +10,51 @@ use Illuminate\Support\Str;
 
 class ResponseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        return view("admin.form.responses");
+    }
+    
+    public function seeResponses($form_id)
+    {
+        $form = Form::with('questions')->findOrFail($form_id);
+
+        return view('admin.form.response', ['form' => $form]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    public function getAll()
+    {
+        $responses = Response::with('form')->latest()->get()->groupBy('form_id');
+
+        return response()->json([
+            'statusCode' => 200,
+            'data' => $responses
+        ]);
+    }
+
+    public function getOne($form_id)
+    {
+        $responses = Response::with('question')->where('form_id', $form_id)
+                        ->latest()->get()->groupBy('question_id');
+
+        return response()->json([
+            'statusCode' => 200,
+            'data' => $responses
+        ]);
+    }
+
+    
+
+    // User ------------------------------------------------
+
+
     public function create($formId)
     {
-        // Ambil form berdasarkan formId
         $form = Form::with('questions')->with('event')->findOrFail($formId);
         $responseToken = Str::uuid();
-        // Tampilkan view untuk mengisi form
         return view('cusioner.responses.create', compact('form', 'responseToken'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreResponseRequest $request)
     {
         // kode untuk mengelompokkan record
@@ -61,37 +83,5 @@ class ResponseController extends Controller
     public function cuisionerComplete($event_id)
     {
         return view('cusioner.complete', compact('event_id'));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Response $response)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Response $response)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateResponseRequest $request, Response $response)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Response $response)
-    {
-        //
     }
 }
