@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function(){
     // atur gambar
     Route::patch('setAs/jumbotron/{id}', [AssetController::class, 'setAsJumbotron']);
     Route::patch('setAs/poster/{id}', [AssetController::class, 'setAsPoster']);
+    Route::delete('/admin/deleteFuckingMedia/{id}', [AssetController::class, 'destroyFuckingMedia']);
     
     // Temporary image
     Route::post('/admin/uploadMedia/{type}', [AssetController::class, 'uploadMedia']);

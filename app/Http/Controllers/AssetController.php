@@ -6,8 +6,7 @@ use App\Models\Asset;
 use App\Models\Event;
 use App\Models\TemporaryImage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class AssetController extends Controller
 {
@@ -56,12 +55,28 @@ class AssetController extends Controller
         return response()->noContent();
     }
     
+    public function destroyFuckingMedia($id)
+    {
+        $image = Asset::findOrFail($id);
+        if($image){
+            $filePath = 'media/tmp/'. $image->path;
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+            $image->delete();
+        }else{
+            return response()->json(['message' => 'Error bang']);
+        }
+
+        return response()->json(['error' => 'Image not found']);
+    }
+    
     public function emptyTemporary()
     {
         $temporatyImages = TemporaryImage::all();
         foreach ($temporatyImages as $temporatyImage) {
             if($temporatyImage){
-                $this->deleteFolder(public_path('media/tmp/'. $temporatyImage->folder));
+                $this->deleteFolder(('media/tmp/'. $temporatyImage->folder));
                 $temporatyImage->delete();
             }
         }
@@ -78,7 +93,7 @@ class AssetController extends Controller
 
             foreach ($files as $file) {
                 if ($file != "." && $file != "..") {
-                    $filePath = public_path($folderPath . '/' . $file);
+                    $filePath = ($folderPath . '/' . $file);
                     if (is_dir($filePath)) {
                         // Jika ini folder, panggil fungsi ini lagi (rekursif)
                         $this->deleteFolder($filePath);

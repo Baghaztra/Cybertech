@@ -162,12 +162,13 @@ $(document).ready(function () {
               
               if (value.status == 'jumbotron' || value.status == 'poster') {
                 table += 'This is ' + value.status;
-              }else{
+            }else{
                 table += '<button class="btn btn-secondary" id="btnSetAsPoster" data-id="' + value.id + '">Set as Poster</button>';
                 table += '<button class="btn btn-secondary" id="btnSetAsJumbotron" data-id="' + value.id + '">Set as Jumbotron</button>';
-              }
-              table += '</td>';
-              table += '</tr>';
+            }
+            table += '<button class="btn btn-danger" id="btnDeleteImage" data-id="' + value.id + '">delete this shit</button>';
+            table += '</td>';
+            table += '</tr>';
             });
             table += '</tbody>';
             table += '</table>';
@@ -211,6 +212,24 @@ $(document).ready(function () {
             url: '/setAs/poster/' + dataId,
             success: function() {
                 console.log(dataId+' set as Poster');
+                $('#modal2').modal('hide').modal('show');
+            },
+            error: function(xhr, status, error) {
+              console.log('Id:', dataId);
+              console.log('Error:', error);
+              console.log('XHR:', xhr);
+              console.log('Status:', status);
+            }
+        });
+    });
+    
+    $(document).on('click', '#btnDeleteImage', function () {
+        var dataId = $(this).attr('data-id');
+        $.ajax({
+            type: 'DELETE',
+            url: '/admin/deleteFuckingMedia/' + dataId,
+            success: function() {
+                console.log(dataId+' fucking deleted');
                 $('#modal2').modal('hide').modal('show');
             },
             error: function(xhr, status, error) {

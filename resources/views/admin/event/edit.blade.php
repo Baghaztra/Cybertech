@@ -38,7 +38,8 @@
             </div>
 
             <div class="form-group mb-3" id="groupImage">
-                <label for="media">Image</label>
+                <label for="media">Image</label> <br>
+                <small class="text-danger form-text">Mohon maaf, tombol hapus gambar tidak berfungsi, hapusnya di image manager</small>
                 <input type="file" name="media" id="media" class="filepond" accept="image/">
                 @error('media')
                     <small id="errMedia" class="text-danger form-text">
@@ -144,7 +145,6 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             },
-            // maxFiles: 20,
             allowMultiple: true,
         });
         
