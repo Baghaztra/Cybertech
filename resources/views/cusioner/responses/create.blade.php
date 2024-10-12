@@ -14,7 +14,7 @@
         {{-- Poster --}}
         <div class="col-md-6 d-flex justify-content-center">
             <div class="card bg-primary " style="width: 100%; height: fit-content">
-                <img src="{{asset('storage/media/' . $form->event->poster->path) }}" class="card-img-top p-2" alt="form-pendaftaran" style="width: 100%; height: auto; max-height: 180vh"/>
+                <img src="{{asset('media/' . $form->event->poster->path) }}" class="card-img-top p-2" alt="form-pendaftaran" style="width: 100%; height: auto; max-height: 180vh"/>
             </div>
         </div>
         {{-- Formulir --}}

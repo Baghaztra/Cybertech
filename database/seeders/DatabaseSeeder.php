@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
 
         // User::factory(9)->create();
 
-        Event::factory(10)->create();
+        // Event::factory(10)->create();
         // asset buat masing masing event
         // foreach (Event::all() as $event) {
         //     Asset::factory()->create([

@@ -62,9 +62,19 @@ class EventController extends Controller
             ]);
 
             // copy file gamabr ke temporary, untuk preview
-            $sourcePath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
-            $destinationPath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
-            Storage::copy($sourcePath, $destinationPath);
+            $destinationPath = public_path('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+            $sourcePath = public_path('media/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+
+            // Pastikan folder tujuan ada sebelum menyalin file
+            $destinationFolder = public_path('media/tmp/' . $temporaryImage->folder);
+            if (!is_dir($destinationFolder)) {
+                mkdir($destinationFolder, 0755, true); // Buat folder jika belum ada, dengan permission 0755
+            }
+
+            // Salin file jika source path ada
+            if (file_exists($sourcePath)) {
+                copy($sourcePath, $destinationPath);
+            }
         }
 
         return view('admin.event.edit', ['event'=>$event,'files'=>$files]);
@@ -90,9 +100,13 @@ class EventController extends Controller
         // Pindahkan gambar temporary
         $temporaryImages = TemporaryImage::all();
         foreach ($temporaryImages as $temporaryImage) {
-            $sourcePath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
-            $destinationPath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
-            Storage::copy($sourcePath, $destinationPath);
+            $sourcePath = public_path('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+            $destinationPath = public_path('media/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+
+            if (file_exists($sourcePath)) {
+                copy($sourcePath, $destinationPath);
+                unlink($sourcePath);
+            }
             
             // simpan gambar sebagai data asset
             Asset::create([
@@ -100,9 +114,6 @@ class EventController extends Controller
                 'type'=>'event',
                 'entity_id' => $event->id,
             ]);
-
-            // hapus temporary image
-            Storage::delete('media/tmp/'. $temporaryImage->folder . '/' . $temporaryImage->file);
             $temporaryImage->delete();
         }
         
@@ -132,7 +143,7 @@ class EventController extends Controller
         foreach ($oldImages as $oldImage) {
             // Hapus gambar lama
             if($oldImage){
-                Storage::delete('media/'. $oldImage->path);
+                unlink(public_path('media/'. $oldImage->path));
                 $oldImage->delete();
             }
         }
@@ -140,9 +151,13 @@ class EventController extends Controller
         // Pindahkan gambar temporary ke asset
         $temporaryImages = TemporaryImage::all(); // Ambil semua gambar sementara
         foreach ($temporaryImages as $temporaryImage) {
-            $sourcePath = 'media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file;
-            $destinationPath = 'media/' . $temporaryImage->folder . '/' . $temporaryImage->file;
-            Storage::copy($sourcePath, $destinationPath);
+            $sourcePath = public_path('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+            $destinationPath = public_path('media/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+
+            if (file_exists($sourcePath)) {
+                copy($sourcePath, $destinationPath);
+                unlink($sourcePath);
+            }
             
             // Tambah gambar baru ke asset
             Asset::create([
@@ -150,9 +165,6 @@ class EventController extends Controller
                 'type' => 'event',
                 'entity_id' => $event->id,
             ]);
-
-            // Hapus temporary
-            Storage::delete('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
             $temporaryImage->delete();
         }
 
@@ -176,7 +188,7 @@ class EventController extends Controller
         foreach ($images as $image) {
             if($image){
                 $title = $image->path;
-                Storage::delete('media/'. $image->path);
+                unlink(public_path('media/'. $image->path));
                 $image->delete();
             }
         }

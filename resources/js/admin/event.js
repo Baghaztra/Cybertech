@@ -103,15 +103,17 @@ $(document).ready(function () {
             url: getServerName() + "/admin/event/" + $(this).data('id'),
             dataType: "json",
             success: function (response) {
-                console.log(response.data);
+                console.log(response);
                 if (response.status === 200) {
                     $('#modal #title').html(response.data.title);
                     $('#modal #event_date').html(response.data.event_date);
                     $('#modal #description').html(response.data.description);
                     const images = response.data.images;
                     $('#modal #images').html("");
-                    images.forEach(url => {
-                        const imgElement = `<img src="${url}" alt="gambar" style="width: 10rem; height: auto;" class="col-6">`;
+                    console.log("images", images);
+                    images.forEach(image => {
+                        
+                        const imgElement = `<img src="` + getServerName() + "/media/" + image.path + `" alt="gambar" style="width: 10rem; height: auto;" class="col-6">`;
                         $('#modal #images').append(imgElement);
                     });
                     
@@ -154,7 +156,7 @@ $(document).ready(function () {
             table += '<tbody>';
             $.each(data.data[0].images, function(index, value) {
               table += '<tr data-image-id="' + value.id + '">';
-              table += '<td><img src="' + getServerName() + "/storage/media/" + value.path + '" width="100" height="100"></td>';
+              table += '<td><img src="' + getServerName() + "/media/" + value.path + '" width="100" height="100"></td>';
               table += '<td>';
               console.log(value);
               

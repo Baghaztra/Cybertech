@@ -116,7 +116,7 @@
         @if(isset($files))
             @foreach($files as $file)
                 // Mengambil file dari URL
-                fetch('{{ url("storage/media/tmp/{$file['folder']}/{$file['file']}") }}')
+                fetch('{{ url("media/tmp/{$file['folder']}/{$file['file']}") }}')
                     .then(response => response.blob())
                     .then(blob => {
                         // Buat objek File dari blob

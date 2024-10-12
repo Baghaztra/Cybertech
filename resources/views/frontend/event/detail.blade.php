@@ -3,7 +3,7 @@
 @section('content')
     <!-- jumbotron -->
     <section
-        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ $event->jumbotron ? asset('storage/media/' . $event->jumbotron->path) : '/images/DSC_0029.JPG' }});
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ $event->jumbotron ? ("'".asset('media/' . $event->jumbotron->path ). "'") : '/images/DSC_0029.JPG' }});
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -70,7 +70,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <!-- Menggunakan col-12 untuk ukuran layar kecil -->
-                    <img src="{{ $event->poster ? asset('storage/media/' . $event->poster->path) : '/images/DSC_0029.JPG' }}"
+                    <img src="{{ $event->poster ? asset('media/' . $event->poster->path) : '/images/DSC_0029.JPG' }}"
                         alt="entahlah" width="100%" height="fit-content" />
                 </div>
             </div>
@@ -120,7 +120,7 @@
                                             <div class="col-md-4 mb-3">
                                                 <div class="card">
                                                     <img class="img-fluid" alt="100%x280"
-                                                        src="{{ asset('storage/media/' . $img->path) }}" />
+                                                        src="{{ asset('media/' . $img->path) }}" />
                                                 </div>
                                             </div>
                                         @endforeach

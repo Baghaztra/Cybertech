@@ -14,34 +14,42 @@ class AssetController extends Controller
 
     public function uploadMedia(Request $request, $type)
     {
-        if ($request->hasFile('media')) {
-            $image = $request->file('media');
-            $fileName = $image->getClientOriginalName();
-            // $randomString = Str::random(10);
-            // $fileName = now()->timestamp . $randomString .'.'. $image->getClientOriginalExtension();
-            $folder = $type;
-
-            $existingImage = TemporaryImage::where('folder', $folder)->where('file', $fileName)->first();
-            if (!$existingImage) {
-                $image->storeAs('media/tmp/'.$folder.'/'.$fileName);
-
-                TemporaryImage::create([
-                    'folder' => $folder,
-                    'file' => $fileName,
-                ]);
+        try {
+            if ($request->hasFile('media')) {
+                $image = $request->file('media');
+                $fileName = $image->getClientOriginalName();
+                // $randomString = Str::random(10);
+                // $fileName = now()->timestamp . $randomString .'.'. $image->getClientOriginalExtension();
+                $folder = $type;
+    
+                $existingImage = TemporaryImage::where('folder', $folder)->where('file', $fileName)->first();
+                if (!$existingImage) {
+                    $image->move('media/tmp/'.$folder.'/', $fileName);
+    
+                    TemporaryImage::create([
+                        'folder' => $folder,
+                        'file' => $fileName,
+                    ]);
+                }
+    
+                // return $folder;
             }
-
-            return $folder;
+            
+            return response()->json([ 'statusCode' => 200]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([ 'statusCode' => 500, 'msg'=>$th]);
         }
-        
-        return response()->json([ 'statusCode' => 200,]);
     }
 
     public function destroyMedia()
     {
         $temporatyImage = TemporaryImage::where('folder', request()->getContent())->first();
         if($temporatyImage){
-            Storage::delete('media/tmp/'. $temporatyImage->folder.'/'.$temporatyImage->file);
+            $filePath = public_path('media/tmp/'. $temporatyImage->folder.'/'.$temporatyImage->file);
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
             $temporatyImage->delete();
         }
 
@@ -53,12 +61,36 @@ class AssetController extends Controller
         $temporatyImages = TemporaryImage::all();
         foreach ($temporatyImages as $temporatyImage) {
             if($temporatyImage){
-                Storage::deleteDirectory('media/tmp/'. $temporatyImage->folder);
+                $this->deleteFolder(public_path('media/tmp/'. $temporatyImage->folder));
                 $temporatyImage->delete();
             }
         }
 
         return response()->noContent();
+    }
+
+    public function deleteFolder($folderPath)
+    {
+        // Cek apakah folder ada
+        if (is_dir($folderPath)) {
+            // Ambil semua file dan folder di dalamnya
+            $files = scandir($folderPath);
+
+            foreach ($files as $file) {
+                if ($file != "." && $file != "..") {
+                    $filePath = public_path($folderPath . '/' . $file);
+                    if (is_dir($filePath)) {
+                        // Jika ini folder, panggil fungsi ini lagi (rekursif)
+                        $this->deleteFolder($filePath);
+                    } else if(file_exists($filePath)) {
+                        // Jika ini file, hapus file
+                        unlink($filePath);
+                    }
+                }
+            }
+            // Setelah semua file dan folder dihapus, hapus folder utamanya
+            rmdir($folderPath);
+        }
     }
 
     public function setAsJumbotron($id)

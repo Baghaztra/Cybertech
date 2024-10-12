@@ -12,7 +12,7 @@
                 <img src="{{ 
                     (strpos($event->jumbotron->path ?? $event->images->first()->path, 'http') === 0) 
                     ? ($event->jumbotron->path ?? $event->images->first()->path) 
-                    : asset('storage/media/' . ($event->jumbotron->path ?? $event->images->first()->path)) 
+                    : asset('media/' . ($event->jumbotron->path ?? $event->images->first()->path)) 
                 }}" class="card-img-top" style="height: 200px; width: fit-content">
                 @else
                     <img class="card-img-top" src="{{ asset('default-image.jpg') }}" alt="Default Image" style="height: 200px; width: fit-content" />
