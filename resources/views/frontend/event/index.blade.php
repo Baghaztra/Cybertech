@@ -34,4 +34,6 @@
     @endforeach
 </div>
 
+    {{-- Tambahin kalau halaman masih belum selesai --}}
+    @include('underConstruction')
 @endsection

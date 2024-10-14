@@ -1,84 +1,5 @@
 @extends('frontend.layouts.main')
 @section('content')
-    <!DOCTYPE html>
-    <html lang="en">
-
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-    </head>
-    <style>
-        /* body {
-                font-family: Arial, sans-serif;
-                background-color: #f0f4ff;
-                color: #4a4a4a;
-                margin: 0;
-                padding: 0;
-            } */
-
-        /* .container {
-                width: 80%;
-                margin: 0 auto;
-                padding: 20px;
-                background-color: #d8e3ff;
-                border-radius: 15px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                margin-top: 40px;
-            } */
-
-        h1 {
-            text-align: center;
-            color: #7a7a7a;
-            font-size: 2.5em;
-        }
-
-        .section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            margin-bottom: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .section img {
-            width: 100px;
-            height: 100px;
-            background-color: #cfcfcf;
-            border-radius: 5px;
-        }
-
-        .section-text {
-            width: 70%;
-        }
-
-        .section h2 {
-            color: #7a7a7a;
-            font-size: 1.5em;
-            margin: 0;
-        }
-
-        .section p {
-            color: #4a4a4a;
-            line-height: 1.6em;
-        }
-
-        .button {
-            background-color: #7a7a7a;
-            color: #ffffff;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-        }
-    </style>
-
     <body>
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
@@ -223,5 +144,6 @@
         </div>
     </body>
 
-    </html>
+    {{-- Tambahin kalau halaman masih belum selesai --}}
+    @include('underConstruction')
 @endsection

@@ -12,7 +12,7 @@
             </svg>
         </div>
         <p class="lead mt-4">Terima kasih telah mendaftar! Informasi selanjutnya akan disampaikan via WhatsApp.</p>
-        <a href="#" class="btn btn-primary btn-lg mt-4">Kembali ke Beranda</a>
+        <a href="/event/{{ $event_id }}" class="btn btn-primary btn-lg mt-4">Kembali ke Laman Event</a>
         <p class="mt-4">Kami tidak sabar untuk bertemu dengan Anda!</p>
     </div>
 </div>
