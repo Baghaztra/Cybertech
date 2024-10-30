@@ -130,6 +130,7 @@ $(document).ready(function () {
                     }else{
                         $('#modal a#form').hide();
                     }
+                    $('#btnManageImages').attr('data-id', response.data.id);
                 }
             },
             error: function(xhr, status, error) {
@@ -143,6 +144,7 @@ $(document).ready(function () {
 
     // Manage images
     $(document).on('click', '#btnManageImages', function () {
+        var id_eventnya = $(this).attr('data-id')
         $('#modal').modal('hide');
         $('#modal2').modal('show');
       
@@ -154,11 +156,14 @@ $(document).ready(function () {
             var table = '<table class="table table-hover">';
             table += '<thead><tr><th>Images</th><th>Actions</th></tr></thead>';
             table += '<tbody>';
-            $.each(data.data[0].images, function(index, value) {
+            var eventData = data.data.find(event => event.id == id_eventnya);
+            console.log(eventData);
+            
+            $.each(eventData.images, function(index, value) {
               table += '<tr data-image-id="' + value.id + '">';
               table += '<td><img src="' + getServerName() + "/media/" + value.path + '" width="100" height="100"></td>';
               table += '<td>';
-              console.log(value);
+            //   console.log(value);
               
               if (value.status == 'jumbotron' || value.status == 'poster') {
                 table += 'This is ' + value.status;
