@@ -1,60 +1,71 @@
 @extends('frontend.layouts.main')
 
 @section('content')
-<style>
-.btn-anu {
-    position: relative;
-    background-color: #007bff; /* Warna biru untuk tombol */
-    color: #ffffff; /* Warna teks putih */
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
-    text-decoration: none;
-    padding: 15px 30px;
-    font-size: 18px;
-    font-weight: bold;
-    border: none; /* Hilangkan border default */
-    border-radius: 8px;
-    cursor: pointer;
-    z-index: 1;
-    overflow: hidden;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
+    <style>
+        .btn-anu {
+            position: relative;
+            background-color: #007bff;
+            /* Warna biru untuk tombol */
+            color: #ffffff;
+            /* Warna teks putih */
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+            text-decoration: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            /* Hilangkan border default */
+            border-radius: 8px;
+            cursor: pointer;
+            z-index: 1;
+            overflow: hidden;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-.btn-anu::before {
-    content: "";
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border-radius: 12px; /* Radius yang lebih besar agar mengikuti tombol */
-    background: linear-gradient(135deg, #ff7f7f, #ffb77f, #ffea7f, #b7ff7f, #7fffff, #7f7bff);
-    background-size: 600% 600%;
-    animation: gradient 15s ease infinite;
-    z-index: -1;
-}
+        .btn-anu::before {
+            content: "";
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 12px;
+            /* Radius yang lebih besar agar mengikuti tombol */
+            background: linear-gradient(135deg, #ff7f7f, #ffb77f, #ffea7f, #b7ff7f, #7fffff, #7f7bff);
+            background-size: 600% 600%;
+            animation: gradient 15s ease infinite;
+            z-index: -1;
+        }
 
-.btn-anu:hover {
-    transform: scale(1.05); /* Sedikit membesar saat hover */
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-}
+        .btn-anu:hover {
+            transform: scale(1.05);
+            /* Sedikit membesar saat hover */
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+        }
 
-.btn-anu:active {
-    transform: scale(0.98); /* Sedikit mengecil saat ditekan */
-}
+        .btn-anu:active {
+            transform: scale(0.98);
+            /* Sedikit mengecil saat ditekan */
+        }
 
-@keyframes gradient {
-    0% { background-position: 0% 0%; }
-    50% { background-position: 100% 100%; }
-    100% { background-position: 0% 0%; }
-}
+        @keyframes gradient {
+            0% {
+                background-position: 0% 0%;
+            }
 
+            50% {
+                background-position: 100% 100%;
+            }
 
-
-</style>
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+    </style>
     <!-- jumbotron -->
     <section
-        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ $event->jumbotron ? ("'".asset('media/' . $event->jumbotron->path ). "'") : '/images/DSC_0029.JPG' }});
+        style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ $event->jumbotron ? "'" . asset('media/' . $event->jumbotron->path) . "'" : '/images/DSC_0029.JPG' }});
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -69,12 +80,11 @@
                 </h4>
                 <h1 class="display-5 fw-bold mb-2">{{ $event->title }}</h1>
                 <p class="col-md-8 fs-4 mx-auto politeknik">
-                    <i class="bx bx-map"></i> POLITEKNIK NEGERI PADANG
+                    <i class="bx bx-map"></i> Politeknik Negeri Padang
                 </p>
                 <div class="d-flex flex-column flex-md-row justify-content-center">
                     @if ($event->form)
-                        <a class="btn-anu"
-                            href="{{ '/form/' . $event->form->id }}">
+                        <a class="btn-anu" href="{{ '/form/' . $event->form->id }}">
                             Register!
                         </a>
                     @elseif($event->registration_url)
@@ -102,11 +112,16 @@
           <div class="col-6 col-md-3">Amazon</div>
         </div>
       </div> --}}
+        <div class="position-absolute bottom-0 end-0 p-3">
+            <a href="#info" class="text-white">
+                <i class="bx bx-chevron-down bx-lg"></i>
+            </a>
+        </div>
 
     </section>
 
     <!-- main -->
-    <section class="main-section mt-4">
+    <section class="main-section mt-4" id="info">
         <div class="container">
             <!-- Menggunakan container agar tidak terlalu mepet ke tepi -->
             <div class="row d-flex justify-content-center">
@@ -128,13 +143,11 @@
             <div class="d-flex flex-column flex-md-row my-3">
                 <!-- Flexbox untuk tombol -->
                 @if ($event->form)
-                    <a class="btn-anu me-md-3 mb-2 mb-md-0"
-                        href="{{ '/form/' . $event->form->id }}">
+                    <a class="btn-anu me-md-3 mb-2 mb-md-0" href="{{ '/form/' . $event->form->id }}">
                         Register!
                     </a>
                 @elseif($event->registration_url)
-                    <a class="btn-anu me-md-3 mb-2 mb-md-0"
-                        href="{{ $event->registration_url }}">
+                    <a class="btn-anu me-md-3 mb-2 mb-md-0" href="{{ $event->registration_url }}">
                         Register!
                     </a>
                 @endif
@@ -149,7 +162,7 @@
                 <div class="col-6">
                     <h3 class="mb-3">Galery</h3>
                 </div>
-                @if (count($event->defaultImg)>3)
+                @if (count($event->defaultImg) > 3)
                     <div class="col-6 text-end">
                         <a class="btn btn-primary mb-3 me-1" href="#carouselExampleIndicators2" role="button"
                             data-bs-slide="prev">
