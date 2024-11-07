@@ -1,6 +1,57 @@
 @extends('frontend.layouts.main')
 
 @section('content')
+<style>
+.btn-anu {
+    position: relative;
+    background-color: #007bff; /* Warna biru untuk tombol */
+    color: #ffffff; /* Warna teks putih */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none; /* Hilangkan border default */
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1;
+    overflow: hidden;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-anu::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 12px; /* Radius yang lebih besar agar mengikuti tombol */
+    background: linear-gradient(135deg, #ff7f7f, #ffb77f, #ffea7f, #b7ff7f, #7fffff, #7f7bff);
+    background-size: 600% 600%;
+    animation: gradient 15s ease infinite;
+    z-index: -1;
+}
+
+.btn-anu:hover {
+    transform: scale(1.05); /* Sedikit membesar saat hover */
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.btn-anu:active {
+    transform: scale(0.98); /* Sedikit mengecil saat ditekan */
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+
+
+</style>
     <!-- jumbotron -->
     <section
         style="background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{ $event->jumbotron ? ("'".asset('media/' . $event->jumbotron->path ). "'") : '/images/DSC_0029.JPG' }});
@@ -22,7 +73,7 @@
                 </p>
                 <div class="d-flex flex-column flex-md-row justify-content-center">
                     @if ($event->form)
-                        <a class="btn btn-primary p-3 me-md-3 mb-2 mb-md-0" style="border-radius: 50px"
+                        <a class="btn-anu"
                             href="{{ '/form/' . $event->form->id }}">
                             Register!
                         </a>
@@ -77,12 +128,12 @@
             <div class="d-flex flex-column flex-md-row my-3">
                 <!-- Flexbox untuk tombol -->
                 @if ($event->form)
-                    <a class="btn btn-primary me-md-3 mb-2 mb-md-0" style="border-radius: 50px"
+                    <a class="btn-anu me-md-3 mb-2 mb-md-0"
                         href="{{ '/form/' . $event->form->id }}">
                         Register!
                     </a>
                 @elseif($event->registration_url)
-                    <a class="btn btn-primary me-md-3 mb-2 mb-md-0" style="border-radius: 50px"
+                    <a class="btn-anu me-md-3 mb-2 mb-md-0"
                         href="{{ $event->registration_url }}">
                         Register!
                     </a>

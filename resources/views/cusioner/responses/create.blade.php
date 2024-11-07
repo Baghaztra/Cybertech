@@ -1,84 +1,80 @@
 @section('title', $form->title)
 @extends('admin.layouts.head')
-<div class="container d-flex justify-content-center align-items-center">
-    <style>
-        .form {
-            scroll-behavior: smooth;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-        }
-    </style>
-    <div class="row d-flex justify-content-center p-4 my-4 rounded shadow bg-white"
-        style="width: 90vw">
-        {{-- Poster --}}
-        <div class="col-md-6 d-flex justify-content-center">
-            <div class="card bg-primary " style="width: 100%; height: fit-content">
-                <img src="{{asset('media/' . $form->event->poster->path) }}" class="card-img-top p-2" alt="form-pendaftaran" style="width: 100%; height: auto; max-height: 180vh"/>
-            </div>
-        </div>
-        {{-- Formulir --}}
-        <div class="col-md-6  form ">
-            <div class="row" style="place-content: center">
-                <div class="shadow-sm card p-2 mb-2" style="border-top: 10px solid black;">
-                    <div class="card-body">
-                        <h1 class="h1">{{ $form->title }}</h1>
-                        <p>{{ $form->description }}</p>
-                    </div>
-                </div>
-            </div>
-            <!-- Form untuk user mengisi jawaban -->
-            <form method="POST" class="row"style="place-content: center">
-                @csrf
-                {{-- <input type="hidden" name="response_token" value="{{ $responseToken }}"> --}}
-                <input type="hidden" name="form_id" value="{{ $form->id }}">
-                @foreach ($form->questions as $question)
-                    <div class="card shadow-sm mb-2 m-1">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label><strong>{{ $loop->iteration }}.
-                                        {{ $question->question_text }}</strong></label>
-                                @if (in_array($question->question_type, ['text', 'file']))
-                                    <!-- Input untuk pertanyaan tipe text -->
-                                    <input type="{{ $question->question_type }}" name="question_[{{ $question->id }}]"
-                                        class="form-control" {{ $question->required == 1 ? 'required':'' }}>
-                                @elseif ($question->question_type == 'multiple_choice')
-                                    <!-- Radio button untuk multiple choice -->
-                                    @foreach ($question->options as $option)
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio"
-                                                id="{{ $question->id . $option->option_text }}"
-                                                name="answers[{{ $question->id }}]" value="{{ $option->option_text }}"
-                                                {{ $question->required == 1 ? 'required':'' }}>
-                                            <label for="{{ $question->id . $option->option_text }}"
-                                                class="form-check-label">{{ $option->option_text }}</label>
+<section class="bg-image"
+    style="background-image: url('{{ asset('media/' . $form->event->jumbotron->path) }}'); 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed; 
+    background-size: cover;">
+    <div class="mask d-flex align-items-center">
+        <div class="container h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-9 col-lg-7 col-xl-6 m-4">
+                    <div class="card" style="border-radius: 15px;">
+                        <div class="card-body p-5">
+                            <h2 class="text-uppercase text-center mb-3">{{ $form->title }}</h2>
+                            <p>{{ $form->description }}</p>
+                            <a href="/event/{{ $form->event->id }}" class="">Lihat event</a>
+                            <form method="POST" class="row"style="place-content: center">
+                                @csrf
+                                {{-- <input type="hidden" name="response_token" value="{{ $responseToken }}"> --}}
+                                <input type="hidden" name="form_id" value="{{ $form->id }}">
+                                @foreach ($form->questions as $question)
+                                    <div class="card shadow-sm mb-2 m-1">
+                                        <div class="card-body">
+                                            <div class="form-group">
+
+                                                <label><strong>{{ $loop->iteration }}.
+                                                        {{ $question->question_text }}</strong>
+                                                        @if ($question->required == 1)
+                                                        <abbr title="Required" class="text-danger">*</abbr>
+                                                        @endif</label>
+                                                @if (in_array($question->question_type, ['text', 'file']))
+                                                    <!-- Input untuk pertanyaan tipe text -->
+                                                    <input type="{{ $question->question_type }}"
+                                                        name="question_[{{ $question->id }}]" class="form-control"
+                                                        {{ $question->required == 1 ? 'required' : '' }}>
+                                                @elseif ($question->question_type == 'multiple_choice')
+                                                    <!-- Radio button untuk multiple choice -->
+                                                    @foreach ($question->options as $option)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio"
+                                                                id="{{ $question->id . $option->option_text }}"
+                                                                name="answers[{{ $question->id }}]"
+                                                                value="{{ $option->option_text }}"
+                                                                {{ $question->required == 1 ? 'required' : '' }}>
+                                                            <label for="{{ $question->id . $option->option_text }}"
+                                                                class="form-check-label">{{ $option->option_text }}</label>
+                                                        </div>
+                                                    @endforeach
+                                                @elseif ($question->question_type == 'checkbox')
+                                                    <!-- Checkbox untuk pertanyaan tipe checkbox -->
+                                                    @foreach ($question->options as $option)
+                                                        <div class="form-check">
+                                                            <input class="form-check-input"
+                                                                id="{{ $question->id . $option->option_text }}"
+                                                                type="checkbox" name="answers[{{ $question->id }}][]"
+                                                                value="{{ $option->option_text }}">
+                                                            <label class="form-check-label"
+                                                                for="{{ $question->id . $option->option_text }}">{{ $option->option_text }}</label>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+                                            </div>
                                         </div>
-                                    @endforeach
-                                @elseif ($question->question_type == 'checkbox')
-                                    <!-- Checkbox untuk pertanyaan tipe checkbox -->
-                                    @foreach ($question->options as $option)
-                                        <div class="form-check">
-                                            <input class="form-check-input"
-                                                id="{{ $question->id . $option->option_text }}" type="checkbox"
-                                                name="answers[{{ $question->id }}][]"
-                                                value="{{ $option->option_text }}">
-                                            <label class="form-check-label"
-                                                for="{{ $question->id . $option->option_text }}">{{ $option->option_text }}</label>
-                                        </div>
-                                    @endforeach
-                                @endif
-                            </div>
+                                    </div>
+                                @endforeach
+
+                                <!-- Tombol submit -->
+                                <div class="col-md-7 mt-3">
+                                    <button type="submit" class="btn btn-success btn-lg w-100">Submit Form</button>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
-                @endforeach
-
-                <!-- Tombol submit -->
-                <div class="card shadow-sm col-md-7">
-                    <div class="card-body">
-                        <button type="submit" class="btn btn-success w-100">Submit Form</button>
-                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</section>
