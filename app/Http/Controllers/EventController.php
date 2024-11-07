@@ -55,27 +55,27 @@ class EventController extends Controller
         });
         
         // memasukkan gambar default event ke temporary untuk diedit
-        foreach ($images as $image) {
-            $temporaryImage = TemporaryImage::create([
-                'file' => substr($image->path, strrpos($image->path, '/') + 1),
-                'folder' => $image->type,
-            ]);
+        // foreach ($images as $image) {
+        //     $temporaryImage = TemporaryImage::create([
+        //         'file' => substr($image->path, strrpos($image->path, '/') + 1),
+        //         'folder' => $image->type,
+        //     ]);
 
-            // copy file gamabr ke temporary, untuk preview
-            $destinationPath = ('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
-            $sourcePath = ('media/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+        //     // copy file gamabr ke temporary, untuk preview
+        //     $destinationPath = ('media/tmp/' . $temporaryImage->folder . '/' . $temporaryImage->file);
+        //     $sourcePath = ('media/' . $temporaryImage->folder . '/' . $temporaryImage->file);
 
-            // Pastikan folder tujuan ada sebelum menyalin file
-            $destinationFolder = ('media/tmp/' . $temporaryImage->folder);
-            if (!is_dir($destinationFolder)) {
-                mkdir($destinationFolder, 0755, true); // Buat folder jika belum ada, dengan permission 0755
-            }
+        //     // Pastikan folder tujuan ada sebelum menyalin file
+        //     $destinationFolder = ('media/tmp/' . $temporaryImage->folder);
+        //     if (!is_dir($destinationFolder)) {
+        //         mkdir($destinationFolder, 0755, true); // Buat folder jika belum ada, dengan permission 0755
+        //     }
 
-            // Salin file jika source path ada
-            if (file_exists($sourcePath)) {
-                copy($sourcePath, $destinationPath);
-            }
-        }
+        //     // Salin file jika source path ada
+        //     if (file_exists($sourcePath)) {
+        //         copy($sourcePath, $destinationPath);
+        //     }
+        // }
 
         return view('admin.event.edit', ['event'=>$event,'files'=>$files]);
     }
@@ -127,7 +127,7 @@ class EventController extends Controller
             'title' => 'required',
             'description' => 'required',
             'event_date' => 'required|date',
-            'media' => 'required',
+            // 'media' => 'required',
             'registration_url' => 'nullable',
         ]);
 
@@ -139,16 +139,17 @@ class EventController extends Controller
             'registration_url' => $validated['registration_url'] ?? null,
         ]);
 
-        $oldImages = Asset::where('type', 'event')->where('entity_id', $event->id)->get();
-        foreach ($oldImages as $oldImage) {
-            // Hapus gambar lama
-            if($oldImage){
-                if (file_exists('media/'. $oldImage->path)) {
-                    unlink('media/'. $oldImage->path);
-                }
-                $oldImage->delete();
-            }
-        }
+        // Dinonaktifkan karena masalah dalam manajemen gambar lama
+        // $oldImages = Asset::where('type', 'event')->where('entity_id', $event->id)->get();
+        // foreach ($oldImages as $oldImage) {
+        //     // Hapus gambar lama
+        //     if($oldImage){
+        //         if (file_exists('media/'. $oldImage->path)) {
+        //             unlink('media/'. $oldImage->path);
+        //         }
+        //         $oldImage->delete();
+        //     }
+        // }
 
         // Pindahkan gambar temporary ke asset
         $temporaryImages = TemporaryImage::all(); // Ambil semua gambar sementara

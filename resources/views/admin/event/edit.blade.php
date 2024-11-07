@@ -39,7 +39,7 @@
 
             <div class="form-group mb-3" id="groupImage">
                 <label for="media">Image</label> <br>
-                <small class="text-danger form-text">Mohon maaf, tombol hapus gambar tidak berfungsi, hapusnya di image manager</small>
+                <small class="text-danger form-text">Mohon maaf, tombol hapus gambar tidak berfungsi, hapusnya di image manager. Kosongkan jika tidak ada gambar baru yang ingin ditambahkan</small>
                 <input type="file" name="media" id="media" class="filepond" accept="image/">
                 @error('media')
                     <small id="errMedia" class="text-danger form-text">
@@ -115,27 +115,28 @@
         const inputElement = document.querySelector('input[type="file"]');
         const pond = FilePond.create(inputElement);
     
-        @if(isset($files))
-            @foreach($files as $file)
-                // Mengambil file dari URL
-                fetch('{{ url("media/tmp/{$file['folder']}/{$file['file']}") }}')
-                    .then(response => response.blob())
-                    .then(blob => {
-                        // Buat objek File dari blob
-                        const file = new File([blob], '{{ $file["file"] }}', {
-                            type: blob.type,
-                            lastModified: Date.now()
-                        });
-                        // Tambahkan file ke FilePond
-                        pond.addFile(file).catch(error => {
-                            console.error('Gagal menambahkan file:', error);
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Gagal mengambil file:', error);
-                    });
-            @endforeach
-        @endif
+        // Ini dinonaktifkan biar gambar ga duplikat
+        // @if(isset($files))
+        //     @foreach($files as $file)
+        //         // Mengambil file dari URL
+        //         fetch('{{ url("media/tmp/{$file['folder']}/{$file['file']}") }}')
+        //             .then(response => response.blob())
+        //             .then(blob => {
+        //                 // Buat objek File dari blob
+        //                 const file = new File([blob], '{{ $file["file"] }}', {
+        //                     type: blob.type,
+        //                     lastModified: Date.now()
+        //                 });
+        //                 // Tambahkan file ke FilePond
+        //                 pond.addFile(file).catch(error => {
+        //                     console.error('Gagal menambahkan file:', error);
+        //                 });
+        //             })
+        //             .catch(error => {
+        //                 console.error('Gagal mengambil file:', error);
+        //             });
+        //     @endforeach
+        // @endif
 
         FilePond.setOptions({
             server: {
