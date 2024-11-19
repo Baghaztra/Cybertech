@@ -32,8 +32,8 @@ $(document).ready(function () {
                 <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Response ID: ${response.id}</h5>
-                            <ul class="list-group list-group-flush"></ul>
+                        <ol class="list-group"></ol>
+                        <div class="position-absolute bottom-0 end-0">Id: ${response.id}</div>
                         </div>
                     </div>
                 </div>
@@ -44,13 +44,15 @@ $(document).ready(function () {
     
             response.answers.forEach(answer => {
                 const questionText = answer.question.question_text;
-                const answerValue = answer.value !== null ? answer.value : "Tidak ada jawaban";
+                const answerValue = answer.value !== null ? answer.value : "<span class='text-danger'>Tidak ada jawaban</span>";
     
                 listGroup.append(`
-                    <li class="list-group-item">
-                        <strong>Pertanyaan:</strong> ${questionText}<br>
-                        <strong>Jawaban:</strong> ${answerValue}
-                    </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">${questionText}</div>
+                        <span class='text-secondary'><i class="fa fa-arrow-right"></i> ${answerValue}</span>
+                    </div>
+                </li>
                 `);
             });
     
