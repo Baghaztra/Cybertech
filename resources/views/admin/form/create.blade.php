@@ -12,6 +12,7 @@
                         <th>Nomor</th>
                         <th>Title</th>
                         <th>Description</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -20,6 +21,7 @@
                         <th>Nomor</th>
                         <th>Title</th>
                         <th>Description</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </tfoot>

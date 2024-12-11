@@ -1,7 +1,7 @@
 @section('title', $form->title)
 @extends('admin.layouts.head')
 <section class="bg-image"
-    style="background-image: url('{{ asset('media/' . $form->event->jumbotron->path) }}'); 
+    style="background-image: url({{ $form->event->jumbotron ? "'" . asset('media/' . $form->event->jumbotron->path) . "'" : '/images/DSC_0029.JPG' }}); 
     background-position: center; 
     background-repeat: no-repeat; 
     background-attachment: fixed; 

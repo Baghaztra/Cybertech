@@ -18,8 +18,8 @@ class ResponseController extends Controller
     
     public function seeResponses($form_id)
     {
+        // $form = Form::with('questions')->with('responses')->findOrFail($form_id);
         $form = Form::with('questions')->findOrFail($form_id);
-
         return view('admin.form.response', ['form' => $form]);
     }
 
@@ -48,7 +48,18 @@ class ResponseController extends Controller
         ]);
     }
 
-
+    
+    public function toggleClose($formId)
+    {
+        $form = Form::findOrFail($formId);
+        $form->update(['open' => !$form->open]);
+        $message = $form->open ? 'Form dibuka' : 'Form ditutup';
+        return response()->json([
+            'statusCode' => 200,
+            'data' => $message
+        ]);
+    }
+    
     
 
     // User ------------------------------------------------
@@ -57,6 +68,10 @@ class ResponseController extends Controller
     public function create($formId)
     {
         $form = Form::with('questions')->with('event')->findOrFail($formId);
+
+        if (!$form->open) {
+            return view('cusioner.closed', ['event_id' => $form->event->id]);
+        }
         $responseToken = Str::uuid();
         return view('cusioner.responses.create', compact('form', 'responseToken'));
     }

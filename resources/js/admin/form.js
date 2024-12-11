@@ -16,14 +16,25 @@ $(document).ready(function () {
             { data: "title" },
             { data: "description" },
             {
+                data: "open",
+                render: function (data, type, row) {
+                    const statusClass = data ? "btn-success" : "btn-secondary";
+                    const statusText = data ? "Open" : "Closed";
+                    return `<button class="btn btn-sm ${statusClass} toggle-btn" data-id="${row.id}" data-open="${data}">
+                                ${statusText}
+                            </button>`;
+                },
+                orderable: false
+            },      
+            {
                 data: null,
                 render: function (data) {
                     return `<div style="gap: 10px;">
-                <a href="${getServerName() + "/form/" + data.id}" class="btn btn-sm btn-info" target="_blank"><i class="fas fa-link"></i></a>
-                <a href="${getServerName() + "/admin/responden/" + data.id}" class="btn btn-sm btn-success"><i class="fas fa-info"></i></a>
-                <button class="btn btn-sm btn-danger" data-id="${data.id}" id="deleteBtn"><i class="fas fa-trash"></i></button>
-                </div>`
-                },
+                        <a href="${getServerName() + "/form/" + data.id}" class="btn btn-sm btn-info" target="_blank"><i class="fas fa-link"></i></a>
+                        <a href="${getServerName() + "/admin/responden/" + data.id}" class="btn btn-sm btn-success"><i class="fas fa-info"></i></a>
+                        <button class="btn btn-sm btn-danger" data-id="${data.id}" id="deleteBtn"><i class="fas fa-trash"></i></button>
+                    </div>`;
+                },                
                 orderable: false
             }
         ],
@@ -31,6 +42,38 @@ $(document).ready(function () {
     });
 
 
+    $(document).on('click', '.toggle-btn', function () {
+        const formId = $(this).data('id');
+        const isOpen = $(this).data('open');
+        const actionText = isOpen ? "menutup" : "membuka";
+    
+        swal({
+            title: `Apakah Anda yakin ingin ${actionText} form ini?`,
+            text: "Aksi ini akan mengubah status form.",
+            icon: 'warning',
+            buttons: {
+                cancel: "Batal",
+                confirm: "Ya"
+            },
+            dangerMode: true,
+        }).then((willProceed) => {
+            if (willProceed) {
+                $.ajax({
+                    url: `${getServerName()}/toggleform/${formId}`,
+                    type: 'PATCH',
+                    success: function (response) {
+                        swal("Berhasil!", response.data, "success");
+                        table.ajax.reload();
+                    },
+                    error: function () {
+                        swal("Gagal!", "Tidak dapat mengubah status form.", "error");
+                    }
+                });
+            }
+        });
+    });
+       
+    
     $(document).on('click', '#btnCreate', function () {
         var errors = {};
         $('#modalForm #titleForm').text('Create Form');

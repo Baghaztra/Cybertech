@@ -11,7 +11,7 @@ class Form extends Model
 
     protected $keyType = 'string';
     public $incrementing = false;
-    protected $fillable = ['id', 'title', 'description', 'event_id'];
+    protected $fillable = ['id', 'title', 'description', 'event_id', 'open'];
     protected static function boot()
     {
         parent::boot();

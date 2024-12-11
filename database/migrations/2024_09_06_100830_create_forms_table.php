@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->foreignId('event_id');
+            $table->boolean('open')->default(true);
             $table->timestamps();
         });
     }

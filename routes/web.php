@@ -59,6 +59,9 @@ Route::middleware('auth')->group(function(){
     Route::get('responses/all', [ResponseController::class, 'getAll']);
     Route::get('responses/{form_id}', [ResponseController::class, 'getOne']);
     
+    // toggle form
+    Route::patch('toggleform/{id}', [ResponseController::class, 'toggleClose']);
+
     // atur gambar
     Route::patch('setAs/jumbotron/{id}', [AssetController::class, 'setAsJumbotron']);
     Route::patch('setAs/poster/{id}', [AssetController::class, 'setAsPoster']);
