@@ -15,7 +15,7 @@
                     </div>
                 </div>
                 <div class="ps-4" style="width: fit-content; position: absolute; bottom: 3rem;">
-                    <a href="/event/1" class="btn btn-primary">See something</a>
+                    <a href="/" class="btn btn-primary">See something</a>
                 </div>
             </div>
         </div>

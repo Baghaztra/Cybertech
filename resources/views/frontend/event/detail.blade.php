@@ -75,12 +75,12 @@
         <div class="container-fluid p-5 jumbotron text-center text-white h-100">
             <div class="container py-5  d-flex justify-content-center align-items-center h-100"
                 style="flex-direction: column">
-                <h4 class="fw-bold mb-4">
+                <h4 class="fw-bold mb-4 text-white">
                     {{ Carbon\Carbon::parse($event->event_date)->format('l / d F, Y') }}
                 </h4>
-                <h1 class="display-5 fw-bold mb-2">{{ $event->title }}</h1>
+                <h1 class="display-5 fw-bold mb-2 text-white">{{ $event->title }}</h1>
                 <p class="col-md-8 fs-4 mx-auto politeknik">
-                    <i class="bx bx-map"></i> Politeknik Negeri Padang
+                    <i class="fa-solid fa-location-dot"></i> Politeknik Negeri Padang
                 </p>
                 <div class="d-flex flex-column flex-md-row justify-content-center">
                     @if ($event->form)
@@ -88,8 +88,7 @@
                             Register!
                         </a>
                     @elseif($event->registration_url)
-                        <a class="btn btn-primary p-3 me-md-3 mb-2 mb-md-0" style="border-radius: 50px"
-                            href="{{ $event->registration_url }}">
+                        <a class="btn-anu" href="{{ $event->registration_url }}">
                             Register!
                         </a>
                     @endif

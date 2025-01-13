@@ -1,98 +1,39 @@
-<!-- navbar -->
-                <header data-bs-theme="" >
-                  <nav class="navbar navbar-expand-md navbar-dark fixed-top" id="navbar">
-                    <script>
-                      window.addEventListener("scroll", function() {
-                          const navbar = document.getElementById("navbar");
-                          const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-                          const viewportHeight = window.innerHeight;
-                      
-                          if (scrollPosition > viewportHeight) {
-                              // Ubah navbar menjadi light ketika di-scroll lebih dari 100vh
-                              // navbar.classList.remove("navbar-dark");
-                              // navbar.classList.add("navbar-light");
-                              navbar.style.backgroundColor = 'rgba(31, 27, 56, 0.816)';
-                              navbar.style.backdropFilter = 'blur(12px)';
-                          } else {
-                              // Ubah navbar menjadi dark kembali saat di atas 100vh
-                              // navbar.classList.remove("navbar-light");
-                              // navbar.classList.add("navbar-dark");
-                              navbar.style.backgroundColor = 'transparent';
-                              navbar.style.backdropFilter = 'none';
-                          }
-                      });
-                      </script>
-                      
-                      <div class="container-fluid">
-                        <div class="navbar-kiri">
-                            <img src="/images/cyberlogo.png" alt="Bootstrap" width="30" height="24">
-                            <a class="navbar-brand" href="/admin/dashboard">CyberTech</a>
-                        </div>
-                        <div class="navbar-kanan">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                              </button>
-                              <div class="collapse navbar-collapse" id="navbarCollapse">
-                                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                                  <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="/">Home</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="/event">Event</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="/galeri">Galeri</a>
-                                  </li>
-                                  <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="/about">About</a>
-                                  </li>
-                                </ul>
-                                
-                              </div>
-                        </div>
-                      </div>
-                  </nav>
-                </header>
-                  {{-- <nav class="navbar navbar-expand-md navbar-dark fixed-top " style="background-color: rgba(0, 0, 0, 0.153)">
-                    <div class="container-fluid px-4">
-                      <a class="navbar-brand me-3" href="#">
-                        <img
-                          src="/images/cyberlogo.png"
-                          alt="Logo"
-                          width="62"
-                          height="38"
-                          class="d-inline-block align-text-top"
-                        />
-                        CyberTech
-                      </a>
-                      <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                        aria-controls="navbarNav"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                      >
-                        <span class="navbar-toggler-icon"></span>
-                      </button>
-                      <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav ms-auto">
-                          <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/">Home</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="/event">Event</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="/galeri">Galeri</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="/about">About</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </nav> --}}
-                
-<!-- navbar -->
+<header id="header" class="header d-flex align-items-center  fixed-top">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+    <a href="/admin/dashboard" class="logo d-flex align-items-center" width="30" height="24">
+      <!-- Uncomment the line below if you also wish to use an image logo -->
+      <img src="/assets/img/cyberlogo.png" alt="">
+      <h1 class="sitename">Cybertech</h1>
+    </a>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="/" class="{{ Request::is('/') ? 'active' : '' }}">Home</a></li>
+        <li><a href="#about" class="{{ Request::is('#about') ? 'active' : '' }}">About</a></li>        
+        <li><a href="/event" class="{{ Request::is('event/*') ? 'active' : '' }}">Event</a></li>
+        <li><a href="#galeri" class="{{ Request::is('#galeri') ? 'active' : '' }}">Gallery</a></li>
+        {{-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+          <ul>
+            <li><a href="#">Dropdown 1</a></li>
+            <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+              <ul>
+                <li><a href="#">Deep Dropdown 1</a></li>
+                <li><a href="#">Deep Dropdown 2</a></li>
+                <li><a href="#">Deep Dropdown 3</a></li>
+                <li><a href="#">Deep Dropdown 4</a></li>
+                <li><a href="#">Deep Dropdown 5</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Dropdown 2</a></li>
+            <li><a href="#">Dropdown 3</a></li>
+            <li><a href="#">Dropdown 4</a></li>
+          </ul>
+        </li>
+        <li><a href="#contact">Contact</a></li> --}}
+      </ul>
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+
+  </div>
+</header>
