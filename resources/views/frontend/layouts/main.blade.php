@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  
+  <link rel="icon" href="{{ asset('assets/cyberlogo.png') }}">
 
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>

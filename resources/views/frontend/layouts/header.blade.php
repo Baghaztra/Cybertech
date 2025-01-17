@@ -10,9 +10,9 @@
     <nav id="navmenu" class="navmenu">
       <ul>
         <li><a href="/" class="{{ Request::is('/') ? 'active' : '' }}">Home</a></li>
-        <li><a href="#about" class="{{ Request::is('#about') ? 'active' : '' }}">About</a></li>        
-        <li><a href="/event" class="{{ Request::is('event/*') ? 'active' : '' }}">Event</a></li>
-        <li><a href="#galeri" class="{{ Request::is('#galeri') ? 'active' : '' }}">Gallery</a></li>
+        <li><a href="/#about" class="{{ Request::is('/#about') ? 'active' : '' }}">About</a></li>        
+        <li><a href="/event" class="{{ Request::is('/event/*') ? 'active' : '' }}">Event</a></li>
+        <li><a href="/#galeri" class="{{ Request::is('/#galeri') ? 'active' : '' }}">Gallery</a></li>
         {{-- <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
           <ul>
             <li><a href="#">Dropdown 1</a></li>
